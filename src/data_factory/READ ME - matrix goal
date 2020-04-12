@@ -1,0 +1,15 @@
+/*
+ * Author: Fla-bola Software Quality Services INC.
+ */
+
+    /* The data generator library helps test conditions such as:
+     * No data: Check system response when no data is submitted
+     * Valid data: Check system response when Valid  test data is submitted
+     * Invalid data: Check system response when InValid  test data is submitted
+     * Illegal data format: Check system response when test data is in an invalid format
+     * Boundary Condition Dataset: Test data meeting boundary value conditions
+     * Equivalence Partition Data Set: Test data qualifying your equivalence partitions.
+     * Decision Table Data Set: Test data qualifying your decision table testing strategy
+     * State Transition Test Data Set: Test data meeting your state transition testing strategy
+     * Use Case Test Data: Test Data in-sync with your use cases.
+     */
