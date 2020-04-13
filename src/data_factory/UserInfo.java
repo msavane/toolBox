@@ -22,8 +22,8 @@ public class UserInfo {
         System.out.println("New date is: "+ myDate);*/
         /*String myEmailAddress = getEmail();
         System.out.println("New email is: "+ myEmailAddress);*/
-        String myDateOfBirth = getDateOfBirth(35,"/");
-        System.out.println("New DOB is: "+ myDateOfBirth);
+        /*String myDateOfBirth = getDateOfBirth(37,"/");
+        System.out.println("New DOB is: "+ myDateOfBirth);*/
         /*String dto = ("Russia:Moscow,Germany:Berlin,England:London,France:Paris,Italy:Rome");
         String printPropertiesValues = printDtoSummary(dto);*/
     }
