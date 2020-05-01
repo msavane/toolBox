@@ -50,8 +50,8 @@ public class DataCreatorHelper {
                     * Math.random());
 
             // add Character one by one in end of sb
-            sb.append(Alphabet
-                    .charAt(index));
+
+            sb.append(Alphabet.charAt(index));
         }
 
         return sb.toString();

@@ -117,6 +117,7 @@ public class UserInfo {
 
     private static String printDtoSummary(String dto){
         ArrayList aList= new ArrayList(Arrays.asList(dto.split(",",-1)));
+        //System.out.println(keyList);
         System.out.println("-----------------------------------------------------");
         System.out.println("The data list contains:");
         for(int i=0;i<aList.size();i++)
