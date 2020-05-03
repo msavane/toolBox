@@ -1,5 +1,9 @@
 package laboratory;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class TestCase {
 
     private String name;
@@ -7,7 +11,7 @@ public class TestCase {
 
     private String tcEventVerb;
     private String userID;
-    private String property;
+    private String propertyName;
     private String value;
     private String dataType;
     private int numOfChar;
@@ -29,12 +33,12 @@ public class TestCase {
         this.name = name;
     }
 
-    public String getProperty() {
-        return property;
+    public String getPropertyName() {
+        return propertyName;
     }
 
-    public void setProperty(String property) {
-        this.property = property;
+    public void setPropertyName(String property) {
+        this.propertyName = property;
     }
 
     public String getValue() {
@@ -84,7 +88,35 @@ public class TestCase {
         this.tcEventVerb = tcEventVerb;
     }
 
-}
+    public static void printDtoSummary(ArrayList<String> dto) {
+
+        HashMap dtoProperties = new HashMap();
+
+        String propertyName;
+        String propertyValue;
+
+        System.out.println("Include properties in request:");
+        System.out.println("-----------------------------------------------------");
+
+        for (int i = 0; i < dto.size()-1; i++) {
+
+            for (int j = 0; j < dto.size(); j++) {
+
+                propertyName    = dto.get(i);
+                propertyValue   = dto.get(i+1);
+
+                dtoProperties.put(propertyName, propertyValue);
+
+        /*System.out.println(i + " AND --> [" + propertyName
+                        + " : " + propertyValue + "]");*/
+            }}
+            dtoProperties.forEach((k, v) ->
+                    System.out.println("AND --> " + k + ", < " + v + " > "));
+
+            System.out.println("-----------------------------------------------------");
+
+        }
+    }
 
 
 

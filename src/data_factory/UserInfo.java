@@ -1,10 +1,9 @@
 package data_factory;
 
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
+import java.util.*;
 
 public class UserInfo {
     /* Type of user data expected in this class are:
@@ -14,7 +13,7 @@ public class UserInfo {
      * getEmailAddress: returns random Email address
      * printDtoSummary: takes a long string that is separated by commas and returns a list
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
 
         /*String myName = getName("full", 4);
         System.out.println("New name is: " + myName);*/
@@ -34,28 +33,33 @@ public class UserInfo {
         String name = null;
         DataCreatorHelper dch = new DataCreatorHelper();
 
-        if (typeOfName.equals("full")) {
-            firstName = dch.getRandomCharacters(numOfChar);
-            lastName = dch.getRandomCharacters(numOfChar);
-            name = (firstName + " " + lastName);
-        } else if (typeOfName.equals("first")) {
-            name = (firstName + dch.getRandomCharacters(numOfChar));
-        } else if (typeOfName.equals("last")) {
-            name = (lastName + dch.getRandomCharacters(numOfChar));
-        } else {
-            System.out.println("please pick a type of name between: full, first, or last");
+        switch (typeOfName) {
+            case "full":
+                firstName = dch.getRandomCharacters(numOfChar);
+                lastName = dch.getRandomCharacters(numOfChar);
+                name = (firstName + " " + lastName);
+                break;
+            case "first":
+                name = (firstName + DataCreatorHelper.getRandomCharacters(numOfChar));
+                break;
+            case "last":
+                name = (lastName + DataCreatorHelper.getRandomCharacters(numOfChar));
+                break;
+            default:
+                System.out.println("please pick a type of name between: full, first, or last");
+                break;
         }
         return name;
     }
 
-    private static String getCustomDate(String typeOfDate){
+    private static String getCustomDate(String typeOfDate) {
         /*
          * Other patterns: dd/MM/yy HH:mm:ss
          *                 dd/MM/yyy
          */
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
-        switch(typeOfDate) {
+        switch (typeOfDate) {
             case "dd":
                 // returns today's day
                 df = new SimpleDateFormat("dd");
@@ -93,39 +97,59 @@ public class UserInfo {
         return typeOfDate;
     }
 
-    private static String getEmail(){
+    private static String getEmail() {
         DataCreatorHelper dch = new DataCreatorHelper();
-        String userName = dch.getRandomCharacters(4);
-        String domain = "@random" + dch.getRandomCharacters(2) +".com";
-        String emailAddress = (userName+domain).toLowerCase();
+        String userName = DataCreatorHelper.getRandomCharacters(4);
+        String domain = "@random" + DataCreatorHelper.getRandomCharacters(2) + ".com";
 
-        return emailAddress;
+        return (userName + domain).toLowerCase();
     }
 
-    private static String getDateOfBirth(int age, String typeOfSeparator){
+    private static String getDateOfBirth(int age, String typeOfSeparator) {
         DateFormat day = new SimpleDateFormat("dd");
         DateFormat month = new SimpleDateFormat("MM");
-        int currentYear  = Integer.parseInt(getCustomDate("yyyy"));
+        int currentYear = Integer.parseInt(getCustomDate("yyyy"));
         //current year - age
         int dob = currentYear - age;
         Calendar calobj = Calendar.getInstance();
-        String dateOfBirthDay  = (day.format(calobj.getTime()));
-        String dateOfBirthMonth  = (month.format(calobj.getTime()));
-        String dateOfBirth  = dateOfBirthDay+typeOfSeparator+dateOfBirthMonth+typeOfSeparator+dob;
-        return dateOfBirth;
+        String dateOfBirthDay = (day.format(calobj.getTime()));
+        String dateOfBirthMonth = (month.format(calobj.getTime()));
+        return dateOfBirthDay + typeOfSeparator + dateOfBirthMonth + typeOfSeparator + dob;
     }
 
-    private static String printDtoSummary(String dto){
-        ArrayList aList= new ArrayList(Arrays.asList(dto.split(",",-1)));
-        //System.out.println(keyList);
-        System.out.println("-----------------------------------------------------");
-        System.out.println("The data list contains:");
-        for(int i=0;i<aList.size();i++)
-        {
-            System.out.println(i + " --> "+aList.get(i));
+    public static String  DtoSummary(ArrayList<String> dto) {
 
+        ArrayList<String> dtoNameOfProperty = new ArrayList<>();
+        ArrayList<String> dtoValueOfProperty = new ArrayList<>();
+
+        Map<String, String> dtoProperties = new HashMap();
+
+        String propertyName;
+        String propertyValue;
+
+        System.out.println("Include properties in request:");
+        System.out.println("-----------------------------------------------------");
+
+        for (int i = 0; i < dto.size()-1; i++) {
+
+            for (int j = 0; j < dto.size()-1; j++) {
+
+                propertyName = dto.get(i);
+                propertyValue = dto.get(i + 1);
+                dtoNameOfProperty.add(propertyName);
+                dtoValueOfProperty.add(i, propertyValue);
+                dtoProperties.put(propertyName, propertyValue);
+
+            }
         }
+        dtoProperties.forEach((k, v) ->
+                System.out.println("AND --> " + k + ", < " + v + " > "));
+
+        /*System.out.println(i + " AND --> [" + propertyName
+                        + " : " + propertyValue + "]");*/
+
         System.out.println("-----------------------------------------------------");
         return null;
+
     }
 }
