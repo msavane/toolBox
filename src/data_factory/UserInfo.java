@@ -3,7 +3,10 @@ package data_factory;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserInfo {
     /* Type of user data expected in this class are:
@@ -23,8 +26,13 @@ public class UserInfo {
         System.out.println("New email is: "+ myEmailAddress);*/
         /*String myDateOfBirth = getDateOfBirth(37,"/");
         System.out.println("New DOB is: "+ myDateOfBirth);*/
-        /*String dto = ("Russia:Moscow,Germany:Berlin,England:London,France:Paris,Italy:Rome");
-        String printPropertiesValues = printDtoSummary(dto);*/
+        ArrayList<String> dto = new ArrayList<String>();
+        dto.add("Russia:Moscow");
+        dto.add("Germany:Berlin");
+        dto.add ("England:London");
+        dto.add("France:Paris" );
+        dto.add("Italy:Rome");
+        String printPropertiesValues = DtoSummary (dto);
     }
 
     private static String getName(String typeOfName, int numOfChar) {

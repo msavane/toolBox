@@ -2,11 +2,10 @@ package laboratory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class TestCase {
 
-    private String name;
+    private String tcName;
     private String tcEvent;
 
     private String tcEventVerb;
@@ -15,6 +14,7 @@ public class TestCase {
     private String value;
     private String dataType;
     private int numOfChar;
+    public String testcaseName;
 
 
     public TestCase() {
@@ -22,15 +22,16 @@ public class TestCase {
         //System.out.println("In Test case default constructor");
     }
 
-    public TestCase(String name) {
+    public TestCase(String testcaseName){
+        this.testcaseName = testcaseName;
     }
 
     public String getName() {
-        return name;
+        return tcName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.tcName = name;
     }
 
     public String getPropertyName() {
@@ -88,11 +89,11 @@ public class TestCase {
         this.tcEventVerb = tcEventVerb;
     }
 
-    public static void printDtoSummary(ArrayList<String> dto) {
+    public static String printDtoSummary(ArrayList<String> dto) {
 
         HashMap dtoProperties = new HashMap();
 
-        String propertyName;
+        String propertyName = null;
         String propertyValue;
 
         System.out.println("Include properties in request:");
@@ -115,7 +116,8 @@ public class TestCase {
 
             System.out.println("-----------------------------------------------------");
 
-        }
+        return propertyName;
+    }
     }
 
 
