@@ -18,14 +18,14 @@ public class UserInfo {
      */
     public static void main(String[] args) {
 
-        /*String myName = getName("full", 4);
-        System.out.println("New name is: " + myName);*/
-        /*String myDate = getCustomDate("dd-mm-yyyy");
-        System.out.println("New date is: "+ myDate);*/
-        /*String myEmailAddress = getEmail();
-        System.out.println("New email is: "+ myEmailAddress);*/
-        /*String myDateOfBirth = getDateOfBirth(37,"/");
-        System.out.println("New DOB is: "+ myDateOfBirth);*/
+        String myName = getName("full", 4);
+        System.out.println("New name is: " + myName);
+        String myDate = getCustomDate("dd-mm-yyyy");
+        System.out.println("New date is: "+ myDate);
+        String myEmailAddress = getEmail();
+        System.out.println("New email is: "+ myEmailAddress);
+        String myDateOfBirth = getDateOfBirth(21,"/");
+        System.out.println("New DOB is: "+ myDateOfBirth);
 
         ArrayList<String> dto = new ArrayList<String>();
         dto.add("Russia");
