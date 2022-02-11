@@ -96,7 +96,7 @@ public class TestCaseContract extends TestCase {
     public TestCaseContract(String name) {
         super(name);
         TestCase tc = new TestCase();
-        System.out.println("This test case: " + tc.getName() + "has properties: ");
+        System.out.println("This test case: " + tc.getName() + " has properties: ");
         System.out.println("\n" + tc.getPropertyName());
     }
 

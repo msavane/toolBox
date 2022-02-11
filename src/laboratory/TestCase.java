@@ -24,6 +24,7 @@ public class TestCase {
 
     public TestCase(String testcaseName){
         this.testcaseName = testcaseName;
+
     }
 
     public String getName() {
@@ -107,7 +108,7 @@ public class TestCase {
 
                 dtoProperties.put(propertyName, propertyValue);
 
-        System.out.println(i + " AND --> [" + propertyName
+        System.out.println(" AND --> [" + propertyName
                         + " : " + propertyValue + "]");
         i++;
             }
