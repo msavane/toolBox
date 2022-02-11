@@ -26,13 +26,22 @@ public class UserInfo {
         System.out.println("New email is: "+ myEmailAddress);*/
         /*String myDateOfBirth = getDateOfBirth(37,"/");
         System.out.println("New DOB is: "+ myDateOfBirth);*/
+
         ArrayList<String> dto = new ArrayList<String>();
-        dto.add("Russia:Moscow");
-        dto.add("Germany:Berlin");
-        dto.add ("England:London");
-        dto.add("France:Paris" );
-        dto.add("Italy:Rome");
-        String printPropertiesValues = DtoSummary (dto);
+        dto.add("Russia");
+        dto.add("Moscow");
+        dto.add("Germany");
+        dto.add("Berlin");
+        dto.add ("England");
+        dto.add("London");
+        dto.add("France");
+        dto.add("Paris");
+        dto.add("Italy");
+        dto.add("Rome");
+
+        DtoSummary (dto);
+
+
     }
 
     private static String getName(String typeOfName, int numOfChar) {
@@ -132,31 +141,28 @@ public class UserInfo {
 
         Map<String, String> dtoProperties = new HashMap();
 
-        String propertyName;
-        String propertyValue;
+        String propertyName = null;
+        String propertyValue = null;
 
         System.out.println("Include properties in request:");
         System.out.println("-----------------------------------------------------");
 
-        for (int i = 0; i < dto.size()-1; i++) {
+        int i;
+        for (i = 0; i < dto.size()-1 ; i++) {
 
-            for (int j = 0; j < dto.size()-1; j++) {
+            propertyName = dto.get(i);
+            propertyValue = dto.get(i +1);
 
-                propertyName = dto.get(i);
-                propertyValue = dto.get(i + 1);
-                dtoNameOfProperty.add(propertyName);
-                dtoValueOfProperty.add(i, propertyValue);
-                dtoProperties.put(propertyName, propertyValue);
 
-            }
+            System.out.println(i + " AND --> [" + propertyName
+                    + " : " + propertyValue + "]");
+i++;
+
         }
-        dtoProperties.forEach((k, v) ->
-                System.out.println("AND --> " + k + ", < " + v + " > "));
 
-        /*System.out.println(i + " AND --> [" + propertyName
-                        + " : " + propertyValue + "]");*/
 
         System.out.println("-----------------------------------------------------");
+
         return null;
 
     }

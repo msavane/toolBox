@@ -1,6 +1,7 @@
 package laboratory;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class TestCaseContract extends TestCase {
@@ -81,11 +82,11 @@ public class TestCaseContract extends TestCase {
         System.out.println("Test Case:\n");
         System.out.println("GIVEN as a(n):" + tc.getUserID() + " I want to " + tc.getTcEventVerb() + "\n");
         System.out.println("WHEN: " + tc.getTcEventVerb() + "\n");
-        //List<String> dtoProperties = null;
-        //for (int i = 0; i < tcProperties.size(); i++) {
-            //dtoProperties= Collections.singletonList((tcProperties.get(i)));
-            //printDtoSummary( dtoProperties);
-        //}
+        List<String> dtoProperties = null;
+        /*for (int i = 0; i < tcProperties.size(); i++) {
+            dtoProperties= Collections.singletonList((tcProperties.get(i)));
+            printDtoSummary((ArrayList<String>) dtoProperties);
+        }*/
         assert tcProperties != null;
         printDtoSummary( tcProperties);
         System.out.println("Then: " + tc.getTcEvent().toUpperCase() + " is successful!" + "\n");

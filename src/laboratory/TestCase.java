@@ -101,20 +101,17 @@ public class TestCase {
 
         for (int i = 0; i < dto.size()-1; i++) {
 
-            for (int j = 0; j < dto.size(); j++) {
 
-                propertyName    = dto.get(i);
+                propertyName = dto.get(i);
                 propertyValue   = dto.get(i+1);
 
                 dtoProperties.put(propertyName, propertyValue);
 
-        /*System.out.println(i + " AND --> [" + propertyName
-                        + " : " + propertyValue + "]");*/
-            }}
-            dtoProperties.forEach((k, v) ->
-                    System.out.println("AND --> " + k + ", < " + v + " > "));
-
-            System.out.println("-----------------------------------------------------");
+        System.out.println(i + " AND --> [" + propertyName
+                        + " : " + propertyValue + "]");
+        i++;
+            }
+        System.out.println("-----------------------------------------------------");
 
         return propertyName;
     }
