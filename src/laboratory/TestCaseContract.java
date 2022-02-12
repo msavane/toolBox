@@ -17,21 +17,21 @@ public class TestCaseContract extends TestCase {
         String tcName = scanner.nextLine();
         tc.setName(tcName);
 
-        System.out.println("Please Pick a user role: [ admin||user||employee||customer ]");
+        /*System.out.println("Please Pick a user role: [ admin||user||employee||customer ]");
         String tcUserIdentifier = scanner.nextLine();
-        tc.setUserID(tcUserIdentifier);
+        tc.setUserID(tcUserIdentifier);*/
 
-        System.out.println("Please describe <goal/desire> when action happens: [ event(ing) ]");
+        System.out.println("Please describe <goal/desire> when action happens: [ scenario ]");
         String tcEventVerb = scanner.nextLine();
         tc.setTcEventVerb(tcEventVerb);
 
-        System.out.println("Please specify WHEN does this action occur on the page: [ retrieve||create||update||delete ]");
+        System.out.println("Please specify WHEN does this action occur on the page: [ click||mouse over||type||send ]");
         String tcEventListener = scanner.nextLine();
         tc.setTcEvent(tcEventListener);
 
         System.out.println("In order to " + tc.getTcEventVerb() + " "
                 + " as a(n) " + tc.getUserID() + ", I want to " + tc.getTcEvent().toUpperCase()
-                + " info by feeding the system value(s):");
+                + " by feeding the system these value(s):");
 
         System.out.println("------------------------------------------------");
 
@@ -79,9 +79,9 @@ public class TestCaseContract extends TestCase {
     }
 
     public String printTestCase() {
-        System.out.println("Test Case:\n");
-        System.out.println("GIVEN as a(n):" + tc.getUserID() + " I want to " + tc.getTcEventVerb() + "\n");
-        System.out.println("WHEN: " + tc.getTcEventVerb() + "\n");
+        System.out.println("Feature:"+ tc.getName()+ "\n");
+        System.out.println("Scenario: I want to " + tc.getTcEventVerb() + "\n");
+        System.out.println("When I " + tc.getTcEvent() + "\n");
         List<String> dtoProperties = null;
         /*for (int i = 0; i < tcProperties.size(); i++) {
             dtoProperties= Collections.singletonList((tcProperties.get(i)));
@@ -89,7 +89,7 @@ public class TestCaseContract extends TestCase {
         }*/
         assert tcProperties != null;
         printDtoSummary( tcProperties);
-        System.out.println("Then: " + tc.getTcEvent().toUpperCase() + " is successful!" + "\n");
+        System.out.println("Then " + tc.getTcEventVerb().toUpperCase() + " is successful!" + "\n");
         return null;
     }
 

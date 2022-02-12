@@ -97,8 +97,8 @@ public class TestCase {
         String propertyName = null;
         String propertyValue;
 
-        System.out.println("Include properties in request:");
-        System.out.println("-----------------------------------------------------");
+        /*System.out.println("Include properties in request:");
+        System.out.println("-----------------------------------------------------");*/
 
         for (int i = 0; i < dto.size()-1; i++) {
 
@@ -108,11 +108,11 @@ public class TestCase {
 
                 dtoProperties.put(propertyName, propertyValue);
 
-        System.out.println(" AND --> [" + propertyName
-                        + " : " + propertyValue + "]");
+        System.out.println(" And <" + propertyName
+                        + " : " + propertyValue + ">");
         i++;
             }
-        System.out.println("-----------------------------------------------------");
+        // System.out.println("-----------------------------------------------------");
 
         return propertyName;
     }
