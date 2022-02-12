@@ -17,9 +17,9 @@ public class TestCaseContract extends TestCase {
         String tcName = scanner.nextLine();
         tc.setName(tcName);
 
-        /*System.out.println("Please Pick a user role: [ admin||user||employee||customer ]");
+        System.out.println("Please enter url of app being tested: [ localhost <url> ]");
         String tcUserIdentifier = scanner.nextLine();
-        tc.setUserID(tcUserIdentifier);*/
+        tc.setUserID(tcUserIdentifier);
 
         System.out.println("Please describe <goal/desire> when action happens: [ scenario ]");
         String tcEventVerb = scanner.nextLine();
@@ -30,7 +30,7 @@ public class TestCaseContract extends TestCase {
         tc.setTcEvent(tcEventListener);
 
         System.out.println("In order to " + tc.getTcEventVerb() + " "
-                + " as a(n) " + tc.getUserID() + ", I want to " + tc.getTcEvent().toUpperCase()
+                + " on " + tc.getUserID() + ", I want to " + tc.getTcEvent().toUpperCase()
                 + " by feeding the system these value(s):");
 
         System.out.println("------------------------------------------------");
@@ -81,6 +81,7 @@ public class TestCaseContract extends TestCase {
     public String printTestCase() {
         System.out.println("Feature:"+ tc.getName()+ "\n");
         System.out.println("Scenario: I want to " + tc.getTcEventVerb() + "\n");
+        System.out.println("Given I am pointing to " + tc.getUserID() + "\n");
         System.out.println("When I " + tc.getTcEvent() + "\n");
         List<String> dtoProperties = null;
         /*for (int i = 0; i < tcProperties.size(); i++) {
@@ -89,7 +90,7 @@ public class TestCaseContract extends TestCase {
         }*/
         assert tcProperties != null;
         printDtoSummary( tcProperties);
-        System.out.println("Then " + tc.getTcEventVerb().toUpperCase() + " is successful!" + "\n");
+        System.out.println("\n" + "Then " + tc.getTcEventVerb().toUpperCase() + " is successful!" + "\n");
         return null;
     }
 
