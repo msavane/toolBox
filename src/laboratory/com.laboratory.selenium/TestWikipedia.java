@@ -11,7 +11,11 @@ public class TestWikipedia {
         link.click;
         Thread.sleep(5000);
         WebElement searchbox;
-        searchbox = driver.findElement(By.id("searchInput"));*/
+        searchbox = driver.findElement(By.id("searchInput"));
+        searchBox.sendKeys("software");
+         Thread.sleep(5000);
+         driver.quit();
+        */
     }
 
 
