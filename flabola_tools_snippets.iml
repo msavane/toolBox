@@ -11,5 +11,14 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="io.cucumber.java" level="project" />
     <orderEntry type="library" name="testng" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Workspace/toolBox/jars/selenium-server-4.1.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
