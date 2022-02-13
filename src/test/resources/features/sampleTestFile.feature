@@ -1,12 +1,11 @@
-Feature:login page
+Feature:google search page
 
-  Scenario: I want to land on home page
+  Scenario: I want to search Flabola INC. on google
 
-    Given I am pointing to mysite.com
+    Given I am pointing to searchEngine.com
 
-    When I click on log on button
+    When I search for input
 
-    And <username : string>
-    And <password : string>
+    And <keyword : ${string}>
 
-    Then LAND ON HOME PAGE is successful!
+    Then SEARCH is successful!
