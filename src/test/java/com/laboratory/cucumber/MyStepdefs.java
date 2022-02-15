@@ -10,9 +10,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class MyStepdefs {
+public class MyStepdefs  {
 
-    WebDriver driver = new ChromeDriver();
+    WebDriver driver; //= new ChromeDriver();
 
     @Given("I have <opening balance> pepsi cans")
     public void iHaveOpeningBalancePepsiCans() {
@@ -38,6 +38,7 @@ public class MyStepdefs {
 
     @Given("I am pointing to searchEngine.com")
     public void iAmPointingToSearchEngineCom() {
+        driver = new ChromeDriver();
         driver.get("http://google.com");
 
     }
