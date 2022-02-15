@@ -64,6 +64,12 @@ public class MyStepdefs  {
     @Then("SEARCH is successful!")
     public void search_is_successful() {
         // Write code here that turns the phrase above into concrete actions
+        // identify element
+        WebElement l = driver.findElement(By.xpath("//*[@id=\"rso\"]/div[1]/div/div[1]/div/div/div[1]/div/a"));
+        // href value from getAttribute()
+        String v = l.getAttribute("href");
+        System.out.println("Href value of link: "+ v);
+        assert v == "https://www.morysavane.com/";
         driver.quit();
 
     }
