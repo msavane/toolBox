@@ -68,8 +68,9 @@ public class MyStepdefs  {
         WebElement l = driver.findElement(By.xpath("//*[@id=\"rso\"]/div[1]/div/div[1]/div/div/div[1]/div/a"));
         // href value from getAttribute()
         String v = l.getAttribute("href");
+        assert v.equals("https://www.morysavane.com/");
         System.out.println("Href value of link: "+ v);
-        assert v == "https://www.morysavane.com/";
+
         driver.quit();
 
     }
