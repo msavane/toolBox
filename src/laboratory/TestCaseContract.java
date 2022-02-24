@@ -1,7 +1,9 @@
 package laboratory;
 
+import laboratory.com.laboratory.writeToFile.FileWriterHelper;
+
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class TestCaseContract extends TestCase {
@@ -10,7 +12,7 @@ public class TestCaseContract extends TestCase {
 
     TestCase tc = new TestCase();
 
-    public TestCaseContract() {
+    public TestCaseContract() throws IOException {
 
         System.out.println("Please Enter the feature name: ");
         Scanner scanner = new Scanner(System.in);
@@ -78,19 +80,24 @@ public class TestCaseContract extends TestCase {
         return tcProperties;
     }
 
-    public String printTestCase() {
+    public String printTestCase() throws IOException {
         System.out.println("Feature:"+ tc.getName()+ "\n");
+        FileWriterHelper.FileWriterHelper("Feature:"+ tc.getName()+ "\n");
+
         System.out.println("Scenario: I want to " + tc.getTcEventVerb() + "\n");
+        FileWriterHelper.FileWriterHelper("Scenario: I want to " + tc.getTcEventVerb() + "\n");
+
         System.out.println("Given I am pointing to " + tc.getUserID() + "\n");
+        FileWriterHelper.FileWriterHelper("Given I am pointing to " + tc.getUserID() + "\n");
+
         System.out.println("When I " + tc.getTcEvent() + "\n");
-        List<String> dtoProperties = null;
-        /*for (int i = 0; i < tcProperties.size(); i++) {
-            dtoProperties= Collections.singletonList((tcProperties.get(i)));
-            printDtoSummary((ArrayList<String>) dtoProperties);
-        }*/
+        FileWriterHelper.FileWriterHelper("When I " + tc.getTcEvent() + "\n");
+
         assert tcProperties != null;
         printDtoSummary( tcProperties);
         System.out.println("\n" + "Then " + tc.getTcEventVerb().toUpperCase() + " is successful!" + "\n");
+        FileWriterHelper.FileWriterHelper("\n" + "Then " + tc.getTcEventVerb().toUpperCase() + " is successful!" + "\n");
+
         return null;
     }
 

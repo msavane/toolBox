@@ -1,10 +1,16 @@
 package laboratory;
 
+import java.io.IOException;
+
 public class TestCaseBuilder {
 
     public static void main(String [] args){
 
-        TestCaseContract tcc = new TestCaseContract();
+        try {
+            TestCaseContract tcc = new TestCaseContract();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
