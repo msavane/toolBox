@@ -97,6 +97,7 @@ public class TestCaseContract extends TestCase {
         printDtoSummary( tcProperties);
         System.out.println("\n" + "Then " + tc.getTcEventVerb().toUpperCase() + " is successful!" + "\n");
         FileWriterHelper.FileWriterHelper("\n" + "Then " + tc.getTcEventVerb().toUpperCase() + " is successful!" + "\n");
+        FileWriterHelper.FileWriterHelper("-----------------------------------------------------");
 
         return null;
     }
