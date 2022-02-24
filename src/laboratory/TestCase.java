@@ -1,5 +1,8 @@
 package laboratory;
 
+import laboratory.com.laboratory.writeToFile.FileWriterHelper;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -90,7 +93,7 @@ public class TestCase {
         this.tcEventVerb = tcEventVerb;
     }
 
-    public static String printDtoSummary(ArrayList<String> dto) {
+    public static String printDtoSummary(ArrayList<String> dto) throws IOException {
 
         HashMap dtoProperties = new HashMap();
 
@@ -110,6 +113,10 @@ public class TestCase {
 
         System.out.println(" And <" + propertyName
                         + " : " + propertyValue + ">");
+
+            FileWriterHelper.FileWriterHelper(" And <" + propertyName
+                    + " : " + propertyValue + ">");
+
         i++;
             }
         // System.out.println("-----------------------------------------------------");

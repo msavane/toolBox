@@ -1,0 +1,11 @@
+Feature:Calc tax
+
+Scenario: I want to apply taxes
+
+Given I am pointing to mycalculator.com
+
+When I click on checkout
+
+
+Then APPLY TAXES is successful!
+
