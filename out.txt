@@ -1,0 +1,15 @@
+Feature:calc taxes
+
+Scenario: I want to apply taxes
+
+Given I am pointing to mycalc.com
+
+When I click on checkout
+
+ And <sub total : double>
+ And <total : double>
+ And <province : string>
+
+Then APPLY TAXES is successful!
+
+-----------------------------------------------------
