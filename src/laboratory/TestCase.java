@@ -25,11 +25,6 @@ public class TestCase {
         //System.out.println("In Test case default constructor");
     }
 
-    public TestCase(String testcaseName){
-        this.testcaseName = testcaseName;
-
-    }
-
     public String getName() {
         return tcName;
     }
@@ -100,8 +95,6 @@ public class TestCase {
         String propertyName = null;
         String propertyValue;
 
-        /*System.out.println("Include properties in request:");
-        System.out.println("-----------------------------------------------------");*/
 
         for (int i = 0; i < dto.size()-1; i++) {
 
@@ -119,7 +112,6 @@ public class TestCase {
 
         i++;
             }
-        // System.out.println("-----------------------------------------------------");
 
         return propertyName;
     }

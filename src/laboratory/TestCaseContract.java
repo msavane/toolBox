@@ -73,14 +73,9 @@ public class TestCaseContract extends TestCase {
         return tcProperties;
     }
 
-    public ArrayList<String> addNewPropertyToList(String propertyName) {
-
-        tcProperties.add(tc.getPropertyName());
-
-        return tcProperties;
-    }
 
     public String printTestCase() throws IOException {
+
         System.out.println("Feature:"+ tc.getName()+ "\n");
         FileWriterHelper.FileWriterHelper("Feature:"+ tc.getName()+ "\n");
 
@@ -93,18 +88,26 @@ public class TestCaseContract extends TestCase {
         System.out.println("When I " + tc.getTcEvent() + "\n");
         FileWriterHelper.FileWriterHelper("When I " + tc.getTcEvent() + "\n");
 
-        assert tcProperties != null;
-        printDtoSummary( tcProperties);
-        System.out.println("\n" + "Then " + tc.getTcEventVerb().toUpperCase() + " is successful!" + "\n");
-        FileWriterHelper.FileWriterHelper("\n" + "Then " + tc.getTcEventVerb().toUpperCase() + " is successful!" + "\n");
-        FileWriterHelper.FileWriterHelper("-----------------------------------------------------");
+        if (tcProperties.isEmpty()){
+            System.out.println("The payload is empty, please insert property");
+            TestCaseContract tcc = new TestCaseContract();
 
+        }else
+        {
+
+            printDtoSummary(tcProperties);
+            System.out.println("\n" + "Then " + tc.getTcEventVerb().toUpperCase() + " is successful!" + "\n");
+            FileWriterHelper.FileWriterHelper("\n" + "Then " + tc.getTcEventVerb().toUpperCase() + " is successful!" + "\n");
+
+            FileWriterHelper.FileWriterHelper("-----------------------------------------------------");
+
+
+        }
         return null;
     }
 
-    public TestCaseContract(String name) {
-        super(name);
-        TestCase tc = new TestCase();
+    public TestCaseContract(String featureName) {
+
         System.out.println("This test case: " + tc.getName() + " has properties: ");
         System.out.println("\n" + tc.getPropertyName());
     }
