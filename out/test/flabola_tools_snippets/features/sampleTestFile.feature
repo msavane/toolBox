@@ -6,6 +6,6 @@ Feature:google search page
 
     When I search for input
 
-    And <keyword : ${string}>
+    And <keyword : "Flabola FSQS">
 
     Then SEARCH is successful!

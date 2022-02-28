@@ -46,10 +46,10 @@ public class MyStepdefs {
 
     }
 
-    @And("<keyword : $\\{string}>")
-    public void keyword$String() {
-        sg.findInGoogle("FSQS Flabola");
-        System.out.println("To do make input dynamic");
+    @And("<keyword : {string}>")
+    public void keyword(String arg0) {
+        sg.findInGoogle(arg0);
+        System.out.println("looking for: " + arg0);
     }
 
     @Then("SEARCH is successful!")
@@ -58,5 +58,7 @@ public class MyStepdefs {
         sg.closeApplication();
 
     }
+
+
 
 }

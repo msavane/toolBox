@@ -1,0 +1,15 @@
+Feature:calculate
+
+Scenario: I want to compute inputs and give results
+
+Given I am pointing to mycalc.com
+
+When I click on equal sign
+
+ And <input one : double>
+ And <operator : string>
+ And <input two : double>
+
+Then COMPUTE INPUTS AND GIVE RESULTS is successful!
+
+-----------------------------------------------------
