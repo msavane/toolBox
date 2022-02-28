@@ -1,22 +1,19 @@
 package com.laboratory.cucumber;
 
 
+import com.laboratory.selenium.SearchGoogle;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 public class MyStepdefs {
 
-    WebDriver driver; //= new ChromeDriver();
+    SearchGoogle sg = new SearchGoogle();
 
     @Given("I have <opening balance> pepsi cans")
     public void iHaveOpeningBalancePepsiCans() {
-      System.out.println("I have 5 Pepsi");
+        System.out.println("I have 5 Pepsi");
 
     }
 
@@ -37,41 +34,28 @@ public class MyStepdefs {
 
 
     @Given("I am pointing to searchEngine.com")
-    public void iAmPointingToSearchEngineCom() {
-        driver = new ChromeDriver();
-        driver.get("http://google.com");
+    public void iAmPointingToSearchEngineCom() throws InterruptedException {
+        sg.setupApplication();
+
 
     }
-    @When("I search for input")
-    public void i_search_for_input() {
-        // Write code here that turns the phrase above into concrete actions
 
-        WebElement searchbox;
-        searchbox = driver.findElement(By.name("q"));
-        searchbox.click();
+    @When("I search for input")
+    public void i_search_for_input() throws InterruptedException {
+        sg.askGoogle();
 
     }
 
     @And("<keyword : $\\{string}>")
     public void keyword$String() {
-
-        WebElement searchbox;
-        searchbox = driver.findElement(By.name("q"));
-        searchbox.sendKeys("Flabola FSQS");
-        searchbox.submit();
+        sg.findInGoogle("FSQS Flabola");
+        System.out.println("To do make input dynamic");
     }
 
     @Then("SEARCH is successful!")
-    public void search_is_successful() {
-        // Write code here that turns the phrase above into concrete actions
-        // identify element
-        WebElement l = driver.findElement(By.xpath("//*[@id=\"rso\"]/div[1]/div/div[1]/div/div/div[1]/div/a"));
-        // href value from getAttribute()
-        String v = l.getAttribute("href");
-        assert v.equals("https://www.morysavane.com/");
-        System.out.println("Href value of link: "+ v);
-
-        driver.quit();
+    public void search_is_successful() throws InterruptedException {
+        sg.checkResults();
+        sg.closeApplication();
 
     }
 

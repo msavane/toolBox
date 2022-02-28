@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeMethod;
 public class TrafficControler {
 
 
-    WebDriver driver;
+    public WebDriver driver;
 
     @BeforeMethod
     public void setupApplication(){

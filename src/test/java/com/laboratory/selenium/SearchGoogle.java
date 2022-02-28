@@ -20,7 +20,6 @@ public class SearchGoogle extends TrafficControler {
 
         Thread.sleep(5000);
 
-        findInGoogle("Flabola FSQS");
     }
 
 
@@ -29,13 +28,13 @@ public class SearchGoogle extends TrafficControler {
         searchbox.sendKeys(keywords);
         searchbox.submit();
 
-        Reporter.log("=====Search Engine results=====", true);
-        checkResults();
-
     }
 
     public void checkResults() {
+
         WebElement l = driver.findElement(By.xpath("//*[@id=\"rso\"]/div[1]/div/div[1]/div/div/div[1]/div/a"));
+        Reporter.log("=====Search Engine results=====", true);
+
         // href value from getAttribute()
         String v = l.getAttribute("href");
         assert v.equals("https://www.morysavane.com/");
