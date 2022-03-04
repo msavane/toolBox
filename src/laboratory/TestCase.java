@@ -105,12 +105,12 @@ public class TestCase {
                 dtoProperties.put(propertyName, propertyValue);
 
         System.out.println(" And <" + propertyName
-                        + " : " + propertyValue + ">");
+                        + " : \"" + propertyValue + "\">");
 
             FileWriterHelper.FileWriterHelper(" And <" + propertyName
-                    + " : " + propertyValue + ">");
+                    + " : \"" + propertyValue + "\">");
 
-        i++;
+            i++;
             }
 
         return propertyName;

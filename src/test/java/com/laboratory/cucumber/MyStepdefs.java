@@ -37,7 +37,6 @@ public class MyStepdefs {
     public void iAmPointingToSearchEngineCom() throws InterruptedException {
         sg.setupApplication();
 
-
     }
 
     @When("I search for input")
@@ -58,7 +57,6 @@ public class MyStepdefs {
         sg.closeApplication();
 
     }
-
 
 
 }

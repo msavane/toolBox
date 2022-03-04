@@ -13,3 +13,18 @@ When I click on equal sign
 Then COMPUTE INPUTS AND GIVE RESULTS is successful!
 
 -----------------------------------------------------
+Feature:Search in app
+
+Scenario: I want to find publication based on various criteria
+
+Given I am pointing to mysearchapp.com
+
+When I click on search icon
+
+ And <input 1 : int>
+ And <input 2 : string>
+
+Then FIND PUBLICATION BASED ON VARIOUS CRITERIA is successful!
+
+-----------------------------------------------------
+
