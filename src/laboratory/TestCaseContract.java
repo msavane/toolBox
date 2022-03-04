@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class TestCaseContract extends TestCase {
 
-    ArrayList<String>  tcProperties          = new ArrayList<>();
+    ArrayList<String>  tcProperties = new ArrayList<>();
 
     TestCase tc = new TestCase();
 
@@ -66,8 +66,8 @@ public class TestCaseContract extends TestCase {
     public ArrayList<String> addNewPropertyToList(String propertyName, String propertyValue) {
 
 
-            tcProperties.add(tc.getPropertyName());
-            tcProperties.add(tc.getValue());
+            tcProperties.add(propertyName);
+            tcProperties.add(propertyValue);
 
 
         return tcProperties;
@@ -100,16 +100,18 @@ public class TestCaseContract extends TestCase {
             FileWriterHelper.FileWriterHelper("\n" + "Then " + tc.getTcEventVerb().toUpperCase() + " is successful!" + "\n");
 
             FileWriterHelper.FileWriterHelper("-----------------------------------------------------");
+            TestCaseProperties();
 
 
         }
         return null;
     }
 
-    public TestCaseContract(String featureName) {
+    public void TestCaseProperties() throws IOException {
 
         System.out.println("This test case: " + tc.getName() + " has properties: ");
-        System.out.println("\n" + tc.getPropertyName());
+        System.out.println("\n" + tc.getPropertyName()+ "\n");
+        System.out.println(tcProperties.get(0));
     }
 
 
