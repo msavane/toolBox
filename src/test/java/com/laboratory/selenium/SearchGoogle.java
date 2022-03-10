@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Reporter;
 import org.testng.annotations.Test;
 
-public class SearchGoogle extends TrafficControler {
+public class SearchGoogle extends TrafficController {
 
 
     WebElement searchbox;
@@ -32,7 +32,8 @@ public class SearchGoogle extends TrafficControler {
 
     public void checkResults() {
 
-        WebElement l = driver.findElement(By.xpath("//*[@id=\"rso\"]/div[1]/div/div[1]/div/div/div[1]/div/a"));
+        //WebElement l = driver.findElement(By.xpath("//*[@id=\"rso\"]/div[1]/div/div[1]/div/div/div[1]/div/a"));
+        WebElement l = driver.findElement(By.xpath("/html/body/div[7]/div/div[10]/div/div[2]/div[2]/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/a/h3"));
         Reporter.log("=====Search Engine results=====", true);
 
         // href value from getAttribute()
