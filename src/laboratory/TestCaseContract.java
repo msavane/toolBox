@@ -8,14 +8,15 @@ import java.util.Scanner;
 
 public class TestCaseContract extends TestCase {
 
-    ArrayList<String>  tcProperties = new ArrayList<>();
+    ArrayList<String> tcProperties = new ArrayList<>();
 
     TestCase tc = new TestCase();
+    Scanner scanner = new Scanner(System.in);
 
     public TestCaseContract() throws IOException {
 
         System.out.println("Please Enter the feature name: ");
-        Scanner scanner = new Scanner(System.in);
+
         String tcName = scanner.nextLine();
         tc.setName(tcName);
 
@@ -47,7 +48,7 @@ public class TestCaseContract extends TestCase {
             String propertyValue = scanner.nextLine();
             tc.setValue(propertyValue);
 
-           tcProperties = addNewPropertyToList(propertyName,propertyValue);
+            tcProperties = addNewPropertyToList(propertyName, propertyValue);
 
             System.out.println("Do you want to add another property: y,n ");
             addingPropertyYesNo = scanner.nextLine();
@@ -66,8 +67,8 @@ public class TestCaseContract extends TestCase {
     public ArrayList<String> addNewPropertyToList(String propertyName, String propertyValue) {
 
 
-            tcProperties.add(propertyName);
-            tcProperties.add(propertyValue);
+        tcProperties.add(propertyName);
+        tcProperties.add(propertyValue);
 
 
         return tcProperties;
@@ -76,8 +77,8 @@ public class TestCaseContract extends TestCase {
 
     public String printTestCase() throws IOException {
 
-        System.out.println("Feature:"+ tc.getName()+ "\n");
-        FileWriterHelper.FileWriterHelper("Feature:"+ tc.getName()+ "\n");
+        System.out.println("Feature:" + tc.getName() + "\n");
+        FileWriterHelper.FileWriterHelper("Feature:" + tc.getName() + "\n");
 
         System.out.println("Scenario: I want to " + tc.getTcEventVerb() + "\n");
         FileWriterHelper.FileWriterHelper("Scenario: I want to " + tc.getTcEventVerb() + "\n");
@@ -88,18 +89,19 @@ public class TestCaseContract extends TestCase {
         System.out.println("When I " + tc.getTcEvent() + "\n");
         FileWriterHelper.FileWriterHelper("When I " + tc.getTcEvent() + "\n");
 
-        if (tcProperties.isEmpty()){
+        if (tcProperties.isEmpty()) {
             System.out.println("The payload is empty, please insert property");
             TestCaseContract tcc = new TestCaseContract();
 
-        }else
-        {
+        } else {
 
             printDtoSummary(tcProperties);
             System.out.println("\n" + "Then " + tc.getTcEventVerb().toUpperCase() + " is successful!" + "\n");
             FileWriterHelper.FileWriterHelper("\n" + "Then " + tc.getTcEventVerb().toUpperCase() + " is successful!" + "\n");
 
-            FileWriterHelper.FileWriterHelper("-----------------------------------------------------");
+//            FileWriterHelper.FileWriterHelper("-----------------------------------------------------");
+            FileWriterHelper.FileWriterHelper(" PROPERTIES " + " || " + " MAX CHAR ");
+
             TestCaseProperties();
 
 
@@ -109,9 +111,18 @@ public class TestCaseContract extends TestCase {
 
     public void TestCaseProperties() throws IOException {
 
-        System.out.println("This test case: " + tc.getName() + " has properties: ");
-        System.out.println("\n" + tc.getPropertyName()+ "\n");
-        System.out.println(tcProperties.get(0));
+        System.out.println("The " + tc.getName() + " test case has properties: ");
+        //System.out.println("\n" + tc.getPropertyName()+ "\n");
+        for (int i = 0; i < tcProperties.size() - 1; i++) {
+            String nomDePropriete = tcProperties.get(i);
+            System.out.println("Please Enter max char allowed for: " + tcProperties.get(i));
+            String tcSetNumOfChar = scanner.nextLine();
+            tc.setNumOfChar(Integer.parseInt(tcSetNumOfChar));
+            FileWriterHelper.FileWriterHelper(" --> " + nomDePropriete + " || [ " + tc.getNumOfChar() + " ]");
+            i++;
+        }
+        FileWriterHelper.FileWriterHelper("-----------------------------------------------------");
+
     }
 
 

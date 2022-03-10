@@ -13,18 +13,21 @@ When I click on equal sign
 Then COMPUTE INPUTS AND GIVE RESULTS is successful!
 
 -----------------------------------------------------
-Feature:Search in app
 
-Scenario: I want to find publication based on various criteria
+Feature:search app
 
-Given I am pointing to mysearchapp.com
+Scenario: I want to retrieve relevant articles
 
-When I click on search icon
+Given I am pointing to uri.com
 
- And <input 1 : int>
- And <input 2 : string>
+When I send key words
 
-Then FIND PUBLICATION BASED ON VARIOUS CRITERIA is successful!
+ And <keyword : "string">
+ And <DOB : "date">
 
+Then RETRIEVE RELEVANT ARTICLES is successful!
+
+ PROPERTIES  ||  MAX CHAR 
+ --> keyword || [ 140 ]
+ --> DOB || [ 8 ]
 -----------------------------------------------------
-
