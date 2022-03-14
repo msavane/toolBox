@@ -68,13 +68,10 @@ public class DeckOfCards {
             if (searchMe.regionMatches(i, findMe, 0, findMeLength)) {
                 foundIt = true;
                 System.out.println(searchMe.substring(0, i + findMeLength));
-                System.out.println("Flabola© HEIGHT");
+                System.out.println("Flabola© EIGHT");
                 break;
             }else{System.out.println("No match found.");}
             }
-                /*System.out.println(searchMe.substring(0, 0 + findMeLength));
-                System.out.println(findMeLength);
-                System.out.println("No match found.");*/
             }
 
             private static String selectCard () {
