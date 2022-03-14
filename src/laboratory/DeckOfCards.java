@@ -4,10 +4,12 @@ import data_factory.DataCreatorHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class DeckOfCards {
 
     static DataCreatorHelper dch = new DataCreatorHelper();
+    static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
 
@@ -39,7 +41,7 @@ public class DeckOfCards {
                 newDeckOfCards.add(suitSymbolsList.get(y) + " " + rankList.get(i) + " of " + suitList.get(y));
 
             }
-        System.out.println("52 Cards! enjoy!");
+        System.out.println("New Set of cards! enjoy!");
         return newDeckOfCards;
     }
 
@@ -66,10 +68,19 @@ public class DeckOfCards {
         int ran = dch.getRandomNumber(min, max - 5);
             //System.out.println(newDeck.get(i));
        // }
-        System.out.println(ran);
-        System.out.println(newDeck.get(ran)  + " This is Random");
+        System.out.println("computer placed: "+ran);
+
+        System.out.println(newDeck.get(ran)  + " has been randomly selected");
         newDeck.remove(newDeck.get(ran));
-        printDeck(newDeck);
+
+        System.out.println("Please enter a number:");
+        int playersSelection = scanner.nextInt();
+
+        System.out.println( "you've played "+newDeck.get(playersSelection));
+        newDeck.remove(newDeck.get(playersSelection));
+
+        //printDeck(newDeck);
+
         return null;
     }
 }
