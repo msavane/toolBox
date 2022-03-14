@@ -14,9 +14,10 @@ public class DeckOfCards {
     public static void main(String[] args) {
 
 
-        System.out.println("Here is a new set of cards for you !");
+        System.out.println("New Set of cards! enjoy!");
         //System.out.println(getNewDeck());
         selectCard();
+
 
     }
 
@@ -41,14 +42,11 @@ public class DeckOfCards {
                 newDeckOfCards.add(suitSymbolsList.get(y) + " " + rankList.get(i) + " of " + suitList.get(y));
 
             }
-        System.out.println("New Set of cards! enjoy!");
+        System.out.println("Matching suits, here is the choice of the computer !");
         return newDeckOfCards;
     }
 
     private static ArrayList printDeck(ArrayList arr) {
-
-
-        //ArrayList newDeck = getNewDeck();
 
         for (int i = 2; i < arr.size(); i++) {
 
@@ -58,29 +56,51 @@ public class DeckOfCards {
         return null;
     }
 
+    private static void compareCards(String pc, String player) {
+        String searchMe = player;
+        String findMe = pc;
+        int findMeLength = 1;
+        boolean foundIt = false;
 
-    private static String selectCard() {
+        for (int i = 0;
+             i == 0;
+             i++) {
+            if (searchMe.regionMatches(i, findMe, 0, findMeLength)) {
+                foundIt = true;
+                System.out.println(searchMe.substring(0, i + findMeLength));
+                System.out.println("Flabola© HEIGHT");
+                break;
+            }else{System.out.println("No match found.");}
+            }
+                /*System.out.println(searchMe.substring(0, 0 + findMeLength));
+                System.out.println(findMeLength);
+                System.out.println("No match found.");*/
+            }
 
-        ArrayList newDeck = getNewDeck();
-        int min = 1;
-        int max = newDeck.size();
-       // for (int i = 2; i < newDeck.size(); i++) {
-        int ran = dch.getRandomNumber(min, max - 5);
-            //System.out.println(newDeck.get(i));
-       // }
-        System.out.println("computer placed: "+ran);
+            private static String selectCard () {
 
-        System.out.println(newDeck.get(ran)  + " has been randomly selected");
-        newDeck.remove(newDeck.get(ran));
+                ArrayList newDeck = getNewDeck();
+                int min = 1;
+                int max = 8;
 
-        System.out.println("Please enter a number:");
-        int playersSelection = scanner.nextInt();
+                int rand = dch.getRandomNumber(min, max - min) + min;
 
-        System.out.println( "you've played "+newDeck.get(playersSelection));
-        newDeck.remove(newDeck.get(playersSelection));
+                System.out.println("random selection: " + rand);
 
-        //printDeck(newDeck);
+                System.out.println("computer played " + newDeck.get(rand));
+                String computersChoice = (String) newDeck.get(rand);
+                newDeck.remove(newDeck.get(rand));
 
-        return null;
-    }
-}
+                System.out.println("Please enter a number between 1 - 8:");
+                int playersSelection = scanner.nextInt();
+
+                System.out.println("you've played " + newDeck.get(playersSelection));
+                String playersChoice = (String) newDeck.get(playersSelection);
+                newDeck.remove(newDeck.get(playersSelection));
+
+                //printDeck(newDeck);
+
+                compareCards(computersChoice, playersChoice);
+                return null;
+            }
+        }
