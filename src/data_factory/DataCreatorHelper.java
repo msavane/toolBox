@@ -1,10 +1,11 @@
 package data_factory;
 
+import java.util.Random;
+
 public class DataCreatorHelper {
 
-// function to generate a random string of length n
-     static String getAlphaNumericString(int n)
-    {
+    // function to generate a random string of length n
+    static String getAlphaNumericString(int n) {
 
         // chose a Character random from this String
         String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -19,7 +20,7 @@ public class DataCreatorHelper {
             // generate a random number between
             // 0 to AlphaNumericString variable length
             int index
-                    = (int)(AlphaNumericString.length()
+                    = (int) (AlphaNumericString.length()
                     * Math.random());
 
             // add Character one by one in end of sb
@@ -31,8 +32,7 @@ public class DataCreatorHelper {
     }
 
     // function to generate a random string of length n
-     static String getRandomCharacters(int n)
-    {
+    static String getRandomCharacters(int n) {
 
         // chose a Character random from this String
         String Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -46,7 +46,7 @@ public class DataCreatorHelper {
             // generate a random number between
             // 0 to AlphaNumericString variable length
             int index
-                    = (int)(Alphabet.length()
+                    = (int) (Alphabet.length()
                     * Math.random());
 
             // add Character one by one in end of sb
@@ -55,6 +55,14 @@ public class DataCreatorHelper {
         }
 
         return sb.toString();
+    }
+
+      public static int getRandomNumber(int min, int max) {
+
+        Random rn = new Random();
+        int i = rn.nextInt(max - min + 1) + min;
+
+        return i;
     }
 
 }

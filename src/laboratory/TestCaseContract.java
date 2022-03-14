@@ -102,14 +102,14 @@ public class TestCaseContract extends TestCase {
 //            FileWriterHelper.FileWriterHelper("-----------------------------------------------------");
             FileWriterHelper.FileWriterHelper(" PROPERTIES " + " || " + " MAX CHAR ");
 
-            TestCaseProperties();
+            TestCasePropertiesAttributes();
 
 
         }
         return null;
     }
 
-    public void TestCaseProperties() throws IOException {
+    public void TestCasePropertiesAttributes() throws IOException {
 
         System.out.println("The " + tc.getName() + " test case has properties: ");
         //System.out.println("\n" + tc.getPropertyName()+ "\n");

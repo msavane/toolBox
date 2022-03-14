@@ -15,7 +15,6 @@ public class TrafficController {
     public void setupApplication(){
 
         Reporter.log("=====Browser Session Started=====",true);
-
         driver   = new ChromeDriver();
         driver.manage().window().fullscreen();
         driver.get("http://google.com");

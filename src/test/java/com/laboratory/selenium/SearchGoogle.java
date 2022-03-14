@@ -33,7 +33,7 @@ public class SearchGoogle extends TrafficController {
     public void checkResults() {
 
         //WebElement l = driver.findElement(By.xpath("//*[@id=\"rso\"]/div[1]/div/div[1]/div/div/div[1]/div/a"));
-        WebElement l = driver.findElement(By.xpath("/html/body/div[7]/div/div[10]/div/div[2]/div[2]/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/a/h3"));
+        WebElement l = driver.findElement(By.xpath("/html/body/div[7]/div/div[10]/div/div[2]/div[2]/div/div/div[1]/div/div/div[1]/div/div/div[1]/div/a"));
         Reporter.log("=====Search Engine results=====", true);
 
         // href value from getAttribute()
