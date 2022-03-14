@@ -15,7 +15,6 @@ public class DeckOfCards {
 
 
         System.out.println("New Set of cards! enjoy!");
-        //System.out.println(getNewDeck());
         selectCard();
 
 
@@ -68,36 +67,44 @@ public class DeckOfCards {
             if (searchMe.regionMatches(i, findMe, 0, findMeLength)) {
                 foundIt = true;
                 System.out.println(searchMe.substring(0, i + findMeLength));
-                System.out.println("Flabola© EIGHT");
+                System.out.println("you WIN !! Flabola© EIGHT");
+                System.exit(0);
                 break;
-            }else{System.out.println("No match found.");}
-            }
-            }
-
-            private static String selectCard () {
-
-                ArrayList newDeck = getNewDeck();
-                int min = 1;
-                int max = 8;
-
-                int rand = dch.getRandomNumber(min, max - min) + min;
-
-                System.out.println("random selection: " + rand);
-
-                System.out.println("computer played " + newDeck.get(rand));
-                String computersChoice = (String) newDeck.get(rand);
-                newDeck.remove(newDeck.get(rand));
-
-                System.out.println("Please enter a number between 1 - 8:");
-                int playersSelection = scanner.nextInt();
-
-                System.out.println("you've played " + newDeck.get(playersSelection));
-                String playersChoice = (String) newDeck.get(playersSelection);
-                newDeck.remove(newDeck.get(playersSelection));
-
-                //printDeck(newDeck);
-
-                compareCards(computersChoice, playersChoice);
-                return null;
+            } else {
+                System.out.println("No match found.");
             }
         }
+        System.out.println("Would you like to play again, enter 1 - for yes or 2 for No:");
+        int playersSelection = scanner.nextInt();
+        if (playersSelection == 1) {
+            selectCard();
+        }
+    }
+
+    private static String selectCard() {
+
+        ArrayList newDeck = getNewDeck();
+        int min = 1;
+        int max = 8;
+
+        int rand = dch.getRandomNumber(min, max - min) + min;
+
+        System.out.println("random selection: " + rand);
+
+        System.out.println("computer played " + newDeck.get(rand));
+        String computersChoice = (String) newDeck.get(rand);
+        newDeck.remove(newDeck.get(rand));
+
+        System.out.println("Please enter a number between 1 - 8:");
+        int playersSelection = scanner.nextInt();
+
+        System.out.println("you've played " + newDeck.get(playersSelection+=1));
+        String playersChoice = (String) newDeck.get(playersSelection);
+        newDeck.remove(newDeck.get(playersSelection));
+
+        //printDeck(newDeck);
+
+        compareCards(computersChoice, playersChoice);
+        return null;
+    }
+}
