@@ -10,7 +10,7 @@ public class DeckOfCards {
 
     static DataCreatorHelper dch = new DataCreatorHelper();
     static Scanner scanner = new Scanner(System.in);
-
+    static ArrayList newDeckOfCards = new ArrayList(Arrays.asList(",", -1));
     public static void main(String[] args) {
 
 
@@ -32,7 +32,7 @@ public class DeckOfCards {
         ArrayList suitSymbolsList = new ArrayList(Arrays.asList(suitSymbols.split(",", -1)));
 
         String s = null;
-        ArrayList newDeckOfCards = new ArrayList(Arrays.asList(",", -1));
+
 
         for (int i = 0; i < rankList.size(); i++)
             for (int y = 0; y < suitList.size(); y++) {
@@ -45,7 +45,7 @@ public class DeckOfCards {
         return newDeckOfCards;
     }
 
-    private static ArrayList printDeck(ArrayList arr) {
+    private static String printDeck(ArrayList arr) {
 
         for (int i = 2; i < arr.size(); i++) {
 
@@ -72,12 +72,15 @@ public class DeckOfCards {
                 break;
             } else {
                 System.out.println("No match found.");
+
             }
         }
         System.out.println("Would you like to play again, enter 1 - for yes or 2 for No:");
         int playersSelection = scanner.nextInt();
         if (playersSelection == 1) {
             selectCard();
+        }else{
+            printDeck(newDeckOfCards);
         }
     }
 
@@ -102,7 +105,9 @@ public class DeckOfCards {
         String playersChoice = (String) newDeck.get(playersSelection);
         newDeck.remove(newDeck.get(playersSelection));
 
-        //printDeck(newDeck);
+        int c = 51;
+        if (newDeck.size() <= c){printDeck(newDeck);}
+
 
         compareCards(computersChoice, playersChoice);
         return null;
