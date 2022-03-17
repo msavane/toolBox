@@ -13,21 +13,45 @@ When I click on equal sign
 Then COMPUTE INPUTS AND GIVE RESULTS is successful!
 
 -----------------------------------------------------
+Feature:My moving delivery app, Log in
 
-Feature:search app
+Scenario: I want to log on as a team lead
 
-Scenario: I want to retrieve relevant articles
+Given I am pointing to mymovingapp.com
 
-Given I am pointing to uri.com
+When I click on log in
 
-When I send key words
+ And <username : "driver@email.com">
+ And <password : "string">
 
- And <keyword : "string">
- And <DOB : "date">
-
-Then RETRIEVE RELEVANT ARTICLES is successful!
+Then TEAM LEAD LOGS ON is successful!
 
  PROPERTIES  ||  MAX CHAR 
- --> keyword || [ 140 ]
- --> DOB || [ 8 ]
+ --> username || [ 12 ]
+ --> password || [ 7 ]
+-----------------------------------------------------
+Feature:Moving delivery app, start job
+
+Scenario: I want to record teams start time of a job
+
+Given I am pointing to mymovingapp.com
+
+When I click on start
+
+ And <deviceID : "string">
+ And <team lead name : "string">
+ And <number of team memebers on job : "int">
+ And <name of team members : "string">
+ And <start time : "dateTime">
+ And <start location : "string">
+ And <destination : "string">
+ And <clients persons to contact name : "string">
+ And <clients persons to contact number : "string">
+
+Then RECORD TEAMS START TIME OF A JOB is successful!
+
+ PROPERTIES  ||  MAX CHAR 
+ --> deviceID || [ 7 ]
+ --> team lead name || [ 23 ]
+ --> number of team memebers on job || [ 2 ]
 -----------------------------------------------------

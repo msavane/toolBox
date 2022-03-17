@@ -107,8 +107,6 @@ public class DeckOfCards {
 
         int c = 51;
         if (newDeck.size() <= c){printDeck(newDeck);}
-
-
         compareCards(computersChoice, playersChoice);
         return null;
     }
