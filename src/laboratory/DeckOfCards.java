@@ -118,7 +118,7 @@ public class DeckOfCards {
         String playersChoice = (String) newDeck.get(playersSelection);
         newDeck.remove(newDeck.get(playersSelection));
 
-        int c = 2;
+        int c = 8;
         if (newDeck.size() <= c) {
             printDeck(newDeck);
         }
