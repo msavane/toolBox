@@ -11,10 +11,28 @@ public class DeckOfCards {
 
     static DataCreatorHelper dch = new DataCreatorHelper();
     static Scanner scanner = new Scanner(System.in);
-    static ArrayList newDeckOfCards = new ArrayList(Arrays.asList(",", -1));
+    static int replay = 0;
+
+    //build deck
+    static ArrayList rankList;
+    static ArrayList suitList;
+    static ArrayList suitSymbolsList;
+    static ArrayList newDeckOfCards;
+    static ArrayList newDeck;
+
 
     public static void main(String[] args) {
 
+        //Init known
+        String rank = "Ace,2,3,4,5,6,7,8,9,10,Jack,Queen,King";
+        String suit = "Spades,Hearts,Diamonds,Clubs";
+        String suitSymbols = "♤,♡,⃟,♧";
+
+        //build deck
+        rankList = new ArrayList(Arrays.asList(rank.split(",", -1)));
+        suitList = new ArrayList(Arrays.asList(suit.split(",", -1)));
+        suitSymbolsList = new ArrayList(Arrays.asList(suitSymbols.split(",", -1)));
+        newDeckOfCards = new ArrayList(Arrays.asList(",", -1));
 
         System.out.println("New Set of cards! enjoy!");
         selectCard();
@@ -23,15 +41,6 @@ public class DeckOfCards {
     }
 
     private static ArrayList getNewDeck() {
-
-        //Init known
-        String rank = "Ace,2,3,4,5,6,7,8,9,10,Jack,Queen,King";
-        String suit = "Spades,Hearts,Diamonds,Clubs";
-        String suitSymbols = "♤,♡,⃟,♧";
-        //build deck
-        ArrayList rankList = new ArrayList(Arrays.asList(rank.split(",", -1)));
-        ArrayList suitList = new ArrayList(Arrays.asList(suit.split(",", -1)));
-        ArrayList suitSymbolsList = new ArrayList(Arrays.asList(suitSymbols.split(",", -1)));
 
         String s = null;
 
@@ -44,12 +53,13 @@ public class DeckOfCards {
 
             }
         System.out.println("Matching suits, here is the choice of the computer !");
+
         return newDeckOfCards;
     }
 
     private static String printDeck(ArrayList arr) {
 
-        for (int i = 2; i < arr.size(); i++) {
+        for (int i = 0; i < arr.size(); i++) {
 
             System.out.println(arr.get(i));
         }
@@ -77,30 +87,30 @@ public class DeckOfCards {
 
             }
         }
-        System.out.println("Would you like to play again, enter 1 - for yes or 2 for No:");
-        int playersSelection = scanner.nextInt();
-        if (playersSelection == 1) {
-            selectCard();
-        } else {
-            printDeck(newDeckOfCards);
-        }
+
     }
 
     private static String selectCard() {
 
-        ArrayList newDeck = getNewDeck();
+        if (replay == 0) {
+            newDeck = getNewDeck();
+            Collections.shuffle(newDeck);
+        }
+
+
         int min = 1;
         int max = 8;
 
+
         for (int m = 0; m < newDeck.size(); m++) {
 
-            if (newDeck.get(m).equals(",") ) {
+            if (newDeck.get(m).equals(",")) {
                 newDeck.remove(newDeck.get(m));
             }
-            if (newDeck.get(m).equals(-1) ) {
+            if (newDeck.get(m).equals(-1)) {
                 newDeck.remove(newDeck.get(m));
             }
-            Collections.shuffle(newDeck);
+
         }
 
         int rand = dch.getRandomNumber(min, max - min) + min;
@@ -123,6 +133,17 @@ public class DeckOfCards {
             printDeck(newDeck);
         }
         compareCards(computersChoice, playersChoice);
+
+        System.out.println("Would you like to play again, enter 1 - for yes or 2 for No:");
+        int playAgain = scanner.nextInt();
+        if (playAgain == 1) {
+            replay = 1;
+            selectCard();
+        } else {
+            replay = 0;
+            printDeck(newDeck);
+        }
+
         return null;
     }
 }
