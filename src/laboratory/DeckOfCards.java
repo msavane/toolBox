@@ -130,6 +130,7 @@ public class DeckOfCards {
 
         int c = 8;
         if (newDeck.size() <= c) {
+            System.out.println("Attention: Only less than 8 cards left");
             printDeck(newDeck);
         }
         compareCards(computersChoice, playersChoice);

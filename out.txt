@@ -1,3 +1,8 @@
+/*
+ * Author: Fla-bola Software Quality Services INC.
+ * [ Test case builder ] output : Feature files
+ */
+
 Feature:calculate
 
 Scenario: I want to compute inputs and give results
@@ -54,4 +59,21 @@ Then RECORD TEAMS START TIME OF A JOB is successful!
  --> deviceID || [ 7 ]
  --> team lead name || [ 23 ]
  --> number of team memebers on job || [ 2 ]
+-----------------------------------------------------
+Feature:play music
+
+Scenario: I want to play selected tune
+
+Given I am pointing to myplaylist.com
+
+When I click on title
+
+ And <locationID : "string">
+ And <getAudio : "wav">
+
+Then PLAY SELECTED TUNE is successful!
+
+ PROPERTIES  ||  MAX CHAR 
+ --> locationID || [ 3 ]
+ --> getAudio || [ 23 ]
 -----------------------------------------------------
