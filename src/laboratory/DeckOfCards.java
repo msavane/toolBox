@@ -4,6 +4,7 @@ import data_factory.DataCreatorHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class DeckOfCards {
@@ -89,6 +90,15 @@ public class DeckOfCards {
         ArrayList newDeck = getNewDeck();
         int min = 1;
         int max = 8;
+
+        for (int m = 0; m< newDeck.size(); m++){
+            Collections.shuffle(newDeck);
+        if (newDeck.get(m).equals(",")){
+            newDeck.remove(newDeck.get(m));
+        }if (newDeck.get(m).equals(-1)){
+                newDeck.remove(newDeck.get(m));
+            }
+        }
 
         int rand = dch.getRandomNumber(min, max - min) + min;
 
