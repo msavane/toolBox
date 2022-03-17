@@ -12,6 +12,7 @@ public class DeckOfCards {
     static DataCreatorHelper dch = new DataCreatorHelper();
     static Scanner scanner = new Scanner(System.in);
     static ArrayList newDeckOfCards = new ArrayList(Arrays.asList(",", -1));
+
     public static void main(String[] args) {
 
 
@@ -80,7 +81,7 @@ public class DeckOfCards {
         int playersSelection = scanner.nextInt();
         if (playersSelection == 1) {
             selectCard();
-        }else{
+        } else {
             printDeck(newDeckOfCards);
         }
     }
@@ -91,13 +92,15 @@ public class DeckOfCards {
         int min = 1;
         int max = 8;
 
-        for (int m = 0; m< newDeck.size(); m++){
-            Collections.shuffle(newDeck);
-        if (newDeck.get(m).equals(",")){
-            newDeck.remove(newDeck.get(m));
-        }if (newDeck.get(m).equals(-1)){
+        for (int m = 0; m < newDeck.size(); m++) {
+
+            if (newDeck.get(m).equals(",") ) {
                 newDeck.remove(newDeck.get(m));
             }
+            if (newDeck.get(m).equals(-1) ) {
+                newDeck.remove(newDeck.get(m));
+            }
+            Collections.shuffle(newDeck);
         }
 
         int rand = dch.getRandomNumber(min, max - min) + min;
@@ -111,12 +114,14 @@ public class DeckOfCards {
         System.out.println("Please enter a number between 1 - 8:");
         int playersSelection = scanner.nextInt();
 
-        System.out.println("you've played " + newDeck.get(playersSelection+=1));
+        System.out.println("you've played " + newDeck.get(playersSelection += 1));
         String playersChoice = (String) newDeck.get(playersSelection);
         newDeck.remove(newDeck.get(playersSelection));
 
-        int c = 51;
-        if (newDeck.size() <= c){printDeck(newDeck);}
+        int c = 2;
+        if (newDeck.size() <= c) {
+            printDeck(newDeck);
+        }
         compareCards(computersChoice, playersChoice);
         return null;
     }
