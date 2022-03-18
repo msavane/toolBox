@@ -77,3 +77,18 @@ Then PLAY SELECTED TUNE is successful!
  --> locationID || [ 3 ]
  --> getAudio || [ 23 ]
 -----------------------------------------------------
+Feature:Stop war in Ukraine
+
+Scenario: I want the World to stop criminals and arrest them
+
+Given I am pointing to stopwar.com
+
+When I mouse over Russia
+
+ And <overthrow gov level settings : "percentage">
+
+Then WORLD STOPS CRIMINALS AND ARREST THEM is successful!
+
+ PROPERTIES  ||  MAX CHAR 
+ --> overthrow gov level settings || [ 3 ]
+-----------------------------------------------------
