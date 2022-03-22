@@ -80,7 +80,9 @@ public class DeckOfCards {
                 foundIt = true;
                 System.out.println(searchMe.substring(0, i + findMeLength));
                 System.out.println("you WIN !! Flabola© EIGHT");
+                printDeck(newDeck);
                 System.exit(0);
+
                 break;
             } else {
                 System.out.println("No match found.");

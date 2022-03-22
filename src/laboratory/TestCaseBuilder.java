@@ -8,6 +8,7 @@ public class TestCaseBuilder {
 
         try {
             TestCaseContract tcc = new TestCaseContract();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
