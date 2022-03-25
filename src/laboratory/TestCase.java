@@ -107,7 +107,7 @@ public class TestCase {
         System.out.println(" And <" + propertyName
                         + " : \"" + propertyValue + "\">");
 
-            FileWriterHelper.FileWriterHelper(" And <" + propertyName
+            FileWriterHelper.FileWriterHelperToTxt(" And <" + propertyName
                     + " : \"" + propertyValue + "\">");
 
             i++;

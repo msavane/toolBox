@@ -2,6 +2,8 @@ package laboratory;
 
 import laboratory.com.laboratory.writeToFile.FileWriterHelper;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -13,7 +15,7 @@ public class TestCaseContract extends TestCase {
     TestCase tc = new TestCase();
     Scanner scanner = new Scanner(System.in);
 
-    public TestCaseContract() throws IOException {
+    public TestCaseContract() throws IOException, ParserConfigurationException, TransformerException {
 
         System.out.println("Please Enter the feature name: ");
 
@@ -75,19 +77,19 @@ public class TestCaseContract extends TestCase {
     }
 
 
-    public String printTestCase() throws IOException {
+    public String printTestCase() throws IOException, ParserConfigurationException, TransformerException {
 
         System.out.println("Feature:" + tc.getName() + "\n");
-        FileWriterHelper.FileWriterHelper("Feature:" + tc.getName() + "\n");
+        FileWriterHelper.FileWriterHelperToTxt("Feature:" + tc.getName() + "\n");
 
         System.out.println("Scenario: I want to " + tc.getTcEventVerb() + "\n");
-        FileWriterHelper.FileWriterHelper("Scenario: I want to " + tc.getTcEventVerb() + "\n");
+        FileWriterHelper.FileWriterHelperToTxt("Scenario: I want to " + tc.getTcEventVerb() + "\n");
 
         System.out.println("Given I am pointing to " + tc.getUserID() + "\n");
-        FileWriterHelper.FileWriterHelper("Given I am pointing to " + tc.getUserID() + "\n");
+        FileWriterHelper.FileWriterHelperToTxt("Given I am pointing to " + tc.getUserID() + "\n");
 
         System.out.println("When I " + tc.getTcEvent() + "\n");
-        FileWriterHelper.FileWriterHelper("When I " + tc.getTcEvent() + "\n");
+        FileWriterHelper.FileWriterHelperToTxt("When I " + tc.getTcEvent() + "\n");
 
         if (tcProperties.isEmpty()) {
             System.out.println("The payload is empty, please insert property");
@@ -97,10 +99,10 @@ public class TestCaseContract extends TestCase {
 
             printDtoSummary(tcProperties);
             System.out.println("\n" + "Then " + tc.getTcEventVerb().toUpperCase() + " is successful!" + "\n");
-            FileWriterHelper.FileWriterHelper("\n" + "Then " + tc.getTcEventVerb().toUpperCase() + " is successful!" + "\n");
+            FileWriterHelper.FileWriterHelperToTxt("\n" + "Then " + tc.getTcEventVerb().toUpperCase() + " is successful!" + "\n");
 
 //            FileWriterHelper.FileWriterHelper("-----------------------------------------------------");
-            FileWriterHelper.FileWriterHelper(" PROPERTIES " + " || " + " MAX CHAR ");
+            FileWriterHelper.FileWriterHelperToTxt(" PROPERTIES " + " || " + " MAX CHAR ");
 
             TestCasePropertiesAttributes();
 
@@ -109,20 +111,23 @@ public class TestCaseContract extends TestCase {
         return null;
     }
 
-    public void TestCasePropertiesAttributes() throws IOException {
+    public void TestCasePropertiesAttributes() throws IOException, ParserConfigurationException, TransformerException {
 
         System.out.println("The " + tc.getName() + " test case has properties: ");
         //System.out.println("\n" + tc.getPropertyName()+ "\n");
+        String nomDePropriete = null;
+        String valeurDePropriete = null;
         for (int i = 0; i < tcProperties.size() - 1; i++) {
-            String nomDePropriete = tcProperties.get(i);
+            nomDePropriete = tcProperties.get(i);
+            valeurDePropriete = tcProperties.get(i+1);
             System.out.println("Please Enter max char allowed for: " + tcProperties.get(i));
             String tcSetNumOfChar = scanner.nextLine();
             tc.setNumOfChar(Integer.parseInt(tcSetNumOfChar));
-            FileWriterHelper.FileWriterHelper(" --> " + nomDePropriete + " || [ " + tc.getNumOfChar() + " ]");
+            FileWriterHelper.FileWriterHelperToTxt(" --> " + nomDePropriete + " || [ " + tc.getNumOfChar() + " ]");
             i++;
         }
-        FileWriterHelper.FileWriterHelper("-----------------------------------------------------");
-
+        FileWriterHelper.FileWriterHelperToTxt("-----------------------------------------------------");
+        FileWriterHelper.FileWriterHelperToXml(tc.getTcEventVerb(),nomDePropriete,valeurDePropriete, tcProperties);
     }
 
 

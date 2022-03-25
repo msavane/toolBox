@@ -92,28 +92,23 @@ Then WORLD STOPS CRIMINALS AND ARREST THEM is successful!
  PROPERTIES  ||  MAX CHAR 
  --> overthrow gov level settings || [ 3 ]
 -----------------------------------------------------
-Feature:buy stocks
 
-Scenario: I want to buy stock at desired price
+Feature:Turn TC into xml
 
-Given I am pointing to mylookoutforinvestmentopp.com
+Scenario: I want to build test case xml
 
-When I click on set
+Given I am pointing to mytestcases.com
 
- And <reqID : "int">
- And <desiredActivedate : "dateTime">
- And <desiredStopdate : "dateTime">
- And <maxAmountAllowedForBuying : "double">
- And <maxQTY : "int">
- And <userID : "string">
+When I click on build
 
-Then BUY STOCK AT DESIRED PRICE is successful!
+ And <property one : "double">
+ And <property two : "string">
+ And <property three : "int">
+
+Then BUILD TEST CASE XML is successful!
 
  PROPERTIES  ||  MAX CHAR 
- --> reqID || [ 5 ]
- --> desiredActivedate || [ 23 ]
- --> desiredStopdate || [ 23 ]
- --> maxAmountAllowedForBuying || [ 6 ]
- --> maxQTY || [ 2 ]
- --> userID || [ 23 ]
+ --> property one || [ 5 ]
+ --> property two || [ 5 ]
+ --> property three || [ 5 ]
 -----------------------------------------------------

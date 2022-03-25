@@ -1,19 +1,15 @@
 package laboratory;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.io.IOException;
 
 public class TestCaseBuilder {
 
-    public static void main(String [] args){
+    public static void main(String[] args) throws IOException, ParserConfigurationException, TransformerException {
 
-        try {
-            TestCaseContract tcc = new TestCaseContract();
+        TestCaseContract tcc = new TestCaseContract();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
     }
-
-
 }
