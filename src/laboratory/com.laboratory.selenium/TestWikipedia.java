@@ -20,7 +20,7 @@ public class TestWikipedia {
         searchbox = driver.findElement(By.id("searchInput"));
         searchbox.sendKeys("software");
          Thread.sleep(5000);
-         //driver.quit();
+         driver.quit();
 
     }
 
