@@ -93,3 +93,60 @@ Then WORLD STOPS CRIMINALS AND ARREST THEM is successful!
  --> overthrow gov level settings || [ 3 ]
 -----------------------------------------------------
 
+Feature:direct calls to agent
+
+Scenario: I want to call specified agent
+
+Given I am pointing to dialer.com
+
+When I set status to available
+
+ And <agentID : "int">
+ And <callID : "int">
+ And <policyID : "double">
+
+Then CALL SPECIFIED AGENT is successful!
+
+ PROPERTIES  ||  MAX CHAR 
+ --> agentID || [ 5 ]
+ --> callID || [ 5 ]
+ --> policyID || [ 5 ]
+-----------------------------------------------------
+Feature:test api
+
+Scenario: I want to test the entire api
+
+Given I am pointing to testapi.com
+
+When I click test
+
+ And <property one : "string">
+ And <property two : "int">
+ And <property three : "double">
+
+Then TEST THE ENTIRE API is successful!
+
+ PROPERTIES  ||  MAX CHAR 
+ --> property one || [ 5 ]
+ --> property two || [ 5 ]
+ --> property three || [ 5 ]
+-----------------------------------------------------
+Feature:make xml pretty
+
+Scenario: I want to indent xml
+
+Given I am pointing to morysavane.com
+
+When I click build test case
+
+ And <property one : "string">
+ And <proterty two : "double">
+ And <property three : "int">
+
+Then INDENT XML is successful!
+
+ PROPERTIES  ||  MAX CHAR 
+ --> property one || [ 5 ]
+ --> proterty two || [ 5 ]
+ --> property three || [ 5 ]
+-----------------------------------------------------
