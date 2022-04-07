@@ -75,8 +75,10 @@ i++;
             //transform the DOM Object to an XML File
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
+            // make xml pretty, indent
             transformer.setOutputProperty(OutputKeys.INDENT,"yes");
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+
             DOMSource domSource = new DOMSource(document);
             String xmlFilePath = ("xmlfile.xml");
             StreamResult streamResult = new StreamResult(new File(xmlFilePath));
