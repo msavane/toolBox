@@ -115,7 +115,7 @@ public class DeckOfCards {
 
         }
 
-        int rand = dch.getRandomNumber(min, max - min) + min;
+        int rand = DataCreatorHelper.getRandomNumber(min, max - min) + min;
 
         System.out.println("random selection: " + rand);
 

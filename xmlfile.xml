@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <feature>
-  <scenario id="indent xml">
-    <propertyone>string</propertyone>
-    <protertytwo>double</protertytwo>
-    <propertythree>int</propertythree>
+  <scenario id="fetch folio consecutif">
+    <debut>int</debut>
+    <end>int</end>
   </scenario>
 </feature>

@@ -14,6 +14,8 @@ public class TrafficController {
     @BeforeMethod
     public void setupApplication(){
 
+        System.setProperty("webdriver.chrome.driver","/Users/morysavane/Workspace/toolBox/chromedriver");
+
         Reporter.log("=====Browser Session Started=====",true);
         driver   = new ChromeDriver();
         driver.manage().window().fullscreen();

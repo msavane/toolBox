@@ -150,3 +150,20 @@ Then INDENT XML is successful!
  --> proterty two || [ 5 ]
  --> property three || [ 5 ]
 -----------------------------------------------------
+Feature:attribfolio1
+
+Scenario: I want to fetch folio consecutif
+
+Given I am pointing to url.com
+
+When I click reserver
+
+ And <debut : "int">
+ And <end : "int">
+
+Then FETCH FOLIO CONSECUTIF is successful!
+
+ PROPERTIES  ||  MAX CHAR 
+ --> debut || [ 3 ]
+ --> end || [ 3 ]
+-----------------------------------------------------

@@ -52,8 +52,8 @@ public class UserInfo {
 
         switch (typeOfName) {
             case "full":
-                firstName = dch.getRandomCharacters(numOfChar);
-                lastName = dch.getRandomCharacters(numOfChar);
+                firstName = DataCreatorHelper.getRandomCharacters(numOfChar);
+                lastName = DataCreatorHelper.getRandomCharacters(numOfChar);
                 name = (firstName + " " + lastName);
                 break;
             case "first":
