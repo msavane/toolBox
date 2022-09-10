@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <feature>
-  <scenario id="fetch folio consecutif">
-    <debut>int</debut>
-    <end>int</end>
+  <scenario id="generate xml, json">
+    <date>ddmmyy</date>
+    <seqid>int</seqid>
+    <xmlfile>.xml</xmlfile>
   </scenario>
 </feature>
