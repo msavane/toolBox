@@ -41,7 +41,7 @@ public class RSSReader {
 
 
 
-                dto.add(temp+ "\n");
+                dto.add(temp);
             }
 
         }
