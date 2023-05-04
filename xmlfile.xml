@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <feature>
-  <scenario id="generate xml, json">
-    <date>ddmmyy</date>
-    <seqid>int</seqid>
-    <xmlfile>.xml</xmlfile>
+  <scenario id="give sum of two nubers">
+    <input1>integer</input1>
+    <input2>integer</input2>
   </scenario>
 </feature>

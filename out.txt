@@ -167,3 +167,20 @@ Then FETCH FOLIO CONSECUTIF is successful!
  --> debut || [ 3 ]
  --> end || [ 3 ]
 -----------------------------------------------------
+Feature:addition button
+
+Scenario: I want to give sum of two nubers
+
+Given I am pointing to calcul.com
+
+When I click on button +
+
+ And <input 1 : "integer">
+ And <input 2 : "integer">
+
+Then GIVE SUM OF TWO NUBERS is successful!
+
+ PROPERTIES  ||  MAX CHAR 
+ --> input 1 || [ 8 ]
+ --> input 2 || [ 7 ]
+-----------------------------------------------------
