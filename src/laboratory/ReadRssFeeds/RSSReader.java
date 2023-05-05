@@ -23,6 +23,40 @@ public class RSSReader {
 
     }
 
+    public static String readRSS(String urlAddress, String tagPref, String tagSuff) throws IOException {
+        URL rssUrl = new URL(urlAddress);
+        BufferedReader in = new BufferedReader(new InputStreamReader(rssUrl.openStream()));
+        String sourceCode = "";
+        String line;
+        while ((line = in.readLine()) != null) {
+            if (line.contains(tagPref)) {
+                int firstPos = line.indexOf(tagPref);
+                String temp = line.substring(firstPos);
+                temp = temp.replace(tagPref, "");
+                int lastPos = temp.indexOf(tagSuff);
+                temp = temp.substring(0, lastPos);
+                temp = temp.replace("<![CDATA[", " + ");
+                temp = temp.replace("]]>", " ");
+                sourceCode += temp + "\n";
+
+                dto.add(temp);
+            }
+            if (line.contains("<link>")) {
+                int firstPos = line.indexOf("<link>");
+                String temp = line.substring(firstPos);
+                temp = temp.replace("<link>", "");
+                int lastPos = temp.indexOf("</link>");
+                temp = temp.substring(0, lastPos);
+                sourceCode += temp + "\n";
+
+                dto.add(temp);
+            }
+
+        }
+        in.close();
+        return sourceCode;
+    }
+
     public static String FeedDtoSummary(ArrayList<String> dto) {
 
         ArrayList<String> dtoNameOfProperty = new ArrayList<>();
@@ -57,37 +91,4 @@ public class RSSReader {
 
     }
 
-    public static String readRSS(String urlAddress, String tagPref, String tagSuff) throws IOException {
-        URL rssUrl = new URL(urlAddress);
-        BufferedReader in = new BufferedReader(new InputStreamReader(rssUrl.openStream()));
-        String sourceCode = "";
-        String line;
-        while ((line = in.readLine()) != null) {
-            if (line.contains(tagPref)) {
-                int firstPos = line.indexOf(tagPref);
-                String temp = line.substring(firstPos);
-                temp = temp.replace(tagPref, "");
-                int lastPos = temp.indexOf(tagSuff);
-                temp = temp.substring(0, lastPos);
-                temp = temp.replace("<![CDATA[", " + ");
-                temp = temp.replace("]]>", " ");
-                sourceCode += temp + "\n";
-
-                dto.add(temp);
-            }
-            if (line.contains("<link>")) {
-                int firstPos = line.indexOf("<link>");
-                String temp = line.substring(firstPos);
-                temp = temp.replace("<link>", "");
-                int lastPos = temp.indexOf("</link>");
-                temp = temp.substring(0, lastPos);
-                sourceCode += temp + "\n";
-
-                dto.add(temp);
-            }
-
-        }
-        in.close();
-        return sourceCode;
-    }
 }
