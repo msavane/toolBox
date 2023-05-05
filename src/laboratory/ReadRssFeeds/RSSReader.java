@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
-
-import static data_factory.UserInfo.DtoSummary;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RSSReader {
     static ArrayList<String> dto;
@@ -15,11 +15,45 @@ public class RSSReader {
 
         dto = new ArrayList<String>();
 
-        //dto.add(readRSS("https://www.cbc.ca/cmlink/rss-canada", "<title>", "</title>"));
+       // dto.add(readRSS("https://www.cbc.ca/cmlink/rss-canada", "<title>", "</title>"));
         //dto.add(readRSS("https://www.cbc.ca/cmlink/rss-canada", "<link>", "</link>"));
         readRSS("https://www.cbc.ca/cmlink/rss-canada", "<title>", "</title>");
         //readRSS("https://www.cbc.ca/cmlink/rss-canada", "<link>", "</link>");
-        DtoSummary(dto);
+        FeedDtoSummary(dto);
+
+    }
+
+    public static String FeedDtoSummary(ArrayList<String> dto) {
+
+        ArrayList<String> dtoNameOfProperty = new ArrayList<>();
+        ArrayList<String> dtoValueOfProperty = new ArrayList<>();
+
+        Map<String, String> dtoProperties = new HashMap();
+
+        String propertyName = null;
+        String propertyValue = null;
+
+        System.out.println("Include properties in request:");
+        System.out.println("-----------------------------------------------------");
+
+        int i;
+        for (i = 0; i < dto.size() ;i++) {
+
+            propertyName = dto.get(i);
+            propertyValue = dto.get(i+1);
+
+            //System.out.println(i+ propertyName + "\n"  +(i+1)+ propertyValue);
+            System.out.println(propertyName + "\n"  +"  --> " + propertyValue);
+
+
+            //System.out.println( i+ propertyValue + "\n");
+            i++;
+        }
+
+
+        System.out.println("-----------------------------------------------------");
+
+        return null;
 
     }
 
@@ -39,7 +73,15 @@ public class RSSReader {
                 temp = temp.replace("]]>", " ");
                 sourceCode += temp + "\n";
 
-
+                dto.add(temp);
+            }
+            if (line.contains("<link>")) {
+                int firstPos = line.indexOf("<link>");
+                String temp = line.substring(firstPos);
+                temp = temp.replace("<link>", "");
+                int lastPos = temp.indexOf("</link>");
+                temp = temp.substring(0, lastPos);
+                sourceCode += temp + "\n";
 
                 dto.add(temp);
             }

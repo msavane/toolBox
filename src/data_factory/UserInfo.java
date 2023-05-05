@@ -21,25 +21,25 @@ public class UserInfo {
         String myName = getName("full", 4);
         System.out.println("New name is: " + myName);
         String myDate = getCustomDate("dd-mm-yyyy");
-        System.out.println("New date is: "+ myDate);
+        System.out.println("New date is: " + myDate);
         String myEmailAddress = getEmail();
-        System.out.println("New email is: "+ myEmailAddress);
-        String myDateOfBirth = getDateOfBirth(21,"/");
-        System.out.println("New DOB is: "+ myDateOfBirth);
+        System.out.println("New email is: " + myEmailAddress);
+        String myDateOfBirth = getDateOfBirth(21, "/");
+        System.out.println("New DOB is: " + myDateOfBirth);
 
         ArrayList<String> dto = new ArrayList<String>();
         dto.add("Russia");
         dto.add("Moscow");
         dto.add("Germany");
         dto.add("Berlin");
-        dto.add ("England");
+        dto.add("England");
         dto.add("London");
         dto.add("France");
         dto.add("Paris");
         dto.add("Italy");
         dto.add("Rome");
 
-        DtoSummary (dto);
+        DtoSummary(dto);
 
 
     }
@@ -134,7 +134,7 @@ public class UserInfo {
         return dateOfBirthDay + typeOfSeparator + dateOfBirthMonth + typeOfSeparator + dob;
     }
 
-    public static String  DtoSummary(ArrayList<String> dto) {
+    public static String DtoSummary(ArrayList<String> dto) {
 
         ArrayList<String> dtoNameOfProperty = new ArrayList<>();
         ArrayList<String> dtoValueOfProperty = new ArrayList<>();
@@ -148,15 +148,15 @@ public class UserInfo {
         System.out.println("-----------------------------------------------------");
 
         int i;
-        for (i = 0; i < dto.size()-1 ; i++) {
+        for (i = 0; i < dto.size() -1 ;i++) {
 
             propertyName = dto.get(i);
-            propertyValue = dto.get(i +1);
+            propertyValue = dto.get(i+1);
 
 
             System.out.println(i + " AND --> [" + propertyName
                     + " : " + propertyValue + "]");
-i++;
+            i++;
 
         }
 
