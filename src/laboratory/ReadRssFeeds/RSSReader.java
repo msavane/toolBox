@@ -67,7 +67,7 @@ public class RSSReader {
         String propertyName = null;
         String propertyValue = null;
 
-        System.out.println("Include properties in request:");
+        System.out.println("RSS Feed results:");
         System.out.println("-----------------------------------------------------");
 
         int i;
@@ -79,11 +79,9 @@ public class RSSReader {
             //System.out.println(i+ propertyName + "\n"  +(i+1)+ propertyValue);
             System.out.println(propertyName + "\n"  +"  --> " + propertyValue);
 
-
             //System.out.println( i+ propertyValue + "\n");
             i++;
         }
-
 
         System.out.println("-----------------------------------------------------");
 
