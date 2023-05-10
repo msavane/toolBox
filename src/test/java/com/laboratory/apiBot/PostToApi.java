@@ -44,8 +44,4 @@ public class PostToApi {
     System.out.println("Response to POST: "+postResponse.body());
         return null;
     }
-
-
-
-
 }
