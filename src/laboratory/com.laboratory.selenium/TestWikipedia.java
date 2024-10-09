@@ -1,6 +1,5 @@
 package laboratory.com.laboratory.selenium;
 
-
 public class TestWikipedia {
 
     public static void main(String[]args) throws InterruptedException{
@@ -14,8 +13,8 @@ public class TestWikipedia {
         searchbox = driver.findElement(By.id("searchInput"));
         searchBox.sendKeys("software");
          Thread.sleep(5000);
-         driver.quit();
-        */
+         driver.quit();*/
+
     }
 
 

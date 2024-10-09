@@ -11,5 +11,9 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="io.cucumber.java" level="project" />
     <orderEntry type="library" name="testng" level="project" />
+    <orderEntry type="library" name="google.code.gson" level="project" />
+    <orderEntry type="library" name="eduworks.json.ld" level="project" />
+    <orderEntry type="library" name="eduworks.json.ld1" level="project" />
+    <orderEntry type="library" name="guicedee.services.javax.servlet.api" level="project" />
   </component>
 </module>

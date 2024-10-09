@@ -113,7 +113,7 @@ public class TestCase {
         i++;
             }
         // System.out.println("-----------------------------------------------------");
-
+        System.out.println();
         return propertyName;
     }
     }

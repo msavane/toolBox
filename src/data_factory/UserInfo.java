@@ -2,11 +2,9 @@ package data_factory;
 
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class UserInfo {
     /* Type of user data expected in this class are:
@@ -16,7 +14,7 @@ public class UserInfo {
      * getEmailAddress: returns random Email address
      * printDtoSummary: takes a long string that is separated by commas and returns a list
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
 
         String myName = getName("full", 4);
         System.out.println("New name is: " + myName);
@@ -69,7 +67,7 @@ public class UserInfo {
         return name;
     }
 
-    private static String getCustomDate(String typeOfDate) {
+    public static String getCustomDate(String typeOfDate) throws ParseException {
         /*
          * Other patterns: dd/MM/yy HH:mm:ss
          *                 dd/MM/yyy
@@ -102,9 +100,12 @@ public class UserInfo {
             case "dd-mm-yyyy":
                 df = new SimpleDateFormat("dd-mm-yyyy");
                 break;
+            case "HH:mm:ss":
+                df = new SimpleDateFormat("HH:mm:ss");
             default:
+                //df.parse(typeOfDate);
                 new SimpleDateFormat("dd/MM/yyyy");
-                //System.out.println(df.format(calobj.getTime()));
+
         }
 
         Calendar calobj = Calendar.getInstance();
@@ -122,7 +123,7 @@ public class UserInfo {
         return (userName + domain).toLowerCase();
     }
 
-    private static String getDateOfBirth(int age, String typeOfSeparator) {
+    private static String getDateOfBirth(int age, String typeOfSeparator) throws ParseException {
         DateFormat day = new SimpleDateFormat("dd");
         DateFormat month = new SimpleDateFormat("MM");
         int currentYear = Integer.parseInt(getCustomDate("yyyy"));

@@ -22,7 +22,7 @@ public class StartEndJob extends MovingAppBaseClass {
 
 
 
-    public static void computeToatal(double manPower, String driverID, double hrlyRate, String time) throws InterruptedException, ParseException {
+    public static void computeTotal(double manPower, String driverID, double hrlyRate, String time) throws InterruptedException, ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
         Date startTime = dateFormat.parse(time);

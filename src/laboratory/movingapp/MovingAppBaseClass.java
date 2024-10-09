@@ -50,7 +50,7 @@ public class MovingAppBaseClass {
         manPower = Double.parseDouble(scanner.nextLine());
         double hrlyRate = 170;
         System.out.println("================================");
-        StartEndJob.computeToatal(manPower, driverID, hrlyRate, time);
+        StartEndJob.computeTotal(manPower, driverID, hrlyRate, time);
         System.out.println();
        return booking.bookMoving(driverID, deviceID, manPower, booking.movingDate, destination,clientsName,clientsMobile);
 
