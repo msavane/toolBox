@@ -1,0 +1,28 @@
+<component name="libraryTable">
+  <library name="springframework.boot.spring" type="repository">
+    <properties maven-id="org.springframework.boot:spring-boot:3.2.12" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/spring-boot-3.2.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-core-6.1.15.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-jcl-6.1.15.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-context-6.1.15.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-aop-6.1.15.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-beans-6.1.15.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-expression-6.1.15.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/micrometer-observation-1.12.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/micrometer-commons-1.12.12.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/spring-boot-3.2.12-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-core-6.1.15-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-jcl-6.1.15-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-context-6.1.15-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-aop-6.1.15-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-beans-6.1.15-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-expression-6.1.15-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/micrometer-observation-1.12.12-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/micrometer-commons-1.12.12-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
