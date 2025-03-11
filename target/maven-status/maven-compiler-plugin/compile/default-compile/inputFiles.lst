@@ -4,6 +4,8 @@
 /Users/morysavane/IdeaProjects/toolBox/src/main/java/laborartory/fsqsWholeSale/data/OrderController.java
 /Users/morysavane/IdeaProjects/toolBox/src/main/java/laborartory/fsqsWholeSale/application/AgriEcommerceApplication.java
 /Users/morysavane/IdeaProjects/toolBox/src/main/java/laborartory/fsqsWholeSale/data/Product.java
+/Users/morysavane/IdeaProjects/toolBox/src/main/java/laborartory/fsqsWholeSale/data/HomeController.java
+/Users/morysavane/IdeaProjects/toolBox/src/main/java/laborartory/fsqsWholeSale/infrastructure/DataSourceConfig.java
 /Users/morysavane/IdeaProjects/toolBox/src/main/java/laborartory/fsqsWholeSale/data/OrderRepository.java
 /Users/morysavane/IdeaProjects/toolBox/src/main/java/laborartory/fsqsWholeSale/presentation/BoroBasket.java
 /Users/morysavane/IdeaProjects/toolBox/src/main/java/laborartory/fsqsWholeSale/integration/WariPaymentMethods.java

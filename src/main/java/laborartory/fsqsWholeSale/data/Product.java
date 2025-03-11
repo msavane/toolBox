@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 @Entity
 @Table(name = "products")
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,6 +22,14 @@ public class Product {
 
     @Min(0)
     private int stock;
+
+    // Constructor without the 'id' field as it will be auto-generated
+    public Product(String name, String description, double price, int stock) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stock = stock;
+    }
 
     // Getters and Setters
     public Long getId() { return id; }
