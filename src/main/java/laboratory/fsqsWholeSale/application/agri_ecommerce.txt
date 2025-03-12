@@ -1,0 +1,32 @@
+CREATE DATABASE AgriEcommerceDB;
+USE AgriEcommerceDB;
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'new_password';
+FLUSH PRIVILEGES;
+
+CREATE USER 'agri_user'@'localhost' IDENTIFIED BY 'securepassword';
+GRANT ALL PRIVILEGES ON AgriEcommerceDB.* TO 'agri_user'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+SHOW DATABASES;
+USE AgriEcommerceDB;
+
+CREATE TABLE products (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    price DECIMAL(10,2) CHECK (price >= 0),
+    stock INT CHECK (stock >= 0)
+);
+
+SHOW TABLES;
+DESCRIBE products;
+
+INSERT INTO products (name, description, price, stock) VALUES
+('Tomato', 'Fresh tomato', 1.99, 100),
+('Potato', 'Fresh potato', 0.99, 200),
+('Carrot', 'Fresh carrot', 1.49, 150),
+('Cabbage', 'Fresh cabbage', 1.29, 120),
+('Onion', 'Fresh onion', 0.79, 180);
+
+SELECT * FROM products;
