@@ -7,8 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    Optional<Product> findById(Long id);
-    Page<Product> findAll(Pageable pageable);  // ✅ Add support for pagination
+    Optional<Product> findById(Long id);  // Fetch product by ID
+    Page<Product> findAll(Pageable pageable);  // Fetch paginated products
 }

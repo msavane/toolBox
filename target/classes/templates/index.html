@@ -62,13 +62,18 @@
 
 <!-- Pagination -->
 <div class="mt-6 flex justify-center gap-3">
-    <a th:href="@{/products?page=1}" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition" th:if="${currentPage > 1}">
+    <a th:href="@{|/products?page=${currentPage - 1}|}"
+       class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
+       th:if="${currentPage > 1}">
         Previous
     </a>
 
-    <span class="px-4 py-2 bg-purple-700 text-white rounded-lg shadow-md" th:text="'Page ' + ${currentPage}"></span>
+    <span class="px-4 py-2 bg-purple-700 text-white rounded-lg shadow-md"
+          th:text="'Page ' + ${currentPage} + ' of ' + ${totalPages}"></span>
 
-    <a th:href="@{/products?page={next}(next=${currentPage + 1})}" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition" th:if="${hasNextPage}">
+    <a th:href="@{|/products?page=${currentPage + 1}|}"
+       class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
+       th:if="${currentPage < totalPages}">
         Next
     </a>
 </div>

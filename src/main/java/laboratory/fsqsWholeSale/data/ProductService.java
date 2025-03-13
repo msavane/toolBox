@@ -14,15 +14,16 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    // Method to get paginated products based on page and size
     @Transactional
-    public List<Product> getAllProducts(int page) {
-        List<Product> products = productRepository.findAll(PageRequest.of(page,5)).getContent(); // Extract content from Page
+    public List<Product> getAllProducts(int page, int size) {
+        // Fetch paginated products using PageRequest
+        List<Product> products = productRepository.findAll(PageRequest.of(page, size)).getContent();
         if (products.isEmpty()) {
             System.out.println("No products found in the database.");
         }
         return products;
     }
-
     public Page<Product> getPaginatedProducts(int page, int size) {
         return productRepository.findAll(PageRequest.of(page - 1, size));
     }

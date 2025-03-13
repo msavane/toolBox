@@ -15,10 +15,9 @@ public class HomeController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/")
-    public String home(@RequestParam(defaultValue = "1") int page, Model model) {
-        int pageSize = 10; // Display 10 products per page
-
+    @GetMapping("/")  // Default home page
+    public String home(@RequestParam(defaultValue = "1") int page,
+                       @RequestParam(defaultValue = "5") int pageSize, Model model) {
         try {
             // Fetch paginated products from ProductService
             Page<Product> productPage = productService.getPaginatedProducts(page, pageSize);
@@ -26,6 +25,33 @@ public class HomeController {
             // Add attributes to the model
             model.addAttribute("products", productPage.getContent()); // Current page products
             model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", productPage.getTotalPages()); // Total pages for pagination control
+            model.addAttribute("hasNextPage", productPage.hasNext());
+            model.addAttribute("hasPreviousPage", productPage.hasPrevious()); // Add previous page support
+            model.addAttribute("loading", false);
+            model.addAttribute("error", null);
+        } catch (Exception e) {
+            // Handle errors
+            model.addAttribute("error", "Failed to load products.");
+            model.addAttribute("loading", false);
+            model.addAttribute("products", null);
+        }
+
+        return "index"; // Load index.html (Thymeleaf)
+    }
+
+    // This method should handle the /products URL as well
+    @GetMapping("/products")  // Products page for pagination
+    public String products(@RequestParam(defaultValue = "1") int page,
+                           @RequestParam(defaultValue = "5") int pageSize, Model model) {
+        try {
+            // Fetch paginated products from ProductService
+            Page<Product> productPage = productService.getPaginatedProducts(page, pageSize);
+
+            // Add attributes to the model
+            model.addAttribute("products", productPage.getContent()); // Current page products
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", productPage.getTotalPages()); // Total pages for pagination control
             model.addAttribute("hasNextPage", productPage.hasNext());
             model.addAttribute("hasPreviousPage", productPage.hasPrevious()); // Add previous page support
             model.addAttribute("loading", false);
