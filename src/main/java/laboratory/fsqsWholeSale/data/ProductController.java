@@ -13,12 +13,14 @@ class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private RssService rssService;
 
     // Get paginated products with dynamic page and size parameters
     @GetMapping
     public Page<Product> getAllProducts(@RequestParam(defaultValue = "0") int page,
                                         @RequestParam(defaultValue = "5") int size) {
-        return productService.getPaginatedProducts(page, size);  // Using page and size for pagination
+        return productService.getPaginatedProducts(page, size);
     }
 
     @GetMapping("/{id}")
@@ -34,5 +36,11 @@ class ProductController {
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
+    }
+
+    // Fetch latest RSS news
+    @GetMapping("/news")
+    public List<String> getNewsFeed() {
+        return rssService.fetchRssFeed();
     }
 }

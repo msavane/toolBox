@@ -15,9 +15,24 @@ public class HomeController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/")  // Default home page
+    @Autowired
+    private RssService rssService;
+
+    // Default home page and products page combined
+    @GetMapping("/")
     public String home(@RequestParam(defaultValue = "1") int page,
                        @RequestParam(defaultValue = "5") int pageSize, Model model) {
+        return getProductsPage(page, pageSize, model);
+    }
+
+    // Handle /products page, pagination included
+    @GetMapping("/products")
+    public String productsPage(@RequestParam(defaultValue = "1") int page,
+                               @RequestParam(defaultValue = "5") int pageSize, Model model) {
+        return getProductsPage(page, pageSize, model);
+    }
+
+    private String getProductsPage(int page, int pageSize, Model model) {
         try {
             // Fetch paginated products from ProductService
             Page<Product> productPage = productService.getPaginatedProducts(page, pageSize);
@@ -28,50 +43,30 @@ public class HomeController {
             model.addAttribute("totalPages", productPage.getTotalPages()); // Total pages for pagination control
             model.addAttribute("hasNextPage", productPage.hasNext());
             model.addAttribute("hasPreviousPage", productPage.hasPrevious()); // Add previous page support
+
+            // Fetch and add RSS feeds to the model
+            model.addAttribute("rssFeeds", rssService.fetchRssFeed());
+
             model.addAttribute("loading", false);
             model.addAttribute("error", null);
         } catch (Exception e) {
             // Handle errors
-            model.addAttribute("error", "Failed to load products.");
+            model.addAttribute("error", "Failed to load products or RSS feeds.");
             model.addAttribute("loading", false);
             model.addAttribute("products", null);
         }
 
-        return "index"; // Load index.html (Thymeleaf)
+        return "index"; // Return the view (index.html for Thymeleaf)
     }
 
-    // This method should handle the /products URL as well
-    @GetMapping("/products")  // Products page for pagination
-    public String products(@RequestParam(defaultValue = "1") int page,
-                           @RequestParam(defaultValue = "5") int pageSize, Model model) {
-        try {
-            // Fetch paginated products from ProductService
-            Page<Product> productPage = productService.getPaginatedProducts(page, pageSize);
-
-            // Add attributes to the model
-            model.addAttribute("products", productPage.getContent()); // Current page products
-            model.addAttribute("currentPage", page);
-            model.addAttribute("totalPages", productPage.getTotalPages()); // Total pages for pagination control
-            model.addAttribute("hasNextPage", productPage.hasNext());
-            model.addAttribute("hasPreviousPage", productPage.hasPrevious()); // Add previous page support
-            model.addAttribute("loading", false);
-            model.addAttribute("error", null);
-        } catch (Exception e) {
-            // Handle errors
-            model.addAttribute("error", "Failed to load products.");
-            model.addAttribute("loading", false);
-            model.addAttribute("products", null);
-        }
-
-        return "index"; // Load index.html (Thymeleaf)
-    }
-
+    // Display add product form
     @GetMapping("/add-product")
     public String showAddProductForm(Model model) {
         model.addAttribute("product", new Product()); // Provide an empty Product object for the form
         return "add-product";
     }
 
+    // Handle the add product form submission
     @PostMapping("/add-product")
     public String addProduct(@ModelAttribute Product product, Model model) {
         try {

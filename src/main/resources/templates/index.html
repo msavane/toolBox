@@ -17,48 +17,68 @@
 
 <h1 class="text-4xl font-bold text-center text-white mb-6">Agri E-commerce</h1>
 
-<!-- Add Product Button -->
+<div class="random-space"></div>
+
+<!-- Add Product Button
 <div class="text-center mb-6">
     <a th:href="@{/add-product}" class="bg-purple-700 text-white font-bold px-6 py-3 rounded-lg shadow-lg hover:bg-purple-800 transition">
         Add a Product
     </a>
+</div>-->
+<div class="text-center mb-6">
+    <p>
+       <i>"Digital agricultural platforms are not just transforming farming, they’re changing the lives of millions of smallholder farmers." – Elizabeth Berthe, Agricultural Expert.</i>
+    </p>
 </div>
-
 <!-- Loading/Error Messages -->
 <p class="text-center text-white" th:if="${loading != null and loading}">Loading products...</p>
 <p class="text-center text-red-500" th:if="${error}" th:text="${error}"></p>
 
-<!-- Products Table -->
-<div class="w-full max-w-5xl bg-white shadow-xl rounded-2xl p-6 overflow-x-auto">
-    <table class="w-full border-collapse">
-        <thead>
-        <tr class="bg-purple-700 text-white">
-            <th class="p-3 text-left">Product Name</th>
-            <th class="p-3 text-left">Description</th>
-            <th class="p-3 text-left">Price</th>
-            <th class="p-3 text-left">Stock</th>
-            <th class="p-3 text-center">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="product : ${products}" class="border-b hover:bg-gray-100 transition">
-            <td class="p-3 font-semibold text-purple-700" th:text="${product.name}"></td>
-            <td class="p-3 text-gray-600" th:text="${product.description}"></td>
-            <td class="p-3 text-yellow-500 font-bold text-lg" th:text="'$' + ${#numbers.formatDecimal(product.price, 1, 2)}"></td>
-            <td class="p-3 text-gray-600 font-semibold" th:text="${product.stock}"></td>
-            <td class="p-3 flex justify-center">
-                <!-- Add to Cart Form -->
-                <form th:action="@{/add-to-cart}" method="post">
-                    <input type="hidden" name="productId" th:value="${product.id}" />
-                    <button type="submit" class="bg-purple-700 text-white font-bold px-4 py-2 rounded-lg shadow-md hover:bg-purple-800 transition">
-                        Add to Cart
-                    </button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<!-- Content Wrapper: Table & News Feed Side by Side -->
+<div class="w-full max-w-7xl flex flex-wrap md:flex-nowrap gap-6 mt-6">
+
+    <!-- Products Table -->
+    <div class="flex-1 bg-white shadow-xl rounded-2xl p-6 overflow-x-auto">
+        <table class="w-full border-collapse">
+            <thead>
+            <tr class="bg-purple-700 text-white">
+                <th class="p-3 text-left">Product Name</th>
+                <th class="p-3 text-left">Description</th>
+                <th class="p-3 text-left">Price</th>
+                <th class="p-3 text-left">Stock</th>
+                <th class="p-3 text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${products}" class="border-b hover:bg-gray-100 transition">
+                <td class="p-3 font-semibold text-purple-700" th:text="${product.name}"></td>
+                <td class="p-3 text-gray-600" th:text="${product.description}"></td>
+                <td class="p-3 text-yellow-500 font-bold text-lg" th:text="'$' + ${#numbers.formatDecimal(product.price, 1, 2)}"></td>
+                <td class="p-3 text-gray-600 font-semibold" th:text="${product.stock}"></td>
+                <td class="p-3 flex justify-center">
+                    <form th:action="@{/add-to-cart}" method="post">
+                        <input type="hidden" name="productId" th:value="${product.id}" />
+                        <button type="submit" class="bg-purple-700 text-white font-bold px-4 py-2 rounded-lg shadow-md hover:bg-purple-800 transition">
+                            Add to Cart
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- News Feed -->
+    <div class="w-full md:w-1/4 bg-white shadow-xl rounded-2xl p-4">
+        <h2 class="text-xl font-bold text-purple-700 mb-4">Latest News</h2>
+       <!-- <iframe src="https://data.gouv.ci/data-fair/embed/dataset/ps-gouv-2023-juin-2024-version-finale/table" width="100%" height="300px" style="background-color: transparent; border: none;"><</iframe>-->
+        <ul>
+            <li th:each="feed : ${rssFeeds}" th:utext="${feed}" ></li>
+        </ul>
+    </div>
+
 </div>
+
 
 <!-- Pagination -->
 <div class="mt-6 flex justify-center gap-3">
@@ -84,6 +104,11 @@
         <p>
             <a href="mailto:contact@agriecommerce.com" class="text-white hover:text-yellow-500 font-bold">Contact Us</a> |
             <span>Proudly Ivorian 🇨🇮</span>
+        </p>
+    </div>
+    <div>
+        <p>
+            <span><i>fsqs™️</i></span>
         </p>
     </div>
 </footer>
