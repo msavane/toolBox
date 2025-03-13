@@ -1,38 +1,45 @@
 package laboratory.fsqsWholeSale.data;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomeController {
 
-    @GetMapping("/")
-    public String home(Model model) {
-        try {
-            // Dummy product list (replace with service call to fetch from DB)
-            List<Product> products = List.of(
-                    new Product("Organic Tomatoes", "Fresh organic tomatoes.", 5.99, 100),
-                    new Product("Golden Corn", "High-quality farm-grown corn.", 3.49, 200),
-                    new Product("Raw Honey", "Pure and natural honey.", 9.99, 150)
-            );
+    @Autowired
+    private ProductService productService;
 
-            model.addAttribute("products", products);
+    @GetMapping("/")
+    public String home(@RequestParam(defaultValue = "1") int page, Model model) {
+        int pageSize = 10; // Display 10 products per page
+
+        try {
+            // Fetch paginated products from ProductService
+            Page<Product> productPage = productService.getPaginatedProducts(page, pageSize);
+
+            // Add attributes to the model
+            model.addAttribute("products", productPage.getContent()); // Current page products
+            model.addAttribute("currentPage", page);
+            model.addAttribute("hasNextPage", productPage.hasNext());
             model.addAttribute("loading", false);
             model.addAttribute("error", null);
         } catch (Exception e) {
+            // Handle errors
             model.addAttribute("error", "Failed to load products.");
             model.addAttribute("loading", false);
             model.addAttribute("products", null);
         }
 
-        return "index"; // Thymeleaf template that matches your index.html file
+        // Return Thymeleaf template for index.html
+        return "index";
     }
 
     @GetMapping("/add-product")
-    public String showAddProductForm(Model model)  {
-
-        return "index"; // Loads the add-product.html page
+    public String showAddProductForm(Model model) {
+        return "add-product"; // Ensure you have an "add-product.html" template
     }
 }

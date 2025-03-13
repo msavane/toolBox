@@ -23,6 +23,11 @@ public class Product {
     @Min(0)
     private int stock;
 
+    // Default constructor (required by JPA/Hibernate)
+    public Product() {
+        // Empty constructor
+    }
+
     // Constructor without the 'id' field as it will be auto-generated
     public Product(String name, String description, double price, int stock) {
         this.name = name;
