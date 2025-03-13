@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -25,6 +27,7 @@ public class HomeController {
             model.addAttribute("products", productPage.getContent()); // Current page products
             model.addAttribute("currentPage", page);
             model.addAttribute("hasNextPage", productPage.hasNext());
+            model.addAttribute("hasPreviousPage", productPage.hasPrevious()); // Add previous page support
             model.addAttribute("loading", false);
             model.addAttribute("error", null);
         } catch (Exception e) {
@@ -34,12 +37,23 @@ public class HomeController {
             model.addAttribute("products", null);
         }
 
-        // Return Thymeleaf template for index.html
-        return "index";
+        return "index"; // Load index.html (Thymeleaf)
     }
 
     @GetMapping("/add-product")
     public String showAddProductForm(Model model) {
-        return "add-product"; // Ensure you have an "add-product.html" template
+        model.addAttribute("product", new Product()); // Provide an empty Product object for the form
+        return "add-product";
+    }
+
+    @PostMapping("/add-product")
+    public String addProduct(@ModelAttribute Product product, Model model) {
+        try {
+            productService.saveProduct(product);
+            return "redirect:/";  // Redirect to home after adding
+        } catch (Exception e) {
+            model.addAttribute("error", "Failed to add product.");
+            return "add-product"; // Stay on the page in case of an error
+        }
     }
 }

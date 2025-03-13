@@ -15,8 +15,8 @@ public class ProductService {
     private ProductRepository productRepository;
 
     @Transactional
-    public List<Product> getAllProducts() {
-        List<Product> products = productRepository.findAll(); // Ensure this is returning the correct list
+    public List<Product> getAllProducts(int page) {
+        List<Product> products = productRepository.findAll(PageRequest.of(page,5)).getContent(); // Extract content from Page
         if (products.isEmpty()) {
             System.out.println("No products found in the database.");
         }
@@ -41,4 +41,5 @@ public class ProductService {
         // Delete the product by ID
         productRepository.deleteById(id);
     }
+
 }
