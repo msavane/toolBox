@@ -21,14 +21,14 @@ public class HomeController {
     // Default home page and products page combined
     @GetMapping("/")
     public String home(@RequestParam(defaultValue = "1") int page,
-                       @RequestParam(defaultValue = "5") int pageSize, Model model) {
+                       @RequestParam(defaultValue = "4") int pageSize, Model model) {
         return getProductsPage(page, pageSize, model);
     }
 
     // Handle /products page, pagination included
     @GetMapping("/products")
     public String productsPage(@RequestParam(defaultValue = "1") int page,
-                               @RequestParam(defaultValue = "5") int pageSize, Model model) {
+                               @RequestParam(defaultValue = "4") int pageSize, Model model) {
         return getProductsPage(page, pageSize, model);
     }
 
@@ -44,8 +44,14 @@ public class HomeController {
             model.addAttribute("hasNextPage", productPage.hasNext());
             model.addAttribute("hasPreviousPage", productPage.hasPrevious()); // Add previous page support
 
-            // Fetch and add RSS feeds to the model
-            model.addAttribute("rssFeeds", rssService.fetchRssFeed());
+            // Fetch and add the first RSS feed (Default RSS)
+           // String rssUrl = "https://lepatriote.ci/rss/category/economie"; // Default RSS URL
+            String rssUrl = "https://www.bankofcanada.ca/content_type/canadian-survey-of-consumer-expectations/feed/";
+            model.addAttribute("rssFeeds", rssService.fetchRssFeed(rssUrl)); // Pass the fetched RSS feeds
+
+            // Fetch and add the second RSS feed (You can change the URL below)
+            String secondRssUrl = "https://www.cirad.fr/rss/actualites"; // Second RSS URL
+            model.addAttribute("secondRssFeeds", rssService.fetchRssFeed(secondRssUrl)); // Pass second RSS feeds
 
             model.addAttribute("loading", false);
             model.addAttribute("error", null);

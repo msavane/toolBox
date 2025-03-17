@@ -23,17 +23,20 @@ public class Product {
     @Min(0)
     private int stock;
 
+    private String imageUri; // New field for storing image location
+
     // Default constructor (required by JPA/Hibernate)
     public Product() {
         // Empty constructor
     }
 
     // Constructor without the 'id' field as it will be auto-generated
-    public Product(String name, String description, double price, int stock) {
+    public Product(String name, String description, double price, int stock, String imageUri) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.stock = stock;
+        this.imageUri = imageUri;
     }
 
     // Getters and Setters
@@ -51,4 +54,7 @@ public class Product {
 
     public int getStock() { return stock; }
     public void setStock(int stock) { this.stock = stock; }
+
+    public String getImageUri() { return imageUri; }
+    public void setImageUri(String imageUri) { this.imageUri = imageUri; }
 }

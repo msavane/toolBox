@@ -1,27 +1,24 @@
 package laboratory.fsqsWholeSale.data;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.w3c.dom.*;
-import org.xml.sax.InputSource;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import org.xml.sax.InputSource;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class RssService {
-    private static final String RSS_URL = "https://lepatriote.ci/rss/category/economie";
 
-    public List<String> fetchRssFeed() {
+    public List<String> fetchRssFeed(String rssUrl) {
         List<String> newsItems = new ArrayList<>();
         try {
             // Use RestTemplate to fetch the RSS feed
             RestTemplate restTemplate = new RestTemplate();
-            String response = restTemplate.getForObject(RSS_URL, String.class);
+            String response = restTemplate.getForObject(rssUrl, String.class);
 
             if (response != null && !response.isEmpty()) {
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

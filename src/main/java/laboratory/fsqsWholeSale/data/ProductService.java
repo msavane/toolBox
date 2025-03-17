@@ -24,8 +24,10 @@ public class ProductService {
         }
         return products;
     }
+
     public Page<Product> getPaginatedProducts(int page, int size) {
-        return productRepository.findAll(PageRequest.of(page - 1, size));
+        PageRequest pageRequest = PageRequest.of(page - 1, size);
+        return productRepository.findAll(pageRequest);
     }
 
     public Product getProductById(Long id) {
@@ -42,5 +44,4 @@ public class ProductService {
         // Delete the product by ID
         productRepository.deleteById(id);
     }
-
 }

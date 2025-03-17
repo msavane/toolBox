@@ -38,9 +38,16 @@ class ProductController {
         productService.deleteProduct(id);
     }
 
-    // Fetch latest RSS news
+    // Fetch latest RSS news from the first source
     @GetMapping("/news")
     public List<String> getNewsFeed() {
-        return rssService.fetchRssFeed();
+        return rssService.fetchRssFeed("https://lepatriote.ci/rss/category/economie");
     }
+
+    // Fetch latest RSS news from a second source
+    @GetMapping("/news/secondary")
+    public List<String> getSecondaryNewsFeed() {
+        return rssService.fetchRssFeed("https://another-source.com/rss-feed.xml");
+    }
+
 }

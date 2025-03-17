@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script> <!-- Include Tailwind -->
 </head>
 
-<body class="min-h-screen bg-gradient-to-b from-yellow-400 to-purple-600 p-8 flex flex-col items-center">
+<body class="min-h-screen bg-gradient-to-b from-pink-400 to-blue-600 p-8 flex flex-col items-center">
 
 <!-- Header -->
 <div class="flabola-container">
@@ -19,17 +20,17 @@
 
 <div class="random-space"></div>
 
-<!-- Add Product Button
+<!-- Add Product Button -->
 <div class="text-center mb-6">
-    <a th:href="@{/add-product}" class="bg-purple-700 text-white font-bold px-6 py-3 rounded-lg shadow-lg hover:bg-purple-800 transition">
+    <!-- <a th:href="@{/add-product}" class="bg-purple-700 text-white font-bold px-6 py-3 rounded-lg shadow-lg hover:bg-purple-800 transition">
         Add a Product
-    </a>
-</div>-->
-<div class="text-center mb-6">
-    <p>
-       <i>"Digital agricultural platforms are not just transforming farming, they’re changing the lives of millions of smallholder farmers." – Elizabeth Berthe, Agricultural Expert.</i>
-    </p>
+    </a> -->
 </div>
+
+<div class="horizontal_line"></div>
+
+<div class="random-space"></div>
+
 <!-- Loading/Error Messages -->
 <p class="text-center text-white" th:if="${loading != null and loading}">Loading products...</p>
 <p class="text-center text-red-500" th:if="${error}" th:text="${error}"></p>
@@ -42,19 +43,24 @@
         <table class="w-full border-collapse">
             <thead>
             <tr class="bg-purple-700 text-white">
+                <th class="p-3 text-left">Product Image</th>
                 <th class="p-3 text-left">Product Name</th>
                 <th class="p-3 text-left">Description</th>
                 <th class="p-3 text-left">Price</th>
-                <th class="p-3 text-left">Stock</th>
+               <!-- <th class="p-3 text-left">Stock</th>-->
                 <th class="p-3 text-center">Actions</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="product : ${products}" class="border-b hover:bg-gray-100 transition">
+                <td class="p-3 text-center">
+                    <img th:src="@{${product.imageUri}}" alt="Product Image" class="w-16 h-16 object-cover rounded" />
+                    <!-- Display Image -->
+                </td>
                 <td class="p-3 font-semibold text-purple-700" th:text="${product.name}"></td>
                 <td class="p-3 text-gray-600" th:text="${product.description}"></td>
                 <td class="p-3 text-yellow-500 font-bold text-lg" th:text="'$' + ${#numbers.formatDecimal(product.price, 1, 2)}"></td>
-                <td class="p-3 text-gray-600 font-semibold" th:text="${product.stock}"></td>
+                <!--<td class="p-3 text-gray-600 font-semibold" th:text="${product.stock}"></td>-->
                 <td class="p-3 flex justify-center">
                     <form th:action="@{/add-to-cart}" method="post">
                         <input type="hidden" name="productId" th:value="${product.id}" />
@@ -71,14 +77,12 @@
     <!-- News Feed -->
     <div class="w-full md:w-1/4 bg-white shadow-xl rounded-2xl p-4">
         <h2 class="text-xl font-bold text-purple-700 mb-4">Latest News</h2>
-       <!-- <iframe src="https://data.gouv.ci/data-fair/embed/dataset/ps-gouv-2023-juin-2024-version-finale/table" width="100%" height="300px" style="background-color: transparent; border: none;"><</iframe>-->
         <ul>
-            <li th:each="feed : ${rssFeeds}" th:utext="${feed}" ></li>
+            <li th:each="feed : ${rssFeeds}" th:utext="${feed}"></li>
         </ul>
     </div>
 
 </div>
-
 
 <!-- Pagination -->
 <div class="mt-6 flex justify-center gap-3">
@@ -98,20 +102,75 @@
     </a>
 </div>
 
+<!-- Empty Space -->
+<div class="random-space"></div>
+
+<!-- Services Section -->
+<div class="contenu-video">
+    <p>
+        <img src="imgs/aboutImg.webp" alt="Tomato" style="width:470px;height:170px;margin-left:15px;">
+        <br>
+        Les produits frais cultivés dans les communautés locales africaines offrent des avantages considérables pour la santé et l'économie. En consommant des produits directement issus de ces régions, les consommateurs participent à un modèle alimentaire durable et soutiennent l'agriculture locale. L'un des principaux avantages est la richesse des saveurs, car les produits sont cultivés dans des conditions optimales sans l'utilisation excessive de produits chimiques. Ces produits sont également plus nutritifs, car ils sont récoltés à maturité et livrés rapidement aux consommateurs. En outre, la consommation de produits frais provenant des communautés africaines soutient l'économie locale, crée des emplois et encourage la croissance des petites entreprises agricoles. En soutenant ces initiatives, les consommateurs contribuent à un avenir plus prospère pour les producteurs locaux et participent à la réduction de l'empreinte carbone en favorisant une agriculture durable. En outre, l'accès à ces produits peut améliorer la diversité alimentaire et fournir des super-aliments riches en vitamines et minéraux. La qualité et la fraîcheur des produits sont garanties grâce aux méthodes de culture traditionnelles et durables, ce qui garantit que les consommateurs reçoivent des produits de haute qualité.
+    </p>
+    <hr>
+    <h1>NOS SERVICES</h1>
+
+    <p>
+        Chargement, Transport & Expédition<br>
+        Nous proposons des conteneurs contrôlés en humidité, doublés d'une enveloppe à barrière contre l'humidité, garantissant la préservation de la qualité des noix de cajou.<br><br>
+
+        Partenaires Logistiques Fiables<br>
+        Nos partenaires logistiques de confiance assurent une livraison sûre et ponctuelle vers les marchés internationaux.<br><br>
+
+        Surveillance et Suivi<br>
+        Nous offrons un suivi précis des conteneurs, tant à l'intérieur qu'en mer, pour garantir un suivi complet de bout en bout.<br><br>
+
+        Expédition vers l'Europe, l'Asie et le Moyen-Orient<br>
+        Nos clients se trouvent principalement en Inde, au Vietnam et en Europe.<br><br>
+
+        Demander un Devis<br>
+        Besoin d'une solution personnalisée ? Demandez un devis dès aujourd'hui et laissez-nous vous proposer les meilleures options d'expédition adaptées à vos besoins.
+    </p>
+    <hr>
+    video du jour
+    <iframe width="353" height="280" src="https://www.youtube.com/embed/ArCo4CVsfh4" title="Mon dîner Panafoodies NdockBidi X Taptapsend aux Usa 🇺🇸🇺🇸 🇨🇲🇨🇲" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <br>
+<hr>
+    <h2>Second RSS Feed</h2>
+    <ul>
+        <li th:each="feed : ${secondRssFeeds}">
+            <span th:utext="${feed}"></span>
+        </li>
+    </ul>
+</div>
+
+<div class="random-space">
+    <br>
+</div>
+
+
 <!-- Footer -->
-<footer class="w-full bg-[#004a7f] text-white py-4 mt-12">
-    <div class="text-center">
-        <p>
-            <a href="mailto:contact@agriecommerce.com" class="text-white hover:text-yellow-500 font-bold">Contact Us</a> |
-            <span>Proudly Ivorian 🇨🇮</span>
-        </p>
+<footer class="footer" style="color: black;">
+    <p style="color: black;">Follow us on social <img src="/imgs/allMedia.png" alt="social" class="social-logo"></p>
+
+    <div class="footer-container" style="color: black;">
+        <div class="social-icons">
+            <a href="#" aria-label="Facebook"><img src="/imgs/fb.png" alt="fb" class="social-icon"></a>
+            <a href="#" aria-label="Instagram"><img src="/imgs/ig.png" alt="ig" class="social-icon"></a>
+            <a href="#" aria-label="X (Twitter)"><img src="/imgs/xtwiter.png" alt="x" class="social-icon"></a>
+            <a href="#" aria-label="YouTube"><img src="/imgs/youtube.png" alt="youtube" class="social-icon"></a>
+        </div>
+        <p class="payment-methods" style="color: black;"> <i>fsqs™️: PayPal || VISA || MC </i></p>
     </div>
-    <div>
-        <p>
-            <span><i>fsqs™️</i></span>
-        </p>
-    </div>
+
+    <p style="color: black;">
+        <a style="color: black;" href="mailto:contact@agriecommerce.com" class="text-white hover:text-yellow-500 font-bold">
+            Contact Us
+        </a> | Production Canada-Côte d'Ivoire 🇨🇮 | 🇨🇦
+    </p>
+
 </footer>
 
 </body>
+
 </html>
