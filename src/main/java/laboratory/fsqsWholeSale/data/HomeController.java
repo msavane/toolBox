@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 public class HomeController {
 
@@ -104,5 +106,15 @@ public class HomeController {
             model.addAttribute("error", "Failed to add product.");
             return "add-product"; // Stay on the page in case of an error
         }
+    }
+
+    // Search Products
+    @GetMapping("/search")
+    public String searchProducts(@RequestParam("query") String query, Model model) {
+        List<Product> searchResults = productService.searchProducts(query);
+        model.addAttribute("products", searchResults);
+        model.addAttribute("currentPage", 1);
+        model.addAttribute("totalPages", 1); // Only one page for search results
+        return "index"; // Ensure "index.html" contains the product table
     }
 }
