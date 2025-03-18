@@ -65,6 +65,17 @@ public class HomeController {
         return "index"; // Return the view (index.html for Thymeleaf)
     }
 
+
+    @GetMapping("/inventaire-magasin")
+    public String showInventoryPage(@RequestParam(defaultValue = "1") int page,
+                                    @RequestParam(defaultValue = "4") int pageSize,
+                                    Model model) {
+        // Fetch paginated products based on the page and pageSize
+        model.addAttribute("products", productService.getAllProducts(page, pageSize));
+        return "inventaire-magasin"; // Thymeleaf template
+    }
+
+
     // Display add product form
     @GetMapping("/add-product")
     public String showAddProductForm(Model model) {

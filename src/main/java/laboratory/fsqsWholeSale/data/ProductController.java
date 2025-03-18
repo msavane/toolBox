@@ -50,4 +50,6 @@ class ProductController {
         return rssService.fetchRssFeed("https://another-source.com/rss-feed.xml");
     }
 
+
+
 }

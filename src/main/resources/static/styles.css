@@ -10,6 +10,12 @@ body {
   flex-direction: column;
 }
 
+.paypal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Ensure the container takes up the full height of its parent */
+}
 /* Ensure no margin or padding issues around the page */
 html, body {
   margin: 0;
@@ -65,7 +71,7 @@ html, body {
   font-family: Arial, sans-serif; /* Choose a suitable font */
   padding: 44px; /* Padding for the body */
   overflow: auto; /* Ensures any extra content is scrollable */
-  padding-bottom: 260px; /* Adjust height of the footer */
+  padding-bottom: 391px; /* Adjust height of the footer */
 
   column-count: 4; /* Number of columns */
   column-gap: 50px; /* Gap between columns */
