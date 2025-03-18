@@ -83,6 +83,17 @@ public class HomeController {
         return "add-product";
     }
 
+    @PostMapping("/add-to-cart")
+    public String addToCart(@RequestParam Long productId) {
+        // Add the product to the user's cart (logic here)
+        return "redirect:/cart"; // Redirect to the cart page or wherever you want
+    }
+    @GetMapping("/cart")
+    public String showCart(Model model) {
+        // Logic to show the cart contents
+        return "cart"; // The name of the cart page, ensure there's a cart.html or cart.html template
+    }
+
     // Handle the add product form submission
     @PostMapping("/add-product")
     public String addProduct(@ModelAttribute Product product, Model model) {
