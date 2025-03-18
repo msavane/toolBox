@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Agri E-commerce</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+    <script src="https://cdn.tailwindcss.com"></script> <!-- Include Tailwind -->
+</head>
+
+<body class="min-h-screen bg-gradient-to-b from-pink-400 to-blue-600 p-8 flex flex-col items-center">
+
+<!-- Header -->
+<div class="flabola-container">
+    <h3 class="text-white font-bold">Flab✪la WHOLESALE</h3>
+</div>
+
+<h1 class="text-4xl font-bold text-center text-white mb-6"><i>Fatou ni Mory</i> FEREH</h1>
+
+<div class="random-space"></div>
+
+<!-- Cart Content -->
+<div class="w-full max-w-7xl flex flex-col items-center">
+    <h2 class="text-2xl font-bold text-white mb-4">Your Cart</h2>
+
+    <!-- Cart Table -->
+    <div class="bg-white shadow-xl rounded-2xl p-6 w-full max-w-2xl">
+        <table class="w-full border-collapse">
+            <thead>
+            <tr class="bg-purple-700 text-white">
+                <th class="p-3 text-left">Product Name</th>
+                <th class="p-3 text-left">Description</th>
+                <th class="p-3 text-left">Price</th>
+                <th class="p-3 text-left">Quantity</th>
+                <th class="p-3 text-center">Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${cartItems}">
+                <td class="p-3 font-semibold text-purple-700" th:text="${item.name}"></td>
+                <td class="p-3 text-gray-600" th:text="${item.description}"></td>
+                <td class="p-3 text-yellow-500 font-bold text-lg" th:text="'$' + ${#numbers.formatDecimal(item.price, 1, 2)}"></td>
+                <td class="p-3 text-gray-600" th:text="${item.quantity}"></td>
+                <td class="p-3 text-yellow-500 font-bold text-lg" th:text="'$' + ${#numbers.formatDecimal(item.totalPrice, 1, 2)}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Cart Summary -->
+    <div class="bg-white shadow-xl rounded-2xl p-6 mt-6 w-full max-w-2xl">
+        <div class="flex justify-between text-xl font-bold">
+            <span>Total Price:</span>
+            <span th:text="'$' + ${#numbers.formatDecimal(totalPrice, 2, 2)}"></span>
+        </div>
+        <div class="flex justify-between text-lg mt-4">
+            <span>Shipping:</span>
+            <span th:text="'$' + ${#numbers.formatDecimal(shippingCost, 2, 2)}"></span>
+        </div>
+        <div class="flex justify-between text-2xl font-bold mt-4">
+            <span>Total Amount:</span>
+            <span th:text="'$' + ${#numbers.formatDecimal(totalAmount, 2, 2)}"></span>
+        </div>
+    </div>
+
+    <!-- Checkout Button -->
+    <div class="mt-6">
+        <form th:action="@{/checkout}" method="get">
+            <button type="submit" class="bg-green-500 text-white font-bold px-6 py-3 rounded-lg shadow-md hover:bg-green-600 transition">
+                Proceed to Checkout
+            </button>
+        </form>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer mt-12 p-6 bg-purple-700 text-white text-center">
+    <p>&copy; 2025 Flab✪la WHOLESALE. All rights reserved.</p>
+    <p>
+        <a href="mailto:contact@agriecommerce.com" class="text-white hover:text-yellow-500 font-bold">
+            Contact Us
+        </a>
+    </p>
+</footer>
+
+</body>
+
+</html>
