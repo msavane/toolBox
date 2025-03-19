@@ -1,3 +1,14 @@
+header {
+  position: sticky;
+  top: 0;
+  background-color: #1A1F71;
+  padding: 20px;
+  z-index: 1000;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 2rem;
+}
 /* General Styles */
 body {
   font-family: 'Poppins', sans-serif;
@@ -10,34 +21,34 @@ body {
   flex-direction: column;
 }
 
-.paypal-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%; /* Ensure the container takes up the full height of its parent */
-}
-/* Ensure no margin or padding issues around the page */
 html, body {
   margin: 0;
   padding: 0;
   width: 100%;
 }
 
-/* Random spacing used throughout */
+/* Flexbox Container for Centering */
+.paypal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/* Random Spacing Utility */
 .random-space {
   padding: 5px;
 }
 
-/* Horizontal line between sections */
+/* Horizontal Line Between Sections */
 .horizontal_line {
   width: 90%;
   height: 5px;
   border-top: 5px solid white;
-  line-height: 80%;
-  margin: 20px auto; /* Center and give margin around */
+  margin: 20px auto;
 }
 
-/* Content Wrapper for side-by-side layout */
+/* Responsive Content Wrapper */
 .content-wrapper {
   display: flex;
   justify-content: space-between;
@@ -47,67 +58,79 @@ html, body {
   margin-top: 20px;
 }
 
-/* Container for the product table */
+
+/* Ensure products table is centered */
 .product-table-container {
   flex: 2;
   min-width: 60%;
+  position: relative;
+  z-index: 5;
 }
 
-/* Container for the news feed */
+/* Adjust News Feed */
 .news-feed-container {
-  flex: 2;
-  min-width: 35%;
-  margin-left: 1.5rem;
-  background-color: white;
-  border-radius: 1rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 1rem;
+   flex: 1;
+   background-color: white;
+   border-radius: 1.5rem;
+   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+   padding: 1.5rem;
+   max-width: 77%;
+   position: relative; /* Remove fixed positioning */
+   margin: 20px auto;
+   z-index: 10;
 }
 
 /* Newspaper-style Content */
+/* Services Section */
 .contenu-video {
-  background-color: #020724; /* Midnight blue background */
-  color: #ffffff; /* White text color */
-  font-family: Arial, sans-serif; /* Choose a suitable font */
-  padding: 44px; /* Padding for the body */
-  overflow: auto; /* Ensures any extra content is scrollable */
-  padding-bottom: 391px; /* Adjust height of the footer */
-
-  column-count: 4; /* Number of columns */
-  column-gap: 50px; /* Gap between columns */
+  background-color: #020724;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  column-count: 4;
+  column-gap: 50px;
+  padding: 44px;
+  overflow-x: auto;
+  flex-grow: 1; /* Allow it to push content down */
 }
-
 .contenu-video h1 {
-  text-align: center; /* Center the heading */
+  text-align: center;
 }
 
 .contenu-video p {
-  text-align: justify; /* Justify text for a newspaper-like appearance */
-  margin-bottom: 100px; /* Bottom margin for paragraphs */
-  padding:20px;
+  text-align: justify;
+  margin-bottom: 100px;
+  padding: 20px;
 }
 
-/* Footer Styles */
+.contenu-video h1 {
+  text-align: center;
+}
+
+.contenu-video p {
+  text-align: justify;
+  margin-bottom: 100px;
+  padding: 20px;
+}
+
+/* Fix footer */
 footer {
-  background-color: #1bb38d;
+  background-color: #87d69c;
   width: 100%;
   padding: 20px 0;
   text-align: center;
   font-family: Arial, sans-serif;
-  position: fixed;
+  position: relative; /* Change from fixed to relative */
   bottom: 0;
   left: 0;
-  z-index: 1000; /* Ensure it's above other content */
+  z-index: 1000;
 }
 
-/* Footer Container */
 .footer-container {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-/* General Footer Text Styling */
 footer p {
   color: white;
   font-size: 1rem;
@@ -125,7 +148,8 @@ footer a {
 footer a:hover {
   color: #FFD700;
 }
-/* Social Icons Styling */
+
+/* Social Media Icons */
 .social-icons {
   margin-top: 10px;
 }
@@ -135,7 +159,6 @@ footer a:hover {
   margin: 0 5px;
 }
 
-/* Ensure Icons Stay Small & Well Spaced */
 .social-icons img {
   width: 34px;
   height: 34px;
@@ -144,16 +167,8 @@ footer a:hover {
   transition: transform 0.3s ease;
 }
 
-/* Hover Effect for Social Icons */
 .social-icons img:hover {
   transform: scale(1.1);
-}
-
-/* "Follow Us" Banner Image */
-.social-logo {
-  width: 100px;
-  height: auto;
-  vertical-align: middle;
 }
 
 /* Payment Methods Styling */
@@ -188,8 +203,7 @@ h1 {
   margin-top: 20px;
 }
 
-.table th,
-.table td {
+.table th, .table td {
   padding: 15px;
   text-align: left;
   border: 1px solid #ddd;
@@ -211,12 +225,11 @@ h1 {
   font-weight: bold;
 }
 
-/* Hover effect on table rows */
 .table tr:hover {
   background-color: #f1f1f1;
 }
 
-/* Pagination Controls */
+/* Pagination */
 .pagination {
   display: flex;
   justify-content: center;
