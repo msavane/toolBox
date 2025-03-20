@@ -1,4 +1,4 @@
-package laboratory.fsqsWholeSale.data;
+package laboratory.fsqsWholeSale.data.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -20,17 +20,17 @@ public class OrderItem  {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private laboratory.fsqsWholeSale.data.Order order;
+    private Order order;
 
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-    public laboratory.fsqsWholeSale.data.Product getProduct() { return product; }
-    public void setProduct(laboratory.fsqsWholeSale.data.Product product) { this.product = product; }
+    public Product getProduct() { return product; }
+    public void setProduct(Product product) { this.product = product; }
     public int getQuantity() { return quantity; }
     public void setQuantity(int quantity) { this.quantity = quantity; }
     public double getPriceAtPurchase() { return priceAtPurchase; }
     public void setPriceAtPurchase(double priceAtPurchase) { this.priceAtPurchase = priceAtPurchase; }
-    public laboratory.fsqsWholeSale.data.Order getOrder() { return order; }
-    public void setOrder(laboratory.fsqsWholeSale.data.Order order) { this.order = order; }
+    public Order getOrder() { return order; }
+    public void setOrder(Order order) { this.order = order; }
 }

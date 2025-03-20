@@ -1,5 +1,6 @@
-package laboratory.fsqsWholeSale.data;
+package laboratory.fsqsWholeSale.data.controller;
 
+import laboratory.fsqsWholeSale.data.service.RssService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

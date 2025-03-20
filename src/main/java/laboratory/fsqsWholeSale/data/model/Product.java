@@ -1,4 +1,4 @@
-package laboratory.fsqsWholeSale.data;
+package laboratory.fsqsWholeSale.data.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;

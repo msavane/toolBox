@@ -72,6 +72,7 @@
                 <td class="p-3 flex justify-center">
                     <form th:action="@{/add-to-cart}" method="post">
                         <input type="hidden" name="productId" th:value="${product.id}" />
+                        <input type="hidden" name="quantity" th:value="1" />
                         <button type="submit" class="bg-purple-700 text-white font-bold px-4 py-2 rounded-lg shadow-md hover:bg-purple-800 transition">
                             Add to Cart
                         </button>

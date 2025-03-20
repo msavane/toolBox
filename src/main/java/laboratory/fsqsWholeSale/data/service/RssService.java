@@ -1,4 +1,4 @@
-package laboratory.fsqsWholeSale.data;
+package laboratory.fsqsWholeSale.data.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

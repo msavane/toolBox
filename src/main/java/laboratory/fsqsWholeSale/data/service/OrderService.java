@@ -1,5 +1,10 @@
-package laboratory.fsqsWholeSale.data;
+package laboratory.fsqsWholeSale.data.service;
 
+import laboratory.fsqsWholeSale.data.OrderRepository;
+import laboratory.fsqsWholeSale.data.ProductRepository;
+import laboratory.fsqsWholeSale.data.model.Order;
+import laboratory.fsqsWholeSale.data.model.OrderItem;
+import laboratory.fsqsWholeSale.data.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

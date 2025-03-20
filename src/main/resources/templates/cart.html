@@ -38,9 +38,9 @@
             </thead>
             <tbody>
             <tr th:each="item : ${cartItems}">
-                <td class="p-3 font-semibold text-purple-700" th:text="${item.name}"></td>
-                <td class="p-3 text-gray-600" th:text="${item.description}"></td>
-                <td class="p-3 text-yellow-500 font-bold text-lg" th:text="'$' + ${#numbers.formatDecimal(item.price, 1, 2)}"></td>
+                <td class="p-3 font-semibold text-purple-700" th:text="${item.product.name}"></td>
+                <td class="p-3 text-gray-600" th:text="${item.product.description}"></td>
+                <td class="p-3 text-yellow-500 font-bold text-lg" th:text="'$' + ${#numbers.formatDecimal(item.product.price, 1, 2)}"></td>
                 <td class="p-3 text-gray-600" th:text="${item.quantity}"></td>
                 <td class="p-3 text-yellow-500 font-bold text-lg" th:text="'$' + ${#numbers.formatDecimal(item.totalPrice, 1, 2)}"></td>
             </tr>

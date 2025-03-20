@@ -1,6 +1,8 @@
-package laboratory.fsqsWholeSale.data;
+package laboratory.fsqsWholeSale.data.service;
 
 import jakarta.transaction.Transactional;
+import laboratory.fsqsWholeSale.data.ProductRepository;
+import laboratory.fsqsWholeSale.data.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -48,4 +50,7 @@ public class ProductService {
     public List<Product> searchProducts(String keyword) {
         return productRepository.findByNameContainingIgnoreCase(keyword);
     }
+
+
+
 }

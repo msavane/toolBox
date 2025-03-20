@@ -1,5 +1,10 @@
-package laboratory.fsqsWholeSale.data;
+package laboratory.fsqsWholeSale.data.controller;
 
+import laboratory.fsqsWholeSale.data.model.CartItem;
+import laboratory.fsqsWholeSale.data.service.CartService;
+import laboratory.fsqsWholeSale.data.service.ProductService;
+import laboratory.fsqsWholeSale.data.service.RssService;
+import laboratory.fsqsWholeSale.data.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -9,10 +14,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
 public class HomeController {
+
+    @Autowired
+    private CartService cartService;
+
 
     @Autowired
     private ProductService productService;
@@ -47,7 +57,7 @@ public class HomeController {
             model.addAttribute("hasPreviousPage", productPage.hasPrevious()); // Add previous page support
 
             // Fetch and add the first RSS feed (Default RSS)
-           // String rssUrl = "https://lepatriote.ci/rss/category/economie"; // Default RSS URL
+            // String rssUrl = "https://lepatriote.ci/rss/category/economie"; // Default RSS URL
             String rssUrl = "https://www.bankofcanada.ca/content_type/canadian-survey-of-consumer-expectations/feed/";
             model.addAttribute("rssFeeds", rssService.fetchRssFeed(rssUrl)); // Pass the fetched RSS feeds
 
@@ -86,15 +96,41 @@ public class HomeController {
     }
 
     @PostMapping("/add-to-cart")
-    public String addToCart(@RequestParam Long productId) {
-        // Add the product to the user's cart (logic here)
-        return "redirect:/cart"; // Redirect to the cart page or wherever you want
+    public String addToCart(@RequestParam("productId") Long productId,
+                            @RequestParam("quantity") int quantity,
+                            Model model) {
+        try {
+            // ✅ Correct: Fetch product from productService
+            Product product = productService.getProductById(productId);
+
+            if (product == null) {
+                throw new IllegalArgumentException("Product not found");
+            }
+
+            // ✅ Correctly add the product to cart
+            cartService.addToCart(product, quantity);
+
+            // ✅ Fetch updated cart details
+            List<CartItem> cartItems = cartService.getCartItems();
+            BigDecimal totalPrice = cartService.calculateTotalPrice();
+            BigDecimal shippingCost = cartService.calculateShippingCost();
+            BigDecimal totalAmount = totalPrice.add(shippingCost);
+
+            // ✅ Add attributes for Thymeleaf
+            model.addAttribute("cartItems", cartItems);
+            model.addAttribute("totalPrice", totalPrice);
+            model.addAttribute("shippingCost", shippingCost);
+            model.addAttribute("totalAmount", totalAmount);
+
+            return "cart";  // ✅ Return cart page
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("errorMessage", "Error adding product to cart.");
+            return "error";  // ✅ Ensure there's an error.html page
+        }
     }
-    @GetMapping("/cart")
-    public String showCart(Model model) {
-        // Logic to show the cart contents
-        return "cart"; // The name of the cart page, ensure there's a cart.html or cart.html template
-    }
+
 
     // Handle the add product form submission
     @PostMapping("/add-product")

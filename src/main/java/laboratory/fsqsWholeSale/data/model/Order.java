@@ -1,6 +1,7 @@
-package laboratory.fsqsWholeSale.data;
+package laboratory.fsqsWholeSale.data.model;
 
 import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 

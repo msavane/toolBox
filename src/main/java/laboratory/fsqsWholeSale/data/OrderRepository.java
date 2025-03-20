@@ -1,5 +1,6 @@
 package laboratory.fsqsWholeSale.data;
 
+import laboratory.fsqsWholeSale.data.model.Order;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
