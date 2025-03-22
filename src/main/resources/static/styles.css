@@ -1,3 +1,4 @@
+/* ================= HEADER ================= */
 header {
   position: sticky;
   top: 0;
@@ -9,7 +10,8 @@ header {
   color: white;
   font-size: 2rem;
 }
-/* General Styles */
+
+/* ================= GENERAL STYLES ================= */
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
@@ -27,7 +29,7 @@ html, body {
   width: 100%;
 }
 
-/* Flexbox Container for Centering */
+/* ================= FLEXBOX CONTAINER ================= */
 .paypal-container {
   display: flex;
   justify-content: center;
@@ -48,7 +50,7 @@ html, body {
   margin: 20px auto;
 }
 
-/* Responsive Content Wrapper */
+/* ================= RESPONSIVE CONTENT ================= */
 .content-wrapper {
   display: flex;
   justify-content: space-between;
@@ -58,49 +60,36 @@ html, body {
   margin-top: 20px;
 }
 
-
-/* Ensure products table is centered */
+/* ================= PRODUCT TABLE ================= */
 .product-table-container {
   flex: 2;
-  min-width: 60%;
+  max-width: 60%;
   position: relative;
   z-index: 5;
 }
 
 /* Adjust News Feed */
 .news-feed-container {
-   flex: 1;
-   background-color: white;
-   border-radius: 1.5rem;
-   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
-   padding: 1.5rem;
-   max-width: 77%;
-   position: relative; /* Remove fixed positioning */
-   margin: 20px auto;
-   z-index: 10;
+  flex: 1;
+  background-color: white;
+  border-radius: 1.5rem;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+  padding: 1.5rem;
+  max-width: 77%;
+  position: relative; /* Remove fixed positioning */
+  margin: 20px auto;
+  z-index: 10;
 }
 
-/* Newspaper-style Content */
-/* Services Section */
+/* ================= SERVICES SECTION ================= */
 .contenu-video {
   background-color: #020724;
   color: #ffffff;
   font-family: Arial, sans-serif;
-  column-count: 4;
-  column-gap: 50px;
   padding: 44px;
   overflow-x: auto;
   flex-grow: 1; /* Allow it to push content down */
 }
-.contenu-video h1 {
-  text-align: center;
-}
-
-.contenu-video p {
-  text-align: justify;
-  margin-bottom: 100px;
-  padding: 20px;
-}
 
 .contenu-video h1 {
   text-align: center;
@@ -112,7 +101,7 @@ html, body {
   padding: 20px;
 }
 
-/* Fix footer */
+/* ================= FOOTER ================= */
 footer {
   background-color: #87d69c;
   width: 100%;
@@ -179,7 +168,7 @@ footer a:hover {
   font-size: 1rem;
 }
 
-/* Page Title */
+/* ================= PAGE TITLES ================= */
 h1 {
   font-size: 2.8rem;
   font-weight: bold;
@@ -189,16 +178,19 @@ h1 {
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Container */
+/* ================= CONTAINER ================= */
 .container {
-  width: 90%;
-  max-width: 1200px;
-  padding: 20px;
+  width: 60%;
+  margin: auto;
+  padding: 20px 0;
+
 }
 
-/* Table Layout */
+/* ================= TABLE STYLES ================= */
 .table {
   width: 100%;
+  max-width: 100px;
+  table-layout: fixed;
   border-collapse: collapse;
   margin-top: 20px;
 }
@@ -229,7 +221,7 @@ h1 {
   background-color: #f1f1f1;
 }
 
-/* Pagination */
+/* ================= PAGINATION ================= */
 .pagination {
   display: flex;
   justify-content: center;
@@ -256,7 +248,7 @@ h1 {
   pointer-events: none;
 }
 
-/* Buttons */
+/* ================= BUTTON STYLES ================= */
 button {
   background-color: #0d3dad;
   color: white;
