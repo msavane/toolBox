@@ -4,7 +4,7 @@ import laboratory.fsqsWholeSale.data.model.CartItem;
 import laboratory.fsqsWholeSale.data.service.CartService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -18,34 +18,57 @@ public class CartController {
         this.cartService = cartService;
     }
 
-    @GetMapping("/shopping-cart ")
-    public String showCart(Model model) {  // Ensure 'Model' is properly imported
-        // Retrieve cart items and relevant totals from your service
+    @GetMapping("/shopping-cart")
+    public String showCart(Model model) {
         List<CartItem> cartItems = cartService.getCartItems();
         BigDecimal totalPrice = cartService.calculateTotalPrice();
         BigDecimal shippingCost = cartService.calculateShippingCost();
         BigDecimal totalAmount = totalPrice.add(shippingCost);
 
-        // Debugging: Print values to ensure they are retrieved correctly
-        System.out.println("Cart Items: " + cartItems);
-        System.out.println("Total Price: " + totalPrice);
-        System.out.println("Shipping Cost: " + shippingCost);
-        System.out.println("Total Amount: " + totalAmount);
-
-        // Add attributes to the model to be used in Thymeleaf template
         model.addAttribute("cartItems", cartItems);
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("shippingCost", shippingCost);
         model.addAttribute("totalAmount", totalAmount);
 
-        return "cart";  // Return the Thymeleaf template
+        return "cart";
     }
+
+    @PostMapping("/update-quantity")
+    public String updateQuantity(@RequestParam Long productId,
+                                 @RequestParam String action,
+                                 @RequestParam int quantity,
+                                 Model model) {
+        if (productId == null || quantity <= 0) {
+            return "redirect:/cart"; // Prevent errors
+        }
+
+        if ("increase".equals(action)) {
+            cartService.updateCartItemQuantity(productId, quantity + 1);
+        } else if ("decrease".equals(action)) {
+            cartService.updateCartItemQuantity(productId, Math.max(1, quantity - 1));
+        } else if ("update".equals(action)) {
+            cartService.updateCartItemQuantity(productId, Math.min(quantity, 5));
+        }
+
+        // Ensure total price is recalculated
+        List<CartItem> cartItems = cartService.getCartItems();
+        BigDecimal totalPrice = cartService.calculateTotalPrice();
+        BigDecimal shippingCost = cartService.calculateShippingCost();
+        BigDecimal totalAmount = totalPrice.add(shippingCost);
+
+        // Add updated values to model
+        model.addAttribute("cartItems", cartItems);
+        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("shippingCost", shippingCost);
+        model.addAttribute("totalAmount", totalAmount);
+
+        return "cart";  // Return the Thymeleaf template with updated data
+    }
+
 
     @GetMapping("/clear-cart")
     public String clearCart() {
         cartService.clearCart();
         return "cart";
     }
-
-
 }
