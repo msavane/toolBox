@@ -40,4 +40,12 @@ public class CartController {
 
         return "cart";  // Return the Thymeleaf template
     }
+
+    @GetMapping("/clear-cart")
+    public String clearCart() {
+        cartService.clearCart();
+        return "cart";
+    }
+
+
 }

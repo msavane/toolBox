@@ -25,6 +25,10 @@ public class CartItem {
         return product;
     }
 
+    public double getStock() {
+        return product.getStock();
+    }
+
     public int getQuantity() {
         return quantity;
     }
@@ -40,4 +44,6 @@ public class CartItem {
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
+
+
 }
