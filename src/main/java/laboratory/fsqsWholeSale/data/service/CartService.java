@@ -31,12 +31,17 @@ public class CartService {
     }
 
     public void updateCartItemQuantity(Long productId, int newQuantity) {
+        if (productId == null) {
+            return; // Prevent NullPointerException
+        }
+
         Optional<CartItem> cartItemOpt = cartItems.stream()
-                .filter(item -> item.getProduct().getId().equals(productId))
+                .filter(item -> item.getProduct() != null && item.getProduct().getId().equals(productId))
                 .findFirst();
 
         cartItemOpt.ifPresent(item -> {
-            item.setQuantity(Math.min(newQuantity, MAX_QTY)); // Ensure max limit
+            int validQuantity = Math.max(1, Math.min(newQuantity, MAX_QTY)); // Ensure quantity is between 1 and MAX_QTY
+            item.setQuantity(validQuantity);
             updateItemPrice(item);
         });
     }
