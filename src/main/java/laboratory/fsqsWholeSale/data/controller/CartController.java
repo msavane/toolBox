@@ -96,6 +96,10 @@ public class CartController {
         }
     }
 
+   /* @PostMapping("/process-checkout"){
+        return null;
+    }*/
+
     @GetMapping("/clear-cart")
     public String clearCart() {
         cartService.clearCart();
