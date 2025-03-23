@@ -75,4 +75,18 @@ public class CartService {
       //  BigDecimal totalPrice = BigDecimal.valueOf(item.getQuantity()).multiply(BigDecimal.valueOf(item.getProduct().getPrice()));
         item.setTotalPrice(totalPrice);
     }
+
+    public boolean processPayment(String paymentMethod, String billingAddress, String shippingAddress) {
+        // Update payment processing logic to handle these parameters
+        try {
+            // Call PayPal API or other payment processing logic
+            // Use the billingAddress and shippingAddress in the request
+            // For now, returning true as a placeholder for actual payment logic
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }

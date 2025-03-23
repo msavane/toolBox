@@ -64,7 +64,37 @@ public class CartController {
 
         return "cart";  // Return the Thymeleaf template with updated data
     }
+    @GetMapping("/checkout")
+    public String showCheckoutPage(Model model) {
+        List<CartItem> cartItems = cartService.getCartItems();
+        BigDecimal totalPrice = cartService.calculateTotalPrice();
+        BigDecimal shippingCost = cartService.calculateShippingCost();
+        BigDecimal totalAmount = totalPrice.add(shippingCost);
 
+        model.addAttribute("cartItems", cartItems);
+        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("shippingCost", shippingCost);
+        model.addAttribute("totalAmount", totalAmount);
+
+        return "checkout"; // Ensure checkout.html exists in the templates folder
+    }
+
+    @PostMapping("/checkout")
+    public String processCheckout(@RequestParam String billingAddress,
+                                  @RequestParam String shippingAddress,
+                                  @RequestParam String paymentMethod,
+                                  Model model) {
+        // Logic to process order and payment
+        boolean isPaymentSuccessful = cartService.processPayment(paymentMethod, billingAddress, shippingAddress);
+
+        if (isPaymentSuccessful) {
+            cartService.clearCart(); // Empty the cart after successful checkout
+            return "redirect:/order-confirmation";
+        } else {
+            model.addAttribute("error", "Payment failed. Please try again.");
+            return "checkout";
+        }
+    }
 
     @GetMapping("/clear-cart")
     public String clearCart() {
