@@ -1,4 +1,4 @@
-/* ================= HEADER ================= */
+================= HEADER ================= */
 header {
   position: sticky;
   top: 0;
@@ -103,7 +103,7 @@ html, body {
 
 /* ================= FOOTER ================= */
 footer {
-  background-color: #ccfff2;
+  background-color: #c9ace8;
   width: 100%;
   padding: 2px 0;
   text-align: center;

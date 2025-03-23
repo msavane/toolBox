@@ -13,7 +13,7 @@
 
 <!-- Header -->
 <div class="flabola-container">
-    <p class="text-white font-bold"><small>M✪ry FEREH WHOLESALE</small>
+    <p class="text-white font-bold"><small>Dyula FEREH WH✪LESALE</small>
 </div>
 
 <h1 class="text-4xl font-bold text-center text-white mb-6"><i>African</i> STORE</h1>
@@ -24,88 +24,98 @@
 
 <div class="random-space"></div>
 
-<!-- Cart Content -->
-<div class="w-full max-w-7xl flex flex-col items-center">
-    <h2 class="text-2xl font-bold text-white mb-4">Your Cart</h2>
+<div class="container mt-8">
 
-    <!-- Cart Table -->
-    <div class="bg-white shadow-xl rounded-2xl p-6 w-full max-w-2xl">
-        <table class="w-full border-collapse">
-            <thead>
-            <tr class="bg-purple-700 text-white">
-                <th class="p-3 text-left">Product Name</th>
-                <th class="p-3 text-left">Description</th>
-                <th class="p-3 text-left">Price</th>
-                <th class="p-3 text-left">Quantity</th>
-                <th class="p-3 text-left">Actions</th>
-                <th class="p-3 text-center">Total</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="item : ${cartItems}"> <td class="p-3 font-semibold text-purple-700" th:text="${item.product.name}"></td>
-                <td class="p-3 text-gray-600" th:text="${item.product.description}"></td>
-                <td class="p-3 text-yellow-500 font-bold text-lg"
-                    th:text="'$' + ${#numbers.formatDecimal(item.product.price, 1, 2)}"></td>
-                <td class="p-3 text-gray-600" th:text="${item.quantity}"></td>
+    <!-- Cart Content -->
+    <div class="w-full max-w-7xl flex flex-col items-center">
+        <h2 class="text-2xl font-bold text-white mb-4">Your Cart</h2>
 
-                <!-- section to update -->
-                <td class="p-3 text-gray-600 flex items-center">
-                    <form th:action="@{/update-quantity}" method="post">
-                        <input type="hidden" name="productId" th:value="${item.product.id}">
-                        <input type="hidden" name="quantity" th:value="${item.quantity}"> <!-- Add this line -->
+        <!-- Cart Table -->
+        <div class="bg-white shadow-xl rounded-2xl p-6 w-full max-w-2xl">
+            <table class="w-full border-collapse">
+                <thead>
+                <tr class="bg-purple-700 text-white">
+                    <th class="p-3 text-left">Product Name</th>
+                    <th class="p-3 text-left">Description</th>
+                    <th class="p-3 text-left">Price</th>
+                    <th class="p-3 text-left">Quantity</th>
+                    <th class="p-3 text-left">Actions</th>
+                    <th class="p-3 text-center">Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${cartItems}">
+                    <td class="p-3 font-semibold text-purple-700" th:text="${item.product.name}"></td>
+                    <td class="p-3 text-gray-600" th:text="${item.product.description}"></td>
+                    <td class="p-3 text-yellow-500 font-bold text-lg"
+                        th:text="'$' + ${#numbers.formatDecimal(item.product.price, 1, 2)}"></td>
+                    <td class="p-3 text-gray-600" th:text="${item.quantity}"></td>
 
-                        <button type="submit" name="action" value="decrease"
-                                class="bg-gray-300 px-2 py-1 rounded text-black">-
-                        </button>
-                        <button type="submit" name="action" value="increase"
-                                class="bg-gray-300 px-2 py-1 rounded text-black">+
-                        </button>
-                    </form>
-                </td>
-                <td class="p-3 text-gray-600" th:text="'$' + ${#numbers.formatDecimal(item.totalPrice, 1, 2)}"></td>
+                    <!-- section to update -->
+                    <td class="p-3 text-gray-600 flex items-center">
+                        <form th:action="@{/update-quantity}" method="post">
+                            <input type="hidden" name="productId" th:value="${item.product.id}">
+                            <input type="hidden" name="quantity" th:value="${item.quantity}"> <!-- Add this line -->
 
-            </tbody>
-        </table>
-    </div>
+                            <button type="submit" name="action" value="decrease"
+                                    class="bg-gray-300 px-2 py-1 rounded text-black">-
+                            </button>
+                            <button type="submit" name="action" value="increase"
+                                    class="bg-gray-300 px-2 py-1 rounded text-black">+
+                            </button>
+                        </form>
+                    </td>
+                    <td class="p-3 text-gray-600" th:text="'$' + ${#numbers.formatDecimal(item.totalPrice, 1, 2)}"></td>
 
-    <!-- Cart Summary -->
-    <div class="bg-white shadow-xl rounded-2xl p-6 mt-6 w-full max-w-2xl">
-        <div class="flex justify-between text-xl font-bold">
-            <span>Total Price:</span>
-            <span th:text="'$' + ${#numbers.formatDecimal(totalPrice, 2, 2)}"></span>
+                </tbody>
+            </table>
         </div>
-        <div class="flex justify-between text-lg mt-4">
-            <span>Shipping:</span>
-            <span th:text="'$' + ${#numbers.formatDecimal(shippingCost, 2, 2)}"></span>
+
+        <!-- Cart Summary -->
+        <div class="bg-white shadow-xl rounded-2xl p-6 mt-6 w-full max-w-2xl">
+            <div class="flex justify-between text-xl font-bold">
+                <span>Total Price:</span>
+                <span th:text="'$' + ${#numbers.formatDecimal(totalPrice, 2, 2)}"></span>
+            </div>
+            <div class="flex justify-between text-lg mt-4">
+                <span>Shipping:</span>
+                <span th:text="'$' + ${#numbers.formatDecimal(shippingCost, 2, 2)}"></span>
+            </div>
+            <div class="flex justify-between text-2xl font-bold mt-4">
+                <span>Total Amount:</span>
+                <span th:text="'$' + ${#numbers.formatDecimal(totalAmount, 2, 2)}"></span>
+            </div>
         </div>
-        <div class="flex justify-between text-2xl font-bold mt-4">
-            <span>Total Amount:</span>
-            <span th:text="'$' + ${#numbers.formatDecimal(totalAmount, 2, 2)}"></span>
+
+        <!-- Checkout Button -->
+        <div class="mt-6">
+            <form th:action="@{/checkout}" method="get">
+                <button type="submit"
+                        class="bg-green-500 text-white font-bold px-6 py-3 rounded-lg shadow-md hover:bg-green-600 transition">
+                    Proceed to Checkout
+                </button>
+            </form>
         </div>
+
+
+        <div class="text-center mt-6">
+            <a th:href="@{/}" class="text-white underline">Continue shopping |</a> <a th:href="@{/clear-cart}"
+                                                                                      class="text-white underline">|
+            Empty
+            cart</a>
+        </div>
+
     </div>
-
-    <!-- Checkout Button -->
-    <div class="mt-6">
-        <form th:action="@{/checkout}" method="get">
-            <button type="submit"
-                    class="bg-green-500 text-white font-bold px-6 py-3 rounded-lg shadow-md hover:bg-green-600 transition">
-                Proceed to Checkout
-            </button>
-        </form>
-    </div>
-
-
-    <div class="text-center mt-6">
-        <a th:href="@{/}" class="text-white underline">Continue shopping |</a> <a th:href="@{/clear-cart}"
-                                                                                  class="text-white underline">| Empty
-        cart</a>
-    </div>
-
 </div>
 
 <!-- Footer -->
 <footer class="footer" style="color: black;">
-    <p style="color: black;">Follow us on social <img src="/imgs/allMedia.png" alt="social" class="social-logo"></p>
+
+    <p style="color: black;">
+        <a style="color: black;" href="mailto:contact@agriecommerce.com"
+           class="text-white hover:text-yellow-500 font-bold">
+            Contact Us </a><img src="/imgs/allMedia.png" alt="social" class="social-logo">
+    </p>
 
     <div class="footer-container" style="color: black;">
         <div class="social-icons">
@@ -114,16 +124,13 @@
             <a href="#" aria-label="X (Twitter)"><img src="/imgs/xtwiter.png" alt="x" class="social-icon"></a>
             <a href="#" aria-label="YouTube"><img src="/imgs/youtube.png" alt="youtube" class="social-icon"></a>
         </div>
-        <p class="payment-methods" style="color: black;"><i>fsqs© now accepting: PayPal™️ </i></p>
+        <p class="payment-methods" style="color: black;font-size: 11px;"><i>fsqs© now accepting: PayPal™️ </i></p>
         <div class="paypal-container"><img src="/imgs/modePaiement.png" style="height: 150px; width:450px;"
                                            alt="Paypal"></div>
     </div>
 
-    <p style="color: black;">
-        <a style="color: black;" href="mailto:contact@agriecommerce.com"
-           class="text-white hover:text-yellow-500 font-bold">
-            Contact Us
-        </a> | Production Canada-Côte d'Ivoire 🇨🇮 | 🇨🇦
+    <p style="color: black; font-size: 8px;">
+        Follow us on social | Production Canada-Côte d'Ivoire 🇨🇮 | 🇨🇦
     </p>
 
 </footer>
