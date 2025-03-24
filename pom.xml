@@ -133,18 +133,11 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- MySQL Driver -->
+        <!-- Spring Boot Starter Mail for Email functionality -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.27</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.flabola</groupId>
-            <artifactId>toolBox</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
 
     </dependencies>
 
