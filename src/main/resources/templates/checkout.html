@@ -2,124 +2,164 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shopping Cart - Agri E-commerce</title>
-  <link rel="stylesheet" th:href="@{/styles.css}">
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Agri E-commerce</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="min-h-screen bg-gradient-to-b from-pink-400 to-blue-600 p-8 flex flex-col items-center">
+<body class="min-h-screen bg-gradient-to-b from-pink-400 to-blue-600 p-8 flex flex-col">
 
+<!-- Header -->
 <div class="flabola-container">
-  <p class="text-white font-bold"><small>Dyula FEREH WH✪LESALE</small></p>
+    <p class="text-white font-bold"><small>Dyula FEREH WH✪LESALE</small></p>
 </div>
 
 <h1 class="text-4xl font-bold text-center text-white mb-6"><i>African</i> STORE</h1>
 
+<div class="random-space"></div>
+
+<div class="horizontal_line"></div>
+
+<div class="random-space"></div>
+
 <div class="container mt-8">
-  <div class="bg-white shadow-xl rounded-2xl p-6 w-full max-w-2xl">
-    <h2 class="text-2xl font-bold mb-4">Order Summary</h2>
-    <table class="w-full border-collapse">
-      <thead>
-      <tr class="bg-purple-700 text-white">
-        <th class="p-3 text-left">Product</th>
-        <th class="p-3 text-left">Quantity</th>
-        <th class="p-3 text-left">Price / unit</th>
-        <th class="p-3 text-left">Total</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="item : ${cartItems}">
-        <td class="p-3" th:text="${item.product.name}"></td>
-        <td class="p-3" th:text="${item.quantity}"></td>
-        <td class="p-3" th:text="'$' + ${item.product.price}"></td>
-        <td class="p-3" th:text="'$' + ${item.totalPrice}"></td>
-      </tr>
-      </tbody>
-    </table>
-    <div class="flex justify-between text-xl font-bold mt-4">
-      <span>Total:</span>
-      <span th:text="'$' + ${totalAmount}"></span>
+
+    <!-- Content Wrapper -->
+    <div class="bg-white shadow-xl rounded-2xl p-6 w-full max-w-2xl">
+        <h2 class="text-2xl font-bold mb-4">Order Summary</h2>
+        <table class="w-full border-collapse">
+            <thead>
+            <tr class="bg-purple-700 text-white">
+                <th class="p-3 text-left">Product</th>
+                <th class="p-3 text-left">Quantity</th>
+                <th class="p-3 text-left">Price / unit</th>
+                <th class="p-3 text-left">Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${cartItems}">
+                <td class="p-3" th:text="${item.product.name}"></td>
+                <td class="p-3" th:text="${item.quantity}"></td>
+                <td class="p-3" th:text="'$' + ${item.product.price}"></td>
+                <td class="p-3" th:text="'$' + ${item.totalPrice}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="flex justify-between text-xl font-bold mt-4">
+            <span>Total:</span>
+            <span th:text="'$' + ${totalAmount}"></span>
+        </div>
     </div>
-  </div>
 
-  <div class="bg-white shadow-xl rounded-2xl p-6 mt-6 w-full max-w-2xl">
-    <h2 class="text-2xl font-bold mb-4">Billing & Shipping</h2>
-    <form th:action="@{/process-checkout}" method="post">
-      <label class="block mb-2">Full Name</label>
-      <input type="text" name="fullName" class="w-full p-2 border rounded mb-4" required>
+    <div class="bg-white shadow-xl rounded-2xl p-6 mt-6 w-full max-w-2xl">
+        <h2 class="text-2xl font-bold mb-4">Billing & Shipping</h2>
+        <form th:action="@{/process-checkout}" method="post">
+            <label class="block mb-2">Full Name</label>
+            <input type="text" name="fullName" class="w-full p-2 border rounded mb-4" required>
 
-      <label class="block mb-2">Billing Address</label>
-      <hr>
-      <label class="block mb-2">Civic address</label>
-      <input type="text" name="billingAddress" class="w-full p-2 border rounded mb-4" required>
-      <label class="block mb-2">Apartment #</label>
-      <input type="text" name="billingAddressApartment" class="w-full p-2 border rounded mb-4" required>
-      <label class="block mb-2">Province</label>
-      <input type="text" name="billingAddressProvince" class="w-full p-2 border rounded mb-4" required>
+            <label class="block mb-2">Email</label>
+            <input type="text" name="clientsMail" class="w-full p-2 border rounded mb-4" required>
 
-      <label class="flex items-center mb-4">
-        <input type="checkbox" id="sameAddress" name="shippingInfo" value="same" class="mr-2">
-        Same as billing
-      </label>
-      <hr>
-      <div id="shippingSection">
-        <label class="block mb-2">Civic address</label>
-        <input type="text" name="shippingAddress" class="w-full p-2 border rounded mb-4" required>
-        <label class="block mb-2">Apartment #</label>
-        <input type="text" name="shippingAddressApartment" class="w-full p-2 border rounded mb-4" required>
-        <label class="block mb-2">Province</label>
-        <input type="text" name="shippingAddressProvince" class="w-full p-2 border rounded mb-4" required>
-      </div>
+            <label class="block mb-2">Billing Address</label>
+            <hr>
+            <label class="block mb-2">Civic address</label>
+            <input type="text" name="billingAddress" class="w-full p-2 border rounded mb-4" required>
 
-      <label class="block mb-2">Payment Method</label>
-      <select name="paymentMethod" class="w-full p-2 border rounded mb-4">
-        <option value="paypal">PayPal</option>
-        <option value="credit_card">Credit Card soon to come</option>
-      </select>
-      <button type="submit" class="w-full bg-green-500 text-white font-bold py-3 rounded mt-4">Confirm Order</button>
-    </form>
-  </div>
+            <label class="block mb-2">Apartment #</label>
+            <input type="text" name="billingAddressApartment" class="w-full p-2 border rounded mb-4" required>
 
-  <div class="text-center mt-6">
-    <a th:href="@{/}" class="text-white underline">Continue Shopping</a>
-  </div>
+            <label class="block mb-2">Province</label>
+            <select name="billingAddressProvince" id="billingProvince" class="w-full p-2 border rounded mb-4 text-lg font-bold">
+                <option value="QC">Quebec</option>
+                <option value="ON">Ontario</option>
+            </select>
+
+            <label class="block mb-2">Postal Code</label>
+            <input type="text" name="billingPostal" id="billingPostal" class="w-full p-2 border rounded mb-4" required>
+
+            <label class="flex items-center mb-4">
+                <input type="checkbox" id="sameAddress" name="shippingInfo" value="same" class="mr-2">
+                Same as billing
+            </label>
+            <hr>
+            <div id="shippingSection">
+                <label class="block mb-2">Civic address</label>
+                <input type="text" name="shippingAddress" id="shippingAddress" class="w-full p-2 border rounded mb-4" required>
+
+                <label class="block mb-2">Apartment #</label>
+                <input type="text" name="shippingAddressApartment" id="shippingApartment" class="w-full p-2 border rounded mb-4" required>
+
+                <label class="block mb-2">Province</label>
+                <select name="shippingAddressProvince" id="shippingProvince" class="w-full p-2 border rounded mb-4 text-lg font-bold">
+                    <option value="QC">Quebec</option>
+                    <option value="ON">Ontario</option>
+                </select>
+
+                <label class="block mb-2">Postal Code</label>
+                <input type="text" name="shippingPostal" id="shippingPostal" class="w-full p-2 border rounded mb-4" required>
+            </div>
+
+            <label class="block mb-2">Payment Method</label>
+            <select name="paymentMethod" class="w-full p-2 border rounded mb-4">
+                <option value="paypal">PayPal</option>
+                <option value="credit_card">Credit Card soon to come</option>
+            </select>
+
+            <button type="submit" class="w-full bg-green-500 text-white font-bold py-3 rounded mt-4">Confirm Order</button>
+        </form>
+    </div>
+
+    <div class="text-center mt-6">
+        <a th:href="@{/}" class="text-white underline">Continue Shopping</a>
+    </div>
 </div>
 
+<!-- Footer -->
 <footer class="footer" style="color: black;">
-  <p>
-    <a href="mailto:contact@agriecommerce.com" class="text-white hover:text-yellow-500 font-bold">
-      Contact Us
-    </a>
-    <img src="/imgs/allMedia.png" alt="social" class="social-logo">
-  </p>
-  <div class="footer-container">
-    <div class="social-icons">
-      <a href="#"><img src="/imgs/fb.png" alt="fb" class="social-icon"></a>
-      <a href="#"><img src="/imgs/ig.png" alt="ig" class="social-icon"></a>
-      <a href="#"><img src="/imgs/xtwiter.png" alt="x" class="social-icon"></a>
-      <a href="#"><img src="/imgs/youtube.png" alt="youtube" class="social-icon"></a>
+    <p style="color: black;">
+        <a style="color: black;" href="mailto:contact@agriecommerce.com" class="text-white hover:text-yellow-500 font-bold">Contact Us </a>
+        <img src="/imgs/allMedia.png" alt="social" class="social-logo">
+    </p>
+    <div class="footer-container" style="color: black;">
+        <div class="social-icons">
+            <a href="#" aria-label="Facebook"><img src="/imgs/fb.png" alt="fb" class="social-icon"></a>
+            <a href="#" aria-label="Instagram"><img src="/imgs/ig.png" alt="ig" class="social-icon"></a>
+            <a href="#" aria-label="Twitter"><img src="/imgs/xtwiter.png" alt="x" class="social-icon"></a>
+            <a href="#" aria-label="YouTube"><img src="/imgs/youtube.png" alt="youtube" class="social-icon"></a>
+        </div>
+        <p class="payment-methods" style="color: black;font-size: 11px;"><i>fsqs© now accepting: PayPal™️ </i></p>
+        <div class="paypal-container">
+            <img src="/imgs/modePaiement.png" style="height: 150px; width:450px;" alt="Paypal">
+        </div>
     </div>
-    <p class="payment-methods" style="font-size: 11px;"><i>fsqs© now accepting: PayPal™️ </i></p>
-    <div class="paypal-container"><img src="/imgs/modePaiement.png" style="height: 150px; width:450px;" alt="Paypal"></div>
-  </div>
-  <p style="font-size: 8px;">
-    Follow us on social | Production Canada-Côte d'Ivoire 🇨🇮 | 🇨🇦
-  </p>
+    <p style="color: black; font-size: 8px;">Follow us on social | Production Canada-Côte d'Ivoire 🇨🇮 | 🇨🇦</p>
 </footer>
 
 <script>
-  document.getElementById('sameAddress').addEventListener('change', function () {
-    const shippingSection = document.getElementById('shippingSection');
-    if (this.checked) {
-      shippingSection.style.display = 'none';
-    } else {
-      shippingSection.style.display = 'block';
-    }
-  });
+    document.getElementById('sameAddress').addEventListener('change', function () {
+        const shippingSection = document.getElementById('shippingSection');
+        const billingAddress = document.querySelector("input[name='billingAddress']").value;
+        const billingApartment = document.querySelector("input[name='billingAddressApartment']").value;
+        const billingProvince = document.getElementById("billingProvince").value;
+        const billingPostal = document.getElementById("billingPostal").value;
+
+        if (this.checked) {
+          document.getElementById("shippingAddress").value = billingAddress;
+          document.getElementById("shippingApartment").value = billingApartment;
+          document.getElementById("shippingProvince").value = billingProvince;
+          document.getElementById("shippingPostal").value = billingPostal;
+          shippingSection.style.display = 'none';
+        } else {
+          document.getElementById("shippingAddress").value = '';
+          document.getElementById("shippingApartment").value = '';
+          document.getElementById("shippingProvince").value = 'QC';
+          document.getElementById("shippingPostal").value = '';
+          shippingSection.style.display = 'block';
+        }
+      });
 </script>
 
 </body>
-
 </html>
