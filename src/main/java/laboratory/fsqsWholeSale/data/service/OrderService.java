@@ -46,9 +46,12 @@ public class OrderService {
 
             // Update stock and price at the time of purchase
             product.setStock(product.getStock() - item.getQuantity());
-            productRepository.save(product);  // Save the updated product
+            //productRepository.save(product);  // Save the updated product
 
             item.setPriceAtPurchase(product.getPrice());  // Set price at the time of purchase
+
+
+
         }
 
         // Save and return the order

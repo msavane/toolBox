@@ -3,6 +3,8 @@ package laboratory.fsqsWholeSale.data.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 
+import java.math.BigDecimal;
+
 
 @Entity
 @Table(name = "order_items")
@@ -16,7 +18,7 @@ public class OrderItem  {
 
     @Min(1)
     private int quantity;
-    private double priceAtPurchase;
+    private BigDecimal priceAtPurchase;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
@@ -29,8 +31,9 @@ public class OrderItem  {
     public void setProduct(Product product) { this.product = product; }
     public int getQuantity() { return quantity; }
     public void setQuantity(int quantity) { this.quantity = quantity; }
-    public double getPriceAtPurchase() { return priceAtPurchase; }
-    public void setPriceAtPurchase(double priceAtPurchase) { this.priceAtPurchase = priceAtPurchase; }
+    public BigDecimal getPriceAtPurchase() { return priceAtPurchase; }
+    public void setPriceAtPurchase(BigDecimal priceAtPurchase) {
+        this.priceAtPurchase = priceAtPurchase; }
     public Order getOrder() { return order; }
     public void setOrder(Order order) { this.order = order; }
 }

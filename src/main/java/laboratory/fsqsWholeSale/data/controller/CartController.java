@@ -1,18 +1,29 @@
 package laboratory.fsqsWholeSale.data.controller;
 
 import laboratory.fsqsWholeSale.data.model.CartItem;
+import laboratory.fsqsWholeSale.data.model.Order;
+import laboratory.fsqsWholeSale.data.model.OrderItem;
 import laboratory.fsqsWholeSale.data.service.CartService;
+import laboratory.fsqsWholeSale.data.service.EmailService;
+import laboratory.fsqsWholeSale.data.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class CartController {
 
     private final CartService cartService;
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private EmailService emailService;
 
     public CartController(CartService cartService) {
         this.cartService = cartService;
@@ -64,6 +75,7 @@ public class CartController {
 
         return "cart";  // Return the Thymeleaf template with updated data
     }
+
     @GetMapping("/checkout")
     public String showCheckoutPage(Model model) {
         List<CartItem> cartItems = cartService.getCartItems();
@@ -96,9 +108,80 @@ public class CartController {
         }
     }
 
-   /* @PostMapping("/process-checkout"){
-        return null;
-    }*/
+    // New functionality to process checkout, send email, and redirect to PayPal
+    @PostMapping("/process-checkout")
+    public String processCheckout(@RequestParam String fullName,
+                                  @RequestParam String clientsMail,
+                                  @RequestParam String billingAddress,
+                                  @RequestParam String billingAddressApartment,
+                                  @RequestParam String billingAddressProvince,
+                                  @RequestParam String billingPostal,
+                                  Model model) {
+        List<CartItem> cartItems = cartService.getCartItems();
+        Order order = new Order();
+        order.setFullName(fullName);
+        order.setEmail(clientsMail);
+        order.setBillingAddress(billingAddress);
+        order.setBillingAddressApartment(billingAddressApartment);
+        order.setBillingAddressProvince(billingAddressProvince);
+        order.setBillingPostal(billingPostal);
+        order.setStatus("pending");
+        order.setTotalPrice(calculateTotalAmount(cartItems)); // Calculate total amount
+
+        // Set order items
+      /*  List<OrderItem> orderItems = new ArrayList<>();
+        for (CartItem cartItem : cartItems) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setProduct(cartItem.getProduct());
+            orderItem.setQuantity(cartItem.getQuantity());
+            orderItem.setPriceAtPurchase(cartItem.getTotalPrice());
+            orderItems.add(orderItem);
+        }
+
+        order.setOrderItems(orderItems);
+*/
+
+        // Save order to MySQL
+        orderService.saveOrder(order);
+        System.out.println("Work on Order iTEMS and email Service next ....");
+
+
+        // Send order confirmation email
+        // emailService.sendOrderConfirmationEmail(clientsMail, order);
+        // Here we can proceed to PayPal setup later
+        // return "Order processed successfully! You will receive an email with the details.";
+
+        return ("cart");
+    }
+
+    // Helper method to calculate total order amount
+    private BigDecimal calculateTotalAmount(List<CartItem> cartItems) {
+        BigDecimal total = BigDecimal.ZERO; // Start with 0
+        BigDecimal afterTax = BigDecimal.ZERO;
+        for (CartItem item : cartItems) {
+// Assuming item.getTotalPrice() returns BigDecimal and item.getQuantity() returns int
+            BigDecimal price = item.getTotalPrice();
+            BigDecimal quantity = BigDecimal.valueOf(item.getQuantity()); // Convert int to BigDecimal
+
+// Calculate total before taxes
+            total = price.multiply(quantity); // No need to add to zero-initialized total
+
+// Corrected tax calculations
+            BigDecimal gst = total.multiply(BigDecimal.valueOf(0.05)); // 5% GST
+            BigDecimal qst = total.multiply(BigDecimal.valueOf(0.09975)); // 9.975% QST
+
+// Define delivery fee
+            BigDecimal deliveryFee = BigDecimal.valueOf(7.15);
+
+// Calculate total after taxes, including the delivery fee
+            afterTax = total.add(gst).add(qst).add(deliveryFee);
+
+// Debugging print
+            System.out.println("Total: " + total + " | GST: " + gst + " | QST: " + qst + " | After Tax: " + afterTax);
+
+        }
+        return afterTax;
+    }
 
     @GetMapping("/clear-cart")
     public String clearCart() {

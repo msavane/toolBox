@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "products")
 public class Product {
@@ -18,7 +20,7 @@ public class Product {
     private String description;
 
     @Min(0)
-    private double price;
+    private BigDecimal price;
 
     @Min(0)
     private int stock;
@@ -34,7 +36,7 @@ public class Product {
     public Product(String name, String description, double price, int stock, String imageUri) {
         this.name = name;
         this.description = description;
-        this.price = price;
+        this.price = BigDecimal.valueOf(price);
         this.stock = stock;
         this.imageUri = imageUri;
     }
@@ -49,8 +51,8 @@ public class Product {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public double getPrice() { return price; }
-    public void setPrice(double price) { this.price = price; }
+    public BigDecimal getPrice() { return price; }
+    public void setPrice(double price) { this.price = BigDecimal.valueOf(price); }
 
     public int getStock() { return stock; }
     public void setStock(int stock) { this.stock = stock; }

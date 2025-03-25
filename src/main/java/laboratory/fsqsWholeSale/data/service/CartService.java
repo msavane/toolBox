@@ -26,8 +26,9 @@ public class CartService {
         }
 
         int initialQuantity = Math.min(quantity, MAX_QTY);
-        BigDecimal totalPrice = BigDecimal.valueOf(product.getStock()*product.getPrice()).multiply(BigDecimal.valueOf(initialQuantity));
+        BigDecimal totalPrice = product.getPrice().multiply(BigDecimal.valueOf(initialQuantity));
         cartItems.add(new CartItem(product, initialQuantity, totalPrice));
+
     }
 
     public void updateCartItemQuantity(Long productId, int newQuantity) {
@@ -71,7 +72,9 @@ public class CartService {
 
     private void updateItemPrice(CartItem item) {
 
-        BigDecimal totalPrice = BigDecimal.valueOf(item.getQuantity()).multiply(BigDecimal.valueOf(item.getProduct().getPrice()*item.getStock()));
+        BigDecimal totalPrice = BigDecimal.valueOf(item.getQuantity())
+                .multiply(item.getProduct().getPrice())
+                .multiply(BigDecimal.valueOf(item.getStock()));
       //  BigDecimal totalPrice = BigDecimal.valueOf(item.getQuantity()).multiply(BigDecimal.valueOf(item.getProduct().getPrice()));
         item.setTotalPrice(totalPrice);
     }
