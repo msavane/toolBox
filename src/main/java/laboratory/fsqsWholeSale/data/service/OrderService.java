@@ -1,6 +1,7 @@
 package laboratory.fsqsWholeSale.data.service;
 
 import laboratory.fsqsWholeSale.data.OrderRepository;
+import laboratory.fsqsWholeSale.data.OrderItemRepository;
 import laboratory.fsqsWholeSale.data.ProductRepository;
 import laboratory.fsqsWholeSale.data.model.Order;
 import laboratory.fsqsWholeSale.data.model.OrderItem;
@@ -16,10 +17,12 @@ public class OrderService {
 
     private final laboratory.fsqsWholeSale.data.OrderRepository orderRepository;
     private final ProductRepository productRepository;
+    private final OrderItemRepository orderItemRepository;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, ProductRepository productRepository) {
+    public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository, ProductRepository productRepository) {
         this.orderRepository = orderRepository;
+        this.orderItemRepository = orderItemRepository;
         this.productRepository = productRepository;
     }
 
@@ -45,23 +48,35 @@ public class OrderService {
             }
 
             // Update stock and price at the time of purchase
-            product.setStock(product.getStock() - item.getQuantity());
-            //productRepository.save(product);  // Save the updated product
+            //product.setStock(product.getStock() - item.getQuantity());
+            item.setPriceAtPurchase(product.getPrice());
 
-            item.setPriceAtPurchase(product.getPrice());  // Set price at the time of purchase
-
-
-
+            // **Ensure OrderItem is linked to the Order**
+            item.setOrder(order);
         }
 
-        // Save and return the order
+        // Save the order and return it
         return orderRepository.save(order);
     }
 
+    @Transactional
+    public void saveOrderItem(OrderItem orderItem) {
+      /*  Product product = productRepository.findById(orderItem.getProduct().getId())
+                .orElseThrow(() -> new RuntimeException("Product not found"));
 
+        if (product.getStock() < orderItem.getQuantity()) {
+            throw new RuntimeException("Insufficient stock for product: " + product.getName());
+        }
+
+        orderItem.setPriceAtPurchase(product.getPrice());
+*/
+        orderItemRepository.save(orderItem);
+
+
+    }
 
     public void deleteOrder(Long id) {
-        // Delete the order by its ID
         orderRepository.deleteById(id);
     }
+
 }

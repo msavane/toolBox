@@ -11,8 +11,8 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String customerName;
-    private String address;
+   // private String customerName;
+    //private String address;
 
     // Using totalPrice instead of totalAmount for monetary values
     private BigDecimal totalPrice;
@@ -32,11 +32,11 @@ public class Order {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getCustomerName() { return customerName; }
-    public void setCustomerName(String customerName) { this.customerName = customerName; }
+    //public String getCustomerName() { return customerName; }
+    //public void setCustomerName(String customerName) { this.customerName = customerName; }
 
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
+    //public String getAddress() { return address; }
+    //public void setAddress(String address) { this.address = address; }
 
     public BigDecimal getTotalPrice() { return totalPrice; }
     public void setTotalPrice(BigDecimal totalPrice) { this.totalPrice = totalPrice; }

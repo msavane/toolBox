@@ -18,8 +18,8 @@ public class EmailService {
         message.setTo(toEmail);
         message.setSubject("Order Confirmation - " + order.getId());
         message.setText("Thank you for your order. Here are your details:\n"
-                + "Full Name: " + order.getCustomerName() + "\n"
-                + "Billing Address: " + order.getAddress() + "\n"
+                + "Full Name: " + order.getFullName() + "\n"
+                + "Billing Address: " + order.getBillingAddress() + "\n"
                 + "Total Amount: $" + order.getTotalPrice() + "\n"
                 + "Status: " + order.getStatus() + "\n\n"
                 + "Please complete your payment.");

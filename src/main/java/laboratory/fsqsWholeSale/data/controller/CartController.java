@@ -2,6 +2,7 @@ package laboratory.fsqsWholeSale.data.controller;
 
 import laboratory.fsqsWholeSale.data.model.CartItem;
 import laboratory.fsqsWholeSale.data.model.Order;
+import laboratory.fsqsWholeSale.data.helpers.DataCreatorHelper;
 import laboratory.fsqsWholeSale.data.model.OrderItem;
 import laboratory.fsqsWholeSale.data.service.CartService;
 import laboratory.fsqsWholeSale.data.service.EmailService;
@@ -128,22 +129,29 @@ public class CartController {
         order.setStatus("pending");
         order.setTotalPrice(calculateTotalAmount(cartItems)); // Calculate total amount
 
+// **Step 1: Save Order FIRST so it gets an ID**
+        order = orderService.saveOrder(order);  // Ensure order gets an ID
+
         // Set order items
-      /*  List<OrderItem> orderItems = new ArrayList<>();
+        List<OrderItem> orderItems = new ArrayList<>();
+
         for (CartItem cartItem : cartItems) {
             OrderItem orderItem = new OrderItem();
             orderItem.setProduct(cartItem.getProduct());
             orderItem.setQuantity(cartItem.getQuantity());
             orderItem.setPriceAtPurchase(cartItem.getTotalPrice());
+            // **Step 2: Assign the saved order to each orderItem**
+            orderItem.setOrder(order);
             orderItems.add(orderItem);
         }
 
-        order.setOrderItems(orderItems);
-*/
 
-        // Save order to MySQL
+        order.setOrderItems(orderItems);
+
+        // **Step 3: Save order with order items**
         orderService.saveOrder(order);
-        System.out.println("Work on Order iTEMS and email Service next ....");
+
+        System.out.println("Work on email Service next ....");
 
 
         // Send order confirmation email
