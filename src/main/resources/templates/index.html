@@ -32,7 +32,7 @@
 <div class="container mt-8">
 
     <!-- Content Wrapper -->
-    <div class="flex flex-row gap-8 mt-6">
+    <div class="flex flex-col gap-8 mt-6">
 
         <!-- Search & News Pane -->
         <div class="w-1/3 bg-white p-4 rounded-lg shadow-lg">
@@ -47,14 +47,75 @@
                 </button>
             </form>
             <hr class="my-4">
-            <h2 class="text-lg font-bold text-purple-700">Latest News</h2>
+           <!-- <h2 class="text-lg font-bold text-purple-700">Latest News</h2>
             <ul>
                 <li th:each="feed : ${rssFeeds}" th:utext="${feed}"></li>
             </ul>
+            -->
         </div>
+<br/>
+        <!-- Fruits and Veggie Product Table -->
+        <p class="cursor-pointer text-purple-700 font-bold mb-2"
+           onclick="toggleSection('fruitsAndVegetables', this)">(+) Fruits and vegetables</p>
+        <div id="fruitsAndVegetables">
+        <div class="w-full bg-white p-4 rounded-lg shadow-lg overflow-x-auto">
+            <table class="w-full border-collapse">
+                <thead>
+                <tr class="bg-green-700 text-white">
+                    <th class="p-3 text-left">Product Image</th>
+                    <th class="p-3 text-left">Product Name</th>
+                    <th class="p-3 text-left">Description</th>
+                    <th class="p-3 text-left">Price</th>
+                    <th class="p-3 text-center">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product : ${products}" th:if="${product.category != null and product.category.toLowerCase() == 'veggie'}" class="border-b hover:bg-gray-100 transition">
+                    <td class="p-3 text-center">
+                        <img th:src="@{${product.imageUri}}" alt="Product Image" class="w-16 h-16 object-cover rounded"/>
+                    </td>
+                    <td class="p-3 font-semibold text-purple-700" th:text="${product.name}"></td>
+                    <td class="p-3 text-gray-600" th:text="${product.description}"></td>
+                    <td class="p-3 text-yellow-500 font-bold text-lg" th:text="'$' + ${#numbers.formatDecimal(product.price, 1, 2)}"></td>
+                    <td class="p-3 flex justify-center">
+                        <form th:action="@{/add-to-cart}" method="post">
+                            <input type="hidden" name="productId" th:value="${product.id}"/>
+                            <input type="hidden" name="quantity" th:value="1"/>
+                            <button type="submit" class="bg-purple-700 text-white font-bold px-4 py-2 rounded-lg shadow-md hover:bg-purple-800 transition">
+                                Add to Cart
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+        <br/>
+        <!-- pagination area -->
+        <!-- Fruits and Vegetables Pagination -->
+        <div class="mt-6 flex justify-center gap-3">
+        <a th:href="@{|/products?page=${fruitsPage - 1}|}"
+           class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
+           th:if="${fruitsPage > 1}">
+            Previous
+        </a>
 
-        <!-- Product Table -->
-        <div class="w-2/3 bg-white p-4 rounded-lg shadow-lg overflow-x-auto">
+        <span class="px-4 py-2 bg-purple-700 text-white rounded-lg shadow-md"
+              th:text="'Page ' + ${fruitsPage} + ' of ' + ${fruitsTotalPages}"></span>
+
+        <a th:href="@{|/products?page=${fruitsPage + 1}|}"
+           class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
+           th:if="${fruitsPage < fruitsTotalPages}">
+            Next
+        </a>
+        </div>
+        <br/>
+        <!-- Aisles -->
+        <p class="cursor-pointer text-purple-700 font-bold mb-2" onclick="toggleSection('aisles')">(+) Aisles</p>
+        <div id="aisles" class="hidden">
+            <!-- Your content here -->
+            <div class="w-full bg-white p-4 rounded-lg shadow-lg overflow-x-auto">
             <table class="w-full border-collapse">
                 <thead>
                 <tr class="bg-purple-700 text-white">
@@ -66,21 +127,18 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="product : ${products}" class="border-b hover:bg-gray-100 transition">
+                <tr th:each="product : ${products}" th:if="${product.category != null and product.category.toLowerCase() == 'aisle'}" class="border-b hover:bg-gray-100 transition">
                     <td class="p-3 text-center">
-                        <img th:src="@{${product.imageUri}}" alt="Product Image"
-                             class="w-16 h-16 object-cover rounded"/>
+                        <img th:src="@{${product.imageUri}}" alt="Product Image" class="w-16 h-16 object-cover rounded"/>
                     </td>
                     <td class="p-3 font-semibold text-purple-700" th:text="${product.name}"></td>
                     <td class="p-3 text-gray-600" th:text="${product.description}"></td>
-                    <td class="p-3 text-yellow-500 font-bold text-lg"
-                        th:text="'$' + ${#numbers.formatDecimal(product.price, 1, 2)}"></td>
+                    <td class="p-3 text-yellow-500 font-bold text-lg" th:text="'$' + ${#numbers.formatDecimal(product.price, 1, 2)}"></td>
                     <td class="p-3 flex justify-center">
                         <form th:action="@{/add-to-cart}" method="post">
                             <input type="hidden" name="productId" th:value="${product.id}"/>
                             <input type="hidden" name="quantity" th:value="1"/>
-                            <button type="submit"
-                                    class="bg-purple-700 text-white font-bold px-4 py-2 rounded-lg shadow-md hover:bg-purple-800 transition">
+                            <button type="submit" class="bg-purple-700 text-white font-bold px-4 py-2 rounded-lg shadow-md hover:bg-purple-800 transition">
                                 Add to Cart
                             </button>
                         </form>
@@ -88,23 +146,80 @@
                 </tr>
                 </tbody>
             </table>
+            </div>
         </div>
+        <!-- pagination area -->
+        <!-- Aisles Goods Pagination -->
+        <div class="mt-6 flex justify-center gap-3">
+            <a th:href="@{|/aisles?page=${aislesPage - 1}|}"
+               class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
+               th:if="${aislesPage > 1}">
+                Previous
+            </a>
+
+            <span class="px-4 py-2 bg-purple-700 text-white rounded-lg shadow-md"
+                  th:text="'Page ' + ${aislesPage} + ' of ' + ${aislesTotalPages}"></span>
+
+            <a th:href="@{|/aisles?page=${aislesPage + 1}|}"
+               class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
+               th:if="${aislesPage < aislesTotalPages}">
+                Next
+            </a>
+        </div>
+        <!-- Frozen Goods -->
+        <p class="cursor-pointer text-purple-700 font-bold mb-2" onclick="toggleSection('frozenGoods')">(+) Frozen goods</p>
+        <div id="frozenGoods" class="hidden">
+            <!-- Your content here -->
+            <div class="w-full bg-white p-4 rounded-lg shadow-lg overflow-x-auto">
+                <table class="w-full border-collapse">
+                    <thead>
+                    <tr class="bg-blue-700 text-white">
+                        <th class="p-3 text-left">Product Image</th>
+                        <th class="p-3 text-left">Product Name</th>
+                        <th class="p-3 text-left">Description</th>
+                        <th class="p-3 text-left">Price</th>
+                        <th class="p-3 text-center">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="product : ${products}" th:if="${product.category != null and product.category.toLowerCase() == 'frozen'}" class="border-b hover:bg-gray-100 transition">
+                        <td class="p-3 text-center">
+                            <img th:src="@{${product.imageUri}}" alt="Product Image" class="w-16 h-16 object-cover rounded"/>
+                        </td>
+                        <td class="p-3 font-semibold text-purple-700" th:text="${product.name}"></td>
+                        <td class="p-3 text-gray-600" th:text="${product.description}"></td>
+                        <td class="p-3 text-yellow-500 font-bold text-lg" th:text="'$' + ${#numbers.formatDecimal(product.price, 1, 2)}"></td>
+                        <td class="p-3 flex justify-center">
+                            <form th:action="@{/add-to-cart}" method="post">
+                                <input type="hidden" name="productId" th:value="${product.id}"/>
+                                <input type="hidden" name="quantity" th:value="1"/>
+                                <button type="submit" class="bg-purple-700 text-white font-bold px-4 py-2 rounded-lg shadow-md hover:bg-purple-800 transition">
+                                    Add to Cart
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
     <!-- pagination area -->
-    <!-- Pagination -->
+    <!-- Frozen Goods Pagination -->
     <div class="mt-6 flex justify-center gap-3">
-        <a th:href="@{|/products?page=${currentPage - 1}|}"
+        <a th:href="@{|/frozenGoods?page=${frozenGoodsPage - 1}|}"
            class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
-           th:if="${currentPage > 1}">
+           th:if="${frozenGoodsPage > 1}">
             Previous
         </a>
 
         <span class="px-4 py-2 bg-purple-700 text-white rounded-lg shadow-md"
-              th:text="'Page ' + ${currentPage} + ' of ' + ${totalPages}"></span>
+              th:text="'Page ' + ${frozenGoodsPage} + ' of ' + ${frozenGoodsTotalPages}"></span>
 
-        <a th:href="@{|/products?page=${currentPage + 1}|}"
+        <a th:href="@{|/frozenGoods?page=${frozenGoodsPage + 1}|}"
            class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
-           th:if="${currentPage < totalPages}">
+           th:if="${frozenGoodsPage < frozenGoodsTotalPages}">
             Next
         </a>
     </div>
@@ -199,5 +314,38 @@
 </footer>
 
 </body>
+<script>
+    function toggleSection(sectionId, toggleText) {
+        let section = document.getElementById(sectionId);
+        let textElement = toggleText;
 
+        // Check if the section is open or closed
+        if (section.classList.contains("hidden")) {
+            section.classList.remove("hidden");
+            textElement.innerText = "(-) " + textElement.innerText.slice(4); // Change to (-)
+            localStorage.setItem(sectionId, 'open');  // Store section state
+        } else {
+            section.classList.add("hidden");
+            textElement.innerText = "(+) " + textElement.innerText.slice(4); // Change to (+)
+            localStorage.setItem(sectionId, 'closed');  // Store section state
+        }
+    }
+
+    // On page load, check if the section should be open or closed
+    document.addEventListener('DOMContentLoaded', function() {
+        let fruitsSection = document.getElementById('fruitsAndVegetables');
+        let aislesSection = document.getElementById('aisles');
+        let frozenSection = document.getElementById('frozenGoods');
+
+        if (localStorage.getItem('fruitsAndVegetables') === 'open') {
+            fruitsSection.classList.remove('hidden');
+        }
+        if (localStorage.getItem('aisles') === 'open') {
+            aislesSection.classList.remove('hidden');
+        }
+        if (localStorage.getItem('frozenGoods') === 'open') {
+            frozenSection.classList.remove('hidden');
+        }
+    });
+</script>
 </html>
