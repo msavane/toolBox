@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 
+
+
+
 @Service
 public class ProductService {
 
@@ -69,4 +72,37 @@ public class ProductService {
         return categoryRepository.findByName(name)
                 .orElseThrow(() -> new RuntimeException("Category not found: " + name));
     }
+
+   /* public Page<Product> getFruitsPage(int page, int size) {
+        return productRepository.findByCategoryIgnoreCase("veggie", PageRequest.of(page - 1, size));
+    }*/
+    public Page<Product> getAislesPage(int page, int size) {
+        return productRepository.findByCategoryIgnoreCase("aisle", PageRequest.of(page - 1, size));
+    }
+
+
+    @Transactional
+    public Page<Product> getFruitsPage(int page, int size) {
+        return productRepository.findByCategoryIgnoreCase("veggie", PageRequest.of(page - 1, size));
+    }
+
+   @Transactional
+    public Page<Product> getFrozenPage(int page, int size) {
+        return productRepository.findByCategoryIgnoreCase("frozen", PageRequest.of(page - 1, size));
+
+    }
+
+    public Page<Product> getProductsByCategory(int page, int pageSize, String category) {
+        switch (category.toLowerCase()) {
+            case "veggie":
+                return getFruitsPage(page, pageSize);
+            case "aisles":
+                return getAislesPage(page, pageSize);
+            case "frozen":
+                return getFrozenPage(page, pageSize);
+            default:
+                return getPaginatedProducts(page, pageSize);
+        }
+    }
+
 }

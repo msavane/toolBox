@@ -26,38 +26,95 @@ public class HomeController {
     @Autowired
     private RssService rssService;
 
+    private String categoriesVals;
+
     @GetMapping("/")
     public String home(@RequestParam(defaultValue = "1") int page,
                        @RequestParam(defaultValue = "4") int pageSize,
+                       @RequestParam(defaultValue = "all") String category,
                        Model model) {
-        return getProductsPage(page, pageSize, model);
+
+        // Load products for each category and store them under distinct names in the model
+        getProductsPage(page, pageSize, "veggie", model);  // stores "veggieProducts"
+        getProductsPage(page, pageSize, "aisles", model);  // stores "aislesProducts"
+        getProductsPage(page, pageSize, "frozen", model);  // stores "frozenProducts"
+
+        // Now load the selected category data
+        return getProductsPage(page, pageSize, category, model);
     }
+
 
     @GetMapping("/products")
     public String productsPage(@RequestParam(defaultValue = "1") int page,
                                @RequestParam(defaultValue = "4") int pageSize,
+                               @RequestParam(defaultValue = "all") String category,
                                Model model) {
-        return getProductsPage(page, pageSize, model);
+        return getProductsPage(page, pageSize, category, model);
     }
 
-    private String getProductsPage(int page, int pageSize, Model model) {
-        try {
-            Page<Product> productPage = productService.getPaginatedProducts(page, pageSize);
+    @GetMapping("/aisles")
+    public String setAislesCategory(@RequestParam(defaultValue = "1") int page,
+                                    @RequestParam(defaultValue = "4") int pageSize,
+                                    Model model) {
+        return getProductsPage(page, pageSize, "aisles", model);
+    }
 
-            model.addAttribute("products", productPage.getContent());
-            model.addAttribute("currentPage", page);
+    @GetMapping("/veggie")
+    public String setFruitsCategory(@RequestParam(defaultValue = "1") int page,
+                                    @RequestParam(defaultValue = "4") int pageSize,
+                                    Model model) {
+        return getProductsPage(page, pageSize, "veggie", model);
+    }
+
+    @GetMapping("/frozen")
+    public String setFrozenCategory(@RequestParam(defaultValue = "1") int page,
+                                    @RequestParam(defaultValue = "4") int pageSize,
+                                    Model model) {
+        return getProductsPage(page, pageSize, "frozen", model);
+    }
+
+    private String getProductsPage(int page, int pageSize, String category, Model model) {
+        try {
+            Page<Product> productPage;
+
+            // Handle the category-specific product page
+            if ("veggie".equalsIgnoreCase(category)) {
+                productPage = productService.getFruitsPage(page, pageSize);
+            } else if ("aisles".equalsIgnoreCase(category)) {
+                productPage = productService.getAislesPage(page, pageSize);
+            } else if ("frozen".equalsIgnoreCase(category)) {
+                productPage = productService.getFrozenPage(page, pageSize);
+            } else {
+                productPage = productService.getPaginatedProducts(page, pageSize);
+            }
+
+            List<Product> products = productPage.getContent();
+            model.addAttribute("category", category);
+            model.addAttribute("products", products);
+
+            // Set pagination info
+            model.addAttribute("currentPage", productPage.getNumber() );
             model.addAttribute("totalPages", productPage.getTotalPages());
             model.addAttribute("hasNextPage", productPage.hasNext());
             model.addAttribute("hasPreviousPage", productPage.hasPrevious());
 
-            String rssUrl = "https://www.bankofcanada.ca/content_type/canadian-survey-of-consumer-expectations/feed/";
-            model.addAttribute("rssFeeds", rssService.fetchRssFeed(rssUrl));
+            // Category-specific pagination (just add once based on the category)
+            if ("veggie".equalsIgnoreCase(category)) {
+                model.addAttribute("fruitsPage", productPage.getNumber() + 1);
+                model.addAttribute("fruitsTotalPages", productPage.getTotalPages());
+            } else if ("aisles".equalsIgnoreCase(category)) {
+                model.addAttribute("aislesPage", productPage.getNumber() + 1);
+                model.addAttribute("aislesTotalPages", productPage.getTotalPages());
+            } else if ("frozen".equalsIgnoreCase(category)) {
+                model.addAttribute("frozenGoodsPage", productPage.getNumber() + 1);
+                model.addAttribute("frozenGoodsTotalPages", productPage.getTotalPages());
+            }else {
+                model.addAttribute("currentPage", productPage.getNumber()+1 );
+                model.addAttribute("totalPages", productPage.getTotalPages());
+                model.addAttribute("hasNextPage", productPage.hasNext());
+                model.addAttribute("hasPreviousPage", productPage.hasPrevious());
+            }
 
-            String secondRssUrl = "https://www.cirad.fr/rss/actualites";
-            model.addAttribute("secondRssFeeds", rssService.fetchRssFeed(secondRssUrl));
-
-            model.addAttribute("loading", false);
-            model.addAttribute("error", null);
         } catch (Exception e) {
             model.addAttribute("error", "Failed to load products or RSS feeds.");
             model.addAttribute("loading", false);
@@ -65,6 +122,8 @@ public class HomeController {
         }
         return "index";
     }
+
+
 
     @GetMapping("/inventaire-magasin")
     public String showInventoryPage(@RequestParam(defaultValue = "1") int page,

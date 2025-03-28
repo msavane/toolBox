@@ -1,0 +1,128 @@
+USE AgriEcommerceDB;
+SHOW TABLES;
+
+-- Remove foreign key constraint from order_items
+ALTER TABLE order_items DROP FOREIGN KEY order_items_ibfk_1;
+
+-- Drop order_items table
+DROP TABLE IF EXISTS order_items;
+
+-- Drop products table
+DROP TABLE IF EXISTS products;
+
+-- Recreate products table with image_uri column
+CREATE TABLE products (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    price DECIMAL(10,2) CHECK (price >= 0),
+    stock INT CHECK (stock >= 0),
+    category ENUM('aisle', 'veggie', 'frozen') NOT NULL,  -- Updated category type
+    image_uri VARCHAR(500) -- Column to store product image location (URI)
+);
+USE AgriEcommerceDB;
+-- Insert sample data into products table
+INSERT INTO products (name, description, price, stock, category, image_uri) VALUES
+('Nido ∵ Powdered milk', '⚖️ per/g : min [900g]', 0.039, 900, 'aisle', 'imgs/nido.jpg'),
+('Pilipili ∵ Scotch Bonnet', '⚖️ per/kg : min [1kg]', 6.79, 1, 'veggie', 'imgs/pilipili.jpg'),
+('RAW Cashew', '⚖️ per/kg : min [1kg]', 16.67, 1, 'aisle', 'imgs/cashew.jpg'),
+('Shea butter', '⚖️ per/g : min [250g]', 0.029, 250, 'aisle', 'imgs/shearbutter.jpg'),
+('OKRA ∵ ladys fingers', '⚖️ per/kg : min [1kg]', 7.00, 1, 'veggie', 'imgs/okra.jpg'),
+('Mango JAM', '⚖️ per/mL : min [250mL]', 0.068, 250, 'aisle', 'imgs/mangojam.jpg'),
+('Palm Oil', '⚖️ per/mL : min [250mL]', 0.0127, 250, 'aisle', 'imgs/palmoil.jpg'),
+('Yams', '⚖️ per/kg : min [1kg]', 9.49, 1, 'veggie', 'imgs/yam.jpg'),
+('Cassava', '⚖️ per/kg : min [1kg]', 5.49, 1, 'veggie', 'imgs/cassava.jpg'),
+('Plantain', '⚖️ per/kg : min [1kg]', 1.29, 1, 'veggie', 'imgs/plantain.jpg'),
+('Placali', '⚖️ per/kg : min [1kg]', 6.79, 1, 'frozen', 'imgs/placali.jpg'),
+('Attieke', '⚖️ per/kg : min [1kg]', 6.49, 1, 'frozen', 'imgs/attiekeBoule.jpg'),
+('Cotton', '⚖️ per/kg : min [10kg]', 31.99, 10, 'aisle', 'imgs/cotton.jpg');
+
+
+
+USE AgriEcommerceDB;
+
+CREATE TABLE orders (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    total_price DECIMAL(15, 2) NOT NULL,
+    full_name VARCHAR(255),  -- Full name field as per the class
+    email VARCHAR(255),  -- Email field as per the class
+    billing_address VARCHAR(255),  -- Billing address field
+    billing_address_apartment VARCHAR(255),  -- Billing apartment field
+    billing_address_province VARCHAR(255),  -- Billing province field
+    billing_postal VARCHAR(255),  -- Billing postal code field
+    status VARCHAR(50) DEFAULT 'pending' NOT NULL  -- Status field with default value 'pending'
+);
+USE AgriEcommerceDB;
+CREATE TABLE order_items (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    product_id BIGINT NOT NULL,  -- Assuming `Product` has an `id` field
+    quantity INT NOT NULL CHECK (quantity >= 1),
+    price_at_purchase DECIMAL(15, 2) NOT NULL CHECK (price_at_purchase > 0),
+    order_id BIGINT NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES products(id),  -- Assuming you have a `products` table with an `id` column
+    FOREIGN KEY (order_id) REFERENCES orders(id)  -- Foreign key to `orders` table
+);
+
+
+USE AgriEcommerceDB;
+
+
+UPDATE products
+SET image_uri = REPLACE(image_uri, 'images/', 'imgs/');
+
+-- Delete some products
+USE AgriEcommerceDB;
+DELETE FROM products WHERE name IN ('Nido ∵ Powdered milk','Pilipili ∵ Scotch Bonnet','RAW Cashew', 'Shea butter', 'OKRA ∵ ladys fingers', 'Mango JAM', 'Palm Oil', 'Yams', 'Cassava', 'Plantain', 'Placali', 'Attieke', 'Cotton');
+
+USE AgriEcommerceDB;
+-- Delete existing orders
+DELETE FROM order_items WHERE product_id IN ('141','144');
+USE AgriEcommerceDB;
+-- Delete existing orders
+DELETE FROM orders WHERE full_name IN ('Mory Savane','Sidik Savane','Papa Sidik','Bwa Savane','oijojjnnkn');
+
+USE AgriEcommerceDB;
+
+-- Select all products
+USE AgriEcommerceDB;
+SELECT * FROM products;
+
+
+-- Select all products
+USE AgriEcommerceDB;
+SELECT * FROM order_items;
+
+-- Select all products
+USE AgriEcommerceDB;
+SELECT * FROM orders;
+
+SELECT name, COUNT(*) AS count
+FROM products
+GROUP BY name
+HAVING COUNT(*) > 1;
+
+USE AgriEcommerceDB;
+DELETE p1
+FROM products p1
+JOIN products p2
+ON p1.name = p2.name
+AND p1.id > p2.id;
+
+
+USE AgriEcommerceDB;
+ALTER TABLE orders
+DROP COLUMN customer_name;
+ALTER TABLE orders
+DROP COLUMN address;
+ALTER TABLE orders
+DROP COLUMN order_items;
+ALTER TABLE orders
+DROP COLUMN time_of_order;
+
+
+
+
+ALTER TABLE orders
+DELETE COLUMN cart_items order_items TEXT;  -- Store item list properly
+
+CHANGE COLUMN address time_of_order DATETIME,  -- Storing timestamps correctly
