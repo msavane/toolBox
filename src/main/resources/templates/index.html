@@ -99,15 +99,14 @@
                             <div class="mt-6 flex justify-center gap-3">
                                 <a th:href="@{|/?category=veggie&page=${fruitsPage - 1}|}"
                                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
+                                   onclick="hideSections(['aisles', 'frozenGoods'])"
                                    th:if="${fruitsPage > 1}">
                                     Previous
                                 </a>
 
-                                <span class="px-4 py-2 bg-green-700 text-white rounded-lg shadow-md"
-                                      th:text="'Page ' + ${fruitsPage} + ' of ' + ${fruitsTotalPages}"></span>
-
                                 <a th:href="@{|/?category=veggie&page=${fruitsPage + 1}|}"
                                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
+                                   onclick="hideSections(['aisles', 'frozenGoods'])"
                                    th:if="${fruitsPage < fruitsTotalPages}">
                                     Next
                                 </a>
@@ -237,15 +236,14 @@
                         <div class="mt-6 flex justify-center gap-3">
                             <a th:href="@{|/products?category=frozen&page=${frozenGoodsPage - 1}|}"
                                class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
+                               onclick="hideSections(['aisles', 'fruitsAndVegetables'])"
                                th:if="${frozenGoodsPage > 1}">
                                 Previous
                             </a>
 
-                            <span class="px-4 py-2 bg-purple-700 text-white rounded-lg shadow-md"
-                                  th:text="'Page ' + ${frozenGoodsPage} + ' of ' + ${frozenGoodsTotalPages}"></span>
-
                             <a th:href="@{|/products?category=frozen&page=${frozenGoodsPage + 1}|}"
                                class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
+                               onclick="hideSections(['fruitsAndVegetables', 'aisles'])"
                                th:if="${frozenGoodsPage < frozenGoodsTotalPages}">
                                 Next
                             </a>
