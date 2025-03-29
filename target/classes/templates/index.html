@@ -57,7 +57,7 @@
         <!-- Fruits and Veggie Product Table -->
         <p class="cursor-pointer text-purple-700 font-bold mb-2"
            onclick="toggleSection('fruitsAndVegetables', this)">[⎏] Fruits and vegetables</p>
-        <div id="fruitsAndVegetables" class="hidden">
+        <div id="fruitsAndVegetables">
             <div class="w-full bg-white p-4 rounded-lg shadow-lg overflow-x-auto">
                 <table class="w-full border-collapse">
                     <thead>
@@ -126,7 +126,7 @@
     <!-- Aisles -->
     <p class="cursor-pointer text-purple-700 font-bold mb-2"
        onclick="toggleSection('aisles', this)">[⎐] Aisles</p>
-    <div class="hidden" id="aisles">
+    <div id="aisles">
         <!-- Your content here -->
         <div class="w-full bg-white p-4 rounded-lg shadow-lg overflow-x-auto">
             <table class="w-full border-collapse">
@@ -166,9 +166,11 @@
                     <td>
                         <!-- pagination area -->
                         <!-- Aisles Goods Pagination -->
+                        <!-- Aisles Goods Pagination -->
                         <div class="mt-6 flex justify-center gap-3">
                             <a th:href="@{|/products?category=aisles&page=${aislesPage - 1}|}"
                                class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
+                               onclick="toggleSection('fruitsAndVegetables'); toggleSection('frozenGoods');"
                                th:if="${aislesPage > 1}">
                                 Previous
                             </a>
@@ -178,12 +180,12 @@
 
                             <a th:href="@{|/products?category=aisles&page=${aislesPage + 1}|}"
                                class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
-                               onclick="toggleSection('fruitsAndVegetables')"
+                               onclick="toggleSection('fruitsAndVegetables'); toggleSection('frozenGoods');"
                                th:if="${aislesPage < aislesTotalPages}">
                                 Next
                             </a>
-
                         </div>
+
                     </td>
                 </tr>
                 </tbody>
@@ -195,7 +197,7 @@
     <!-- Frozen Goods -->
     <p class="cursor-pointer text-purple-700 font-bold mb-2"
        onclick="toggleSection('frozenGoods', this)">[⎐] Frozen</p>
-    <div id="frozenGoods" >
+    <div class="hidden" id="frozenGoods" >
         <!-- Your content here -->
         <div class="w-full bg-white p-4 rounded-lg shadow-lg overflow-x-auto">
             <table class="w-full border-collapse">
@@ -369,37 +371,34 @@
 
 </body>
 <script>
-    function toggleSection(sectionId, toggleText) {
-    let section = document.getElementById(sectionId);
-    let textElement = toggleText;
+    function toggleSection(sectionId) {
+        let section = document.getElementById(sectionId);
 
-    // Check if the section is open or closed
-    if (section.classList.contains("hidden")) {
-        section.classList.remove("hidden");
-        textElement.innerText = "[⎏] " + textElement.innerText.slice(4); // Change to (-)
-        localStorage.setItem(sectionId, 'open');  // Store section state
-    } else {
-        section.classList.add("hidden");
-        textElement.innerText = "[⎐] " + textElement.innerText.slice(4); // Change to (+)
-        localStorage.setItem(sectionId, 'closed');  // Store section state
-    }
+        // Check if the section is open or closed
+        if (section.classList.contains("hidden")) {
+            section.classList.remove("hidden");
+            localStorage.setItem(sectionId, 'open');  // Store section state
+        } else {
+            section.classList.add("hidden");
+            localStorage.setItem(sectionId, 'closed');  // Store section state
+        }
     }
 
     // On page load, check if the section should be open or closed
     document.addEventListener('DOMContentLoaded', function() {
-    let fruitsSection = document.getElementById('fruitsAndVegetables');
-    let aislesSection = document.getElementById('aisles');
-    let frozenSection = document.getElementById('frozenGoods');
+        let fruitsSection = document.getElementById('fruitsAndVegetables');
+        let aislesSection = document.getElementById('aisles');
+        let frozenSection = document.getElementById('frozenGoods');
 
-    if (localStorage.getItem('fruitsAndVegetables') === 'open') {
-        fruitsSection.classList.remove('hidden');
-    }
-    if (localStorage.getItem('aisles') === 'open') {
-        aislesSection.classList.remove('hidden');
-    }
-    if (localStorage.getItem('frozenGoods') === 'open') {
-        frozenSection.classList.remove('hidden');
-    }
+        if (localStorage.getItem('fruitsAndVegetables') === 'open') {
+            fruitsSection.classList.remove('hidden');
+        }
+        if (localStorage.getItem('aisles') === 'open') {
+            aislesSection.classList.remove('hidden');
+        }
+        if (localStorage.getItem('frozenGoods') === 'open') {
+            frozenSection.classList.remove('hidden');
+        }
     });
 </script>
 </html>
