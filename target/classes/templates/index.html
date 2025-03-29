@@ -170,17 +170,14 @@
                         <div class="mt-6 flex justify-center gap-3">
                             <a th:href="@{|/products?category=aisles&page=${aislesPage - 1}|}"
                                class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
-                               onclick="toggleSection('fruitsAndVegetables'); toggleSection('frozenGoods');"
+                               onclick="hideSections(['fruitsAndVegetables', 'frozenGoods'])"
                                th:if="${aislesPage > 1}">
                                 Previous
                             </a>
 
-                            <span class="px-4 py-2 bg-purple-700 text-white rounded-lg shadow-md"
-                                  th:text="'Page ' + ${aislesPage} + ' of ' + ${aislesTotalPages}"></span>
-
                             <a th:href="@{|/products?category=aisles&page=${aislesPage + 1}|}"
                                class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
-                               onclick="toggleSection('fruitsAndVegetables'); toggleSection('frozenGoods');"
+                               onclick="hideSections(['fruitsAndVegetables', 'frozenGoods'])"
                                th:if="${aislesPage < aislesTotalPages}">
                                 Next
                             </a>
@@ -197,7 +194,7 @@
     <!-- Frozen Goods -->
     <p class="cursor-pointer text-purple-700 font-bold mb-2"
        onclick="toggleSection('frozenGoods', this)">[⎐] Frozen</p>
-    <div class="hidden" id="frozenGoods" >
+    <div id="frozenGoods" >
         <!-- Your content here -->
         <div class="w-full bg-white p-4 rounded-lg shadow-lg overflow-x-auto">
             <table class="w-full border-collapse">
@@ -373,32 +370,42 @@
 <script>
     function toggleSection(sectionId) {
         let section = document.getElementById(sectionId);
-
-        // Check if the section is open or closed
-        if (section.classList.contains("hidden")) {
-            section.classList.remove("hidden");
-            localStorage.setItem(sectionId, 'open');  // Store section state
-        } else {
-            section.classList.add("hidden");
-            localStorage.setItem(sectionId, 'closed');  // Store section state
+        if (section) {
+            // Toggle visibility
+            if (section.classList.contains("hidden")) {
+                section.classList.remove("hidden");
+                localStorage.setItem(sectionId, 'open');
+            } else {
+                section.classList.add("hidden");
+                localStorage.setItem(sectionId, 'closed');
+            }
         }
     }
 
-    // On page load, check if the section should be open or closed
-    document.addEventListener('DOMContentLoaded', function() {
-        let fruitsSection = document.getElementById('fruitsAndVegetables');
-        let aislesSection = document.getElementById('aisles');
-        let frozenSection = document.getElementById('frozenGoods');
+    function hideSections(sectionIds) {
+        sectionIds.forEach(sectionId => {
+            let section = document.getElementById(sectionId);
+            if (section) {
+                section.classList.add("hidden"); // Always hide
+                localStorage.setItem(sectionId, 'closed'); // Store state
+            }
+        });
+    }
 
-        if (localStorage.getItem('fruitsAndVegetables') === 'open') {
-            fruitsSection.classList.remove('hidden');
-        }
-        if (localStorage.getItem('aisles') === 'open') {
-            aislesSection.classList.remove('hidden');
-        }
-        if (localStorage.getItem('frozenGoods') === 'open') {
-            frozenSection.classList.remove('hidden');
-        }
+    document.addEventListener('DOMContentLoaded', function() {
+        let sections = ['fruitsAndVegetables', 'frozenGoods', 'aisles'];
+
+        sections.forEach(sectionId => {
+            let section = document.getElementById(sectionId);
+            if (section) {
+                let state = localStorage.getItem(sectionId);
+                if (state === 'closed') {
+                    section.classList.add('hidden');
+                } else if (state === 'open') {
+                    section.classList.remove('hidden');
+                }
+            }
+        });
     });
 </script>
 </html>
