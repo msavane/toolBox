@@ -49,6 +49,11 @@ public class HomeController {
                                @RequestParam(defaultValue = "4") int pageSize,
                                @RequestParam(defaultValue = "all") String category,
                                Model model) {
+        // Load products for each category and store them under distinct names in the model
+        getProductsPage(page, pageSize, "veggie", model);  // stores "veggieProducts"
+        getProductsPage(page, pageSize, "aisles", model);  // stores "aislesProducts"
+        getProductsPage(page, pageSize, "frozen", model);  // stores "frozenProducts"
+
         return getProductsPage(page, pageSize, category, model);
     }
 
@@ -56,6 +61,10 @@ public class HomeController {
     public String setAislesCategory(@RequestParam(defaultValue = "1") int page,
                                     @RequestParam(defaultValue = "4") int pageSize,
                                     Model model) {
+        // Load products for each category and store them under distinct names in the model
+        getProductsPage(page, pageSize, "veggie", model);  // stores "veggieProducts"
+        getProductsPage(page, pageSize, "frozen", model);  // stores "frozenProducts"
+
         return getProductsPage(page, pageSize, "aisles", model);
     }
 
@@ -63,13 +72,21 @@ public class HomeController {
     public String setFruitsCategory(@RequestParam(defaultValue = "1") int page,
                                     @RequestParam(defaultValue = "4") int pageSize,
                                     Model model) {
+        // Load products for each category and store them under distinct names in the model
+        getProductsPage(page, pageSize, "aisles", model);  // stores "aislesProducts"
+        getProductsPage(page, pageSize, "frozen", model);  // stores "frozenProducts"
+
         return getProductsPage(page, pageSize, "veggie", model);
     }
 
     @GetMapping("/frozen")
     public String setFrozenCategory(@RequestParam(defaultValue = "1") int page,
-                                    @RequestParam(defaultValue = "4") int pageSize,
+                                    @RequestParam(defaultValue = "2") int pageSize,
                                     Model model) {
+        // Load products for each category and store them under distinct names in the model
+        getProductsPage(page, pageSize, "veggie", model);  // stores "veggieProducts"
+        getProductsPage(page, pageSize, "aisles", model);  // stores "aislesProducts"
+
         return getProductsPage(page, pageSize, "frozen", model);
     }
 
