@@ -92,75 +92,64 @@ public class CartController {
         return "checkout"; // Ensure checkout.html exists in the templates folder
     }
 
-    @PostMapping("/checkout")
-    public String processCheckout(@RequestParam String billingAddress,
-                                  @RequestParam String shippingAddress,
-                                  @RequestParam String paymentMethod,
-                                  Model model) {
-        // Logic to process order and payment
-        boolean isPaymentSuccessful = cartService.processPayment(paymentMethod, billingAddress, shippingAddress);
-
-        if (isPaymentSuccessful) {
-            cartService.clearCart(); // Empty the cart after successful checkout
-            return "redirect:/order-confirmation";
-        } else {
-            model.addAttribute("error", "Payment failed. Please try again.");
-            return "checkout";
-        }
-    }
-
-    // New functionality to process checkout, send email, and redirect to PayPal
     @PostMapping("/process-checkout")
-    public String processCheckout(@RequestParam String fullName,
-                                  @RequestParam String clientsMail,
-                                  @RequestParam String billingAddress,
-                                  @RequestParam String billingAddressApartment,
-                                  @RequestParam String billingAddressProvince,
-                                  @RequestParam String billingPostal,
+    public String processCheckout(@RequestParam(required = false) String fullName,
+                                  @RequestParam(required = false) String clientsMail,
+                                  @RequestParam(required = false) String billingAddress,
+                                  @RequestParam(required = false) String billingAddressApartment,
+                                  @RequestParam(required = false) String billingAddressProvince,
+                                  @RequestParam(required = false) String billingPostal,
+                                  @RequestParam(required = false) String paymentMethod,
                                   Model model) {
-        List<CartItem> cartItems = cartService.getCartItems();
-        Order order = new Order();
-        order.setFullName(fullName);
-        order.setEmail(clientsMail);
-        order.setBillingAddress(billingAddress);
-        order.setBillingAddressApartment(billingAddressApartment);
-        order.setBillingAddressProvince(billingAddressProvince);
-        order.setBillingPostal(billingPostal);
-        order.setStatus("pending");
-        order.setTotalPrice(calculateTotalAmount(cartItems)); // Calculate total amount
+        if (fullName != null && clientsMail != null && billingAddress != null &&
+                billingAddressApartment != null && billingAddressProvince != null && billingPostal != null) {
+            // New functionality to process full checkout details
+            List<CartItem> cartItems = cartService.getCartItems();
+            Order order = new Order();
+            order.setFullName(fullName);
+            order.setEmail(clientsMail);
+            order.setBillingAddress(billingAddress);
+            order.setBillingAddressApartment(billingAddressApartment);
+            order.setBillingAddressProvince(billingAddressProvince);
+            order.setBillingPostal(billingPostal);
+            order.setStatus("pending");
+            order.setTotalPrice(calculateTotalAmount(cartItems));
 
-// **Step 1: Save Order FIRST so it gets an ID**
-        order = orderService.saveOrder(order);  // Ensure order gets an ID
+            // Save order and order items
+            order = orderService.saveOrder(order);
 
-        // Set order items
-        List<OrderItem> orderItems = new ArrayList<>();
+            List<OrderItem> orderItems = new ArrayList<>();
+            for (CartItem cartItem : cartItems) {
+                OrderItem orderItem = new OrderItem();
+                orderItem.setProduct(cartItem.getProduct());
+                orderItem.setQuantity(cartItem.getQuantity());
+                orderItem.setPriceAtPurchase(cartItem.getTotalPrice());
+                orderItem.setOrder(order);
+                orderItems.add(orderItem);
+            }
 
-        for (CartItem cartItem : cartItems) {
-            OrderItem orderItem = new OrderItem();
-            orderItem.setProduct(cartItem.getProduct());
-            orderItem.setQuantity(cartItem.getQuantity());
-            orderItem.setPriceAtPurchase(cartItem.getTotalPrice());
-            // **Step 2: Assign the saved order to each orderItem**
-            orderItem.setOrder(order);
-            orderItems.add(orderItem);
+            order.setOrderItems(orderItems);
+            orderService.saveOrder(order);
+
+            // Additional logic for payment processing
+            boolean isPaymentSuccessful = cartService.processPayment(paymentMethod, billingAddress, null);
+            isPaymentSuccessful=true;
+            if (isPaymentSuccessful) {
+                cartService.clearCart(); // Empty the cart after successful checkout
+                // Send order confirmation email
+                // emailService.sendOrderConfirmationEmail(clientsMail, order);
+               // return "redirect:/order-confirmation";
+                return "cart";
+            } else {
+                model.addAttribute("error", "Payment failed. Please try again.");
+                return "cart";
+            }
+        } else {
+            model.addAttribute("error", "Incomplete checkout details. Please fill in all required fields.");
+            return "cart";
         }
-
-
-        order.setOrderItems(orderItems);
-
-        // **Step 3: Save order with order items**
-        orderService.saveOrder(order);
-
-        System.out.println("Work on email Service next ....");
-
-
-        // Send order confirmation email
-        // emailService.sendOrderConfirmationEmail(clientsMail, order);
-        // Here we can proceed to PayPal setup later
-        // return "Order processed successfully! You will receive an email with the details.";
-
-        return ("cart");
     }
+
 
     // Helper method to calculate total order amount
     private BigDecimal calculateTotalAmount(List<CartItem> cartItems) {
@@ -182,7 +171,7 @@ public class CartController {
             BigDecimal deliveryFee = BigDecimal.valueOf(7.15);
 
 // Calculate total after taxes, including the delivery fee
-            afterTax = total.add(gst).add(qst).add(deliveryFee);
+            afterTax = total.add( gst.add(qst).add(deliveryFee));
 
 // Debugging print
             System.out.println("Total: " + total + " | GST: " + gst + " | QST: " + qst + " | After Tax: " + afterTax);

@@ -106,7 +106,7 @@ public class HomeController {
                 model.addAttribute("aislesPage", productPage.getNumber() + 1);
                 model.addAttribute("aislesTotalPages", productPage.getTotalPages());
             } else if ("frozen".equalsIgnoreCase(category)) {
-                model.addAttribute("frozenGoodsPage", productPage.getNumber() + 1);
+                model.addAttribute("frozenGoodsPage", productPage.getNumber()+2 );
                 model.addAttribute("frozenGoodsTotalPages", productPage.getTotalPages());
             }else {
                 model.addAttribute("currentPage", productPage.getNumber()+1 );

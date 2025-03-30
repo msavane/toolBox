@@ -43,9 +43,9 @@ public class OrderService {
                     .orElseThrow(() -> new RuntimeException("Product not found"));
 
             // Check stock availability
-            if (product.getStock() < item.getQuantity()) {
+            /*if (product.getStock() < item.getQuantity()) {
                 throw new RuntimeException("Insufficient stock for product: " + product.getName());
-            }
+            }*/
 
             // Update stock and price at the time of purchase
             //product.setStock(product.getStock() - item.getQuantity());

@@ -26,7 +26,8 @@ public class CartService {
         }
 
         int initialQuantity = Math.min(quantity, MAX_QTY);
-        BigDecimal totalPrice = product.getPrice().multiply(BigDecimal.valueOf(initialQuantity));
+        BigDecimal coefficient = product.getPrice().multiply( BigDecimal.valueOf(product.getStock()));
+        BigDecimal totalPrice = coefficient.multiply(BigDecimal.valueOf(initialQuantity));
         cartItems.add(new CartItem(product, initialQuantity, totalPrice));
 
     }
@@ -58,12 +59,12 @@ public class CartService {
     public BigDecimal calculateTotalPrice() {
         return cartItems.stream()
                 .map(CartItem::getTotalPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .add(calculateShippingCost()); // Include shipping
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                //.add(calculateShippingCost()); // Include shipping
     }
 
     public BigDecimal calculateShippingCost() {
-        return BigDecimal.valueOf(5.00); // Flat shipping rate
+        return BigDecimal.valueOf(7.15); // Flat shipping rate
     }
 
     public void clearCart() {

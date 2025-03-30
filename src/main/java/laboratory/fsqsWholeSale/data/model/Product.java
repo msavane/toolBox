@@ -63,7 +63,7 @@ public class Product {
     public void setStock(int stock) { this.stock = stock; }
 
     public BigDecimal getPrice() { return price; }
-    public void setPrice(double price) { this.price = BigDecimal.valueOf(stock); }
+    public void setPrice(double price) { this.price = BigDecimal.valueOf(stock).multiply(BigDecimal.valueOf(price)); }
 
     public String getCategory() { return category; }
     public void setCategory(Category category) { this.category = String.valueOf(category); }

@@ -193,7 +193,7 @@
     <!-- Frozen Goods -->
     <p class="cursor-pointer text-purple-700 font-bold mb-2"
        onclick="toggleSection('frozenGoods', this)">[⎐] Frozen</p>
-    <div id="frozenGoods" >
+    <div id="frozenGoods">
         <!-- Your content here -->
         <div class="w-full bg-white p-4 rounded-lg shadow-lg overflow-x-auto">
             <table class="w-full border-collapse">
@@ -258,20 +258,20 @@
 
 <!-- this is the pagination for all products hide from users-->
 <div class="mt-6 flex justify-center gap-3">
-   <!-- <a th:href="@{|/products?category=all&page=${productsPage - 1}|}"
-       class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
-       th:if="${productsPage > 1}">
-        Previous
-    </a>
+    <!-- <a th:href="@{|/products?category=all&page=${productsPage - 1}|}"
+        class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
+        th:if="${productsPage > 1}">
+         Previous
+     </a>
 
-    <span class="px-4 py-2 bg-purple-700 text-white rounded-lg shadow-md"
-          th:text="'Page ' + ${productsPage} + ' of ' + ${totalPages}"></span>
+     <span class="px-4 py-2 bg-purple-700 text-white rounded-lg shadow-md"
+           th:text="'Page ' + ${productsPage} + ' of ' + ${totalPages}"></span>
 
-    <a th:href="@{|/products?category=all&page=${totalPages + 1}|}"
-       class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
-       th:if="${productsPage < totalPages}">
-        Next
-    </a>-->
+     <a th:href="@{|/products?category=all&page=${totalPages + 1}|}"
+        class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
+        th:if="${productsPage < totalPages}">
+         Next
+     </a>-->
 
 </div>
 <!-- Services Section -->
@@ -377,6 +377,7 @@
                 section.classList.add("hidden");
                 localStorage.setItem(sectionId, 'closed');
             }
+
         }
     }
 
