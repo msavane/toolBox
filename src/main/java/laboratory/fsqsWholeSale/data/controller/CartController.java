@@ -101,6 +101,9 @@ public class CartController {
                                   @RequestParam(required = false) String billingPostal,
                                   @RequestParam(required = false) String paymentMethod,
                                   Model model) {
+
+
+
         if (fullName != null && clientsMail != null && billingAddress != null &&
                 billingAddressApartment != null && billingAddressProvince != null && billingPostal != null) {
             // New functionality to process full checkout details
@@ -129,6 +132,7 @@ public class CartController {
             }
 
             order.setOrderItems(orderItems);
+            System.out.println(order.getTotalPrice().toString());
             orderService.saveOrder(order);
 
             // Additional logic for payment processing
@@ -161,20 +165,21 @@ public class CartController {
             BigDecimal quantity = BigDecimal.valueOf(item.getQuantity()); // Convert int to BigDecimal
 
 // Calculate total before taxes
-            total = price.multiply(quantity); // No need to add to zero-initialized total
+            total = price; // No need to add to zero-initialized total
 
 // Corrected tax calculations
             BigDecimal gst = total.multiply(BigDecimal.valueOf(0.05)); // 5% GST
             BigDecimal qst = total.multiply(BigDecimal.valueOf(0.09975)); // 9.975% QST
+            BigDecimal Taxes = qst.add(gst);
 
 // Define delivery fee
             BigDecimal deliveryFee = BigDecimal.valueOf(7.15);
 
 // Calculate total after taxes, including the delivery fee
-            afterTax = total.add( gst.add(qst).add(deliveryFee));
+            afterTax = deliveryFee.add( total.add(Taxes));
 
 // Debugging print
-            System.out.println("Total: " + total + " | GST: " + gst + " | QST: " + qst + " | After Tax: " + afterTax);
+            System.out.println("Total: " + total + " | GST: " + gst + " | QST: " + qst + " | Delivery: " + deliveryFee + " | After Tax: " + afterTax);
 
         }
         return afterTax;

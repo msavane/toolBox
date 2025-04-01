@@ -3,8 +3,6 @@ package laboratory.fsqsWholeSale.data.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-
-
 import java.math.BigDecimal;
 
 @Entity
@@ -26,9 +24,9 @@ public class Product {
     @Min(0)
     private int stock;
 
-    private String category;  // Instead of @ManyToOne
+    private String category;  // Stored as plain text
 
-    private String imageUri; // New field for storing image location
+    private String imageUri; // Field for storing image location
 
     // Default constructor (required by JPA/Hibernate)
     public Product() {
@@ -37,17 +35,13 @@ public class Product {
 
     // Constructor without the 'id' field as it will be auto-generated
     public Product(String name, String description, BigDecimal price, int stock, String category, String imageUri) {
-
         this.name = name;
         this.description = description;
         this.price = price;
         this.stock = stock;
-        this.category = this.getCategory();
+        this.category = category; // Fixed assignment
         this.imageUri = imageUri;
-
     }
-
-
 
     // Getters and Setters
     public Long getId() { return id; }
@@ -63,23 +57,22 @@ public class Product {
     public void setStock(int stock) { this.stock = stock; }
 
     public BigDecimal getPrice() { return price; }
-    public void setPrice(double price) { this.price = BigDecimal.valueOf(stock).multiply(BigDecimal.valueOf(price)); }
+    public void setPrice(double price) {
+        if (stock == 0) {
+            this.price = BigDecimal.valueOf(price);
+        } else {
+            this.price = BigDecimal.valueOf(stock).multiply(BigDecimal.valueOf(price));
+        }
+    }
 
     public String getCategory() { return category; }
-    public void setCategory(Category category) { this.category = String.valueOf(category); }
+    public void setCategory(String category) { this.category = category; } // Fixed setter
 
     public String getImageUri() { return imageUri; }
-    public void setImageUri(String imageUri) { this.imageUri = imageUri; }
-
-
-
-
-
-    // Enum for category
-
-    public enum Category {
-
-       /* AISLE, VEGGIE, FROZEN*/
-
-    }
+    public void setImageUri(String imageUri) {
+        this.imageUri = (imageUri != null && !imageUri.isEmpty()) ?
+                imageUri.toLowerCase().replaceAll("\\s+", "") : null; }
 }
+
+
+

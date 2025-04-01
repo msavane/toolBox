@@ -56,14 +56,30 @@
       </tr>
 
       <tr>
-        <td class="p-3 font-semibold text-gray-700">Stock:</td>
+        <td class="p-3 font-semibold text-gray-700">Coefficient:</td>
         <td class="p-3"><input type="number" th:field="*{stock}" required class="w-full p-2 border rounded-lg"></td>
       </tr>
+
+      <!-- Category Dropdown Instead of Text Input -->
       <tr>
-        <td class="p-3 font-semibold text-gray-700">Uri:</td>
-        <td class="p-3"><input type="text" th:value=".jpg"></td>
+        <td class="p-3 font-semibold text-gray-700">Category:</td>
+        <td class="p-3">
+          <select th:field="*{category}" required class="w-full p-2 border rounded-lg">
+            <option value="">Select Category</option>
+            <option value="veggie">Fruits & Vegetables</option>
+            <option value="aisles">Aisles</option>
+            <option value="frozen">Frozen</option>
+          </select>
+        </td>
       </tr>
 
+      <!-- Image URI Input -->
+      <tr>
+        <td class="p-3 font-semibold text-gray-700">Image URI:
+          <input type="text" th:field="*{imageUri}"
+                 th:value="'imgs/' + ${#strings.replace(#strings.toLowerCase(product.name), ' ', '')} + '.jpg'">
+        </td>
+      </tr>
       </tbody>
     </table>
 
@@ -73,6 +89,7 @@
       </button>
     </div>
   </form>
+
 </div>
 
 <div class="text-center mt-6">
