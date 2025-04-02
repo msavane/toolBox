@@ -1,3 +1,4 @@
+
 package laboratory.fsqsWholeSale.data.service;
 
 import laboratory.fsqsWholeSale.data.model.Order;
@@ -15,6 +16,7 @@ public class EmailService {
 
     public void sendOrderConfirmationEmail(String toEmail, Order order) {
         SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("mawrysy@yahoo.com");
         message.setTo(toEmail);
         message.setSubject("Order Confirmation - " + order.getId());
         message.setText("Thank you for your order. Here are your details:\n"
