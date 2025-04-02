@@ -143,7 +143,8 @@ public class CartController {
         if (isPaymentSuccessful) {
             cartService.clearCart(); // Clear the cart if payment is successful
             emailService.sendOrderConfirmationEmail(order.getEmail(), order, order.getId()); // Send confirmation email
-            return "redirect:/order-confirmation"; // Redirect to order confirmation page
+            //return "redirect:/order-confirmation"; // Redirect to order confirmation page
+            return "cart";
         } else {
             model.addAttribute("error", "Payment failed. Please try again.");
             return "checkout"; // Stay on checkout page if payment fails
