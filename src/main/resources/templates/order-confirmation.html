@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmation - Agri E-commerce</title>
+  <link rel="stylesheet" th:href="@{/styles.css}">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-b from-purple-800 to-yellow-400 p-8 flex flex-col items-center text-gray-900">
+<div class="bg-white rounded-lg shadow-lg p-6 max-w-2xl w-full text-center">
+  <h1 class="text-2xl font-bold text-purple-800">Order Confirmation</h1>
+  <p class="mt-4 text-lg">Thank you for your order, <span th:text="${order.fullName}"></span>!</p>
+  <p class="text-md mt-2">An email confirmation has been sent to <span th:text="${order.email}"></span>.</p>
+
+  <div class="mt-4 p-4 bg-gray-100 rounded-lg">
+    <h2 class="text-lg font-semibold">Order Summary</h2>
+    <p><strong>Order Number:</strong> <span th:text="${order.id}"></span></p>
+    <p><strong>Total Amount:</strong> $<span th:text="${order.totalPrice}"></span></p>
+    <p><strong>Status:</strong> <span th:text="${order.status}"></span></p>
+  </div>
+
+  <div class="mt-6">
+    <h2 class="text-lg font-semibold">Shipping Details</h2>
+    <p><strong>Address:</strong> <span th:text="${order.billingAddress}"></span>, <span th:text="${order.billingAddressApartment}"></span></p>
+    <p><span th:text="${order.billingAddressProvince}"></span>, <span th:text="${order.billingPostal}"></span></p>
+  </div>
+
+  <a href="/shopping-cart" class="mt-6 inline-block px-6 py-2 bg-purple-700 text-white rounded-lg hover:bg-purple-900 transition">Continue Shopping</a>
+</div>
+</body>
+
+</html>

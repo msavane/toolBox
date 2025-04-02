@@ -2,7 +2,6 @@ package laboratory.fsqsWholeSale.data.controller;
 
 import laboratory.fsqsWholeSale.data.model.CartItem;
 import laboratory.fsqsWholeSale.data.model.Order;
-import laboratory.fsqsWholeSale.data.helpers.DataCreatorHelper;
 import laboratory.fsqsWholeSale.data.model.OrderItem;
 import laboratory.fsqsWholeSale.data.service.CartService;
 import laboratory.fsqsWholeSale.data.service.EmailService;
@@ -20,20 +19,27 @@ import java.util.List;
 public class CartController {
 
     private final CartService cartService;
-    @Autowired
-    private OrderService orderService;
+    private final OrderService orderService;
+    private final EmailService emailService;
 
     @Autowired
-    private EmailService emailService;
-
-    private Order order = new Order();
-    private  OrderItem orderItem = new OrderItem();
-
-    public CartController(CartService cartService) {
+    public CartController(CartService cartService, OrderService orderService, EmailService emailService) {
         this.cartService = cartService;
+        this.orderService = orderService;
+        this.emailService = emailService;
     }
 
-    @GetMapping("/shopping-cart")
+    @GetMapping("/order-confirmation")
+    public String showOrderConfirmation(Model model) {
+        // You can retrieve the latest order details if needed
+        // Example: model.addAttribute("order", order);
+
+        // For now, just display the confirmation page
+        return "order-confirmation"; // Make sure this matches your actual view template
+    }
+
+    // Display the shopping cart
+    @GetMapping("/cart")
     public String showCart(Model model) {
         List<CartItem> cartItems = cartService.getCartItems();
         BigDecimal totalPrice = cartService.calculateTotalPrice();
@@ -45,41 +51,41 @@ public class CartController {
         model.addAttribute("shippingCost", shippingCost);
         model.addAttribute("totalAmount", totalAmount);
 
-        return "cart";
+        return "cart"; // Render cart view
     }
 
+    // Update cart item quantity
     @PostMapping("/update-quantity")
     public String updateQuantity(@RequestParam Long productId,
                                  @RequestParam String action,
-                                 @RequestParam int quantity,
+                                 @RequestParam(required = false) Integer quantity,
                                  Model model) {
-        if (productId == null || quantity <= 0) {
-            return "redirect:/cart"; // Prevent errors
+        if (productId == null || action == null || action.isEmpty()) {
+            return "redirect:/cart"; // Redirect back to cart if data is invalid
         }
 
+        CartItem cartItem = cartService.getCartItemByProductId(productId);
+        if (cartItem == null) {
+            return "redirect:/cart"; // Redirect back to cart if item not found
+        }
+
+        int newQuantity = cartItem.getQuantity();
+
+        // Handle actions to increase, decrease, or update quantity
         if ("increase".equals(action)) {
-            cartService.updateCartItemQuantity(productId, quantity + 1);
+            newQuantity++;
         } else if ("decrease".equals(action)) {
-            cartService.updateCartItemQuantity(productId, Math.max(1, quantity - 1));
-        } else if ("update".equals(action)) {
-            cartService.updateCartItemQuantity(productId, Math.min(quantity, 5));
+            newQuantity = Math.max(1, newQuantity - 1); // Ensure quantity doesn't go below 1
+        } else if ("update".equals(action) && quantity != null) {
+            newQuantity = Math.min(quantity, 5); // Max quantity restricted to 5
         }
 
-        // Ensure total price is recalculated
-        List<CartItem> cartItems = cartService.getCartItems();
-        BigDecimal totalPrice = cartService.calculateTotalPrice();
-        BigDecimal shippingCost = cartService.calculateShippingCost();
-        BigDecimal totalAmount = totalPrice.add(shippingCost);
+        cartService.updateCartItemQuantity(productId, newQuantity); // Update the cart item quantity
 
-        // Add updated values to model
-        model.addAttribute("cartItems", cartItems);
-        model.addAttribute("totalPrice", totalPrice);
-        model.addAttribute("shippingCost", shippingCost);
-        model.addAttribute("totalAmount", totalAmount);
-
-        return "cart";  // Return the Thymeleaf template with updated data
+        return "redirect:/cart"; // Redirect back to cart page after update
     }
 
+    // Display checkout page
     @GetMapping("/checkout")
     public String showCheckoutPage(Model model) {
         List<CartItem> cartItems = cartService.getCartItems();
@@ -92,111 +98,78 @@ public class CartController {
         model.addAttribute("shippingCost", shippingCost);
         model.addAttribute("totalAmount", totalAmount);
 
-        return "checkout"; // Ensure checkout.html exists in the templates folder
+        return "checkout"; // Render checkout view
     }
 
+    // Process the checkout and payment
     @PostMapping("/process-checkout")
-    public String processCheckout(@RequestParam(required = false) String fullName,
-                                  @RequestParam(required = false) String clientsMail,
-                                  @RequestParam(required = false) String billingAddress,
-                                  @RequestParam(required = false) String billingAddressApartment,
-                                  @RequestParam(required = false) String billingAddressProvince,
-                                  @RequestParam(required = false) String billingPostal,
-                                  @RequestParam(required = false) String paymentMethod,
+    public String processCheckout(@RequestParam String fullName,
+                                  @RequestParam String clientsMail,
+                                  @RequestParam String billingAddress,
+                                  @RequestParam String billingAddressApartment,
+                                  @RequestParam String billingAddressProvince,
+                                  @RequestParam String billingPostal,
+                                  @RequestParam String paymentMethod,
                                   Model model) {
 
+        List<CartItem> cartItems = cartService.getCartItems();
+        Order order = new Order();
 
+        order.setFullName(fullName);
+        order.setEmail(clientsMail);
+        order.setBillingAddress(billingAddress);
+        order.setBillingAddressApartment(billingAddressApartment);
+        order.setBillingAddressProvince(billingAddressProvince);
+        order.setBillingPostal(billingPostal);
+        order.setStatus("pending");
+        order.setTotalPrice(calculateTotalAmount(cartItems)); // Calculate total amount
 
-        if (fullName != null && clientsMail != null && billingAddress != null &&
-                billingAddressApartment != null && billingAddressProvince != null && billingPostal != null) {
-            // New functionality to process full checkout details
-            List<CartItem> cartItems = cartService.getCartItems();
+        order = orderService.saveOrder(order);
 
-            order.setFullName(fullName);
-            order.setEmail(clientsMail);
-            order.setBillingAddress(billingAddress);
-            order.setBillingAddressApartment(billingAddressApartment);
-            order.setBillingAddressProvince(billingAddressProvince);
-            order.setBillingPostal(billingPostal);
-            order.setStatus("pending");
-            order.setTotalPrice(calculateTotalAmount(cartItems));
+        List<OrderItem> orderItems = new ArrayList<>();
+        for (CartItem cartItem : cartItems) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setProduct(cartItem.getProduct());
+            orderItem.setQuantity(cartItem.getQuantity());
+            orderItem.setPriceAtPurchase(cartItem.getTotalPrice());
+            orderItem.setOrder(order);
+            orderItems.add(orderItem);
+        }
 
-            // Save order and order items
-            order = orderService.saveOrder(order);
+        order.setOrderItems(orderItems);
+        orderService.saveOrder(order);
 
-            List<OrderItem> orderItems = new ArrayList<>();
-            for (CartItem cartItem : cartItems) {
-
-                orderItem.setProduct(cartItem.getProduct());
-                orderItem.setQuantity(cartItem.getQuantity());
-                orderItem.setPriceAtPurchase(cartItem.getTotalPrice());
-                orderItem.setOrder(order);
-                orderItems.add(orderItem);
-            }
-
-            order.setOrderItems(orderItems);
-            System.out.println(order.getTotalPrice().toString());
-            orderService.saveOrder(order);
-
-            // Additional logic for payment processing
-            boolean isPaymentSuccessful = cartService.processPayment(paymentMethod, billingAddress, null);
-            isPaymentSuccessful=true;
-            if (isPaymentSuccessful) {
-                cartService.clearCart(); // Empty the cart after successful checkout
-                // Send order confirmation email
-                // emailService.sendOrderConfirmationEmail(clientsMail, order);
-                // return "redirect:/order-confirmation";
-                return "cart";
-            } else {
-                model.addAttribute("error", "Payment failed. Please try again.");
-                return "cart";
-            }
+        boolean isPaymentSuccessful = cartService.processPayment(paymentMethod, billingAddress, null);
+        if (isPaymentSuccessful) {
+            cartService.clearCart(); // Clear the cart if payment is successful
+            emailService.sendOrderConfirmationEmail(order.getEmail(), order, order.getId()); // Send confirmation email
+            return "redirect:/order-confirmation"; // Redirect to order confirmation page
         } else {
-            model.addAttribute("error", "Incomplete checkout details. Please fill in all required fields.");
-            return "cart";
+            model.addAttribute("error", "Payment failed. Please try again.");
+            return "checkout"; // Stay on checkout page if payment fails
         }
     }
 
-
-    // Helper method to calculate total order amount
+    // Calculate the total amount including taxes and delivery fee
     private BigDecimal calculateTotalAmount(List<CartItem> cartItems) {
-        BigDecimal total = BigDecimal.ZERO; // Start with 0
-        BigDecimal afterTax = BigDecimal.ZERO;
-        BigDecimal price = BigDecimal.ZERO;
+        BigDecimal total = BigDecimal.ZERO;
 
         for (CartItem item : cartItems) {
-// Assuming item.getTotalPrice() returns BigDecimal and item.getQuantity() returns int
-            price = price.add(item.getTotalPrice());
-            BigDecimal quantity = BigDecimal.valueOf(item.getQuantity()); // Convert int to BigDecimal
-
-
-// Calculate total before taxes
-            total = price; // No need to add to zero-initialized total
-
-
+            total = total.add(item.getTotalPrice());
         }
 
-// Corrected tax calculations
         BigDecimal gst = total.multiply(BigDecimal.valueOf(0.05)); // 5% GST
         BigDecimal qst = total.multiply(BigDecimal.valueOf(0.09975)); // 9.975% QST
-        BigDecimal Taxes = qst.add(gst);
+        BigDecimal taxes = gst.add(qst);
+        BigDecimal deliveryFee = BigDecimal.valueOf(7.15); // Delivery fee
 
-// Define delivery fee
-        BigDecimal deliveryFee = BigDecimal.valueOf(7.15);
-
-// Calculate total after taxes, including the delivery fee
-        afterTax = deliveryFee.add( total.add(Taxes));
-
-// Debugging print
-        System.out.println("Total: " + total + " | GST: " + gst + " | QST: " + qst + " | Delivery: " + deliveryFee + " | After Tax: " + afterTax);
-
-        emailService.sendOrderConfirmationEmail(order.getEmail(),order);
-        return afterTax;
+        return total.add(taxes).add(deliveryFee); // Total amount including taxes and delivery fee
     }
 
+    // Clear the shopping cart
     @GetMapping("/clear-cart")
     public String clearCart() {
         cartService.clearCart();
-        return "cart";
+        return "cart"; // Render cart view after clearing
     }
 }

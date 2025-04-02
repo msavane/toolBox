@@ -90,7 +90,14 @@ public class CartService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        return true;
+    }
+
+    public CartItem getCartItemByProductId(Long productId) {
+        return cartItems.stream()
+                .filter(item -> item.getProduct().getId().equals(productId))
+                .findFirst()
+                .orElse(null);
     }
 
 }

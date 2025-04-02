@@ -55,7 +55,7 @@
                     <td class="p-3 text-gray-600 flex items-center">
                         <form th:action="@{/update-quantity}" method="post">
                             <input type="hidden" name="productId" th:value="${item.product.id}">
-                            <input type="hidden" name="quantity" th:value="${item.quantity}"> <!-- Add this line -->
+                            <!--     <input type="hidden" name="quantity" th:value="${item.quantity}"> Add this line -->
 
                             <button type="submit" name="action" value="decrease"
                                     class="bg-gray-300 px-2 py-1 rounded text-black">-
