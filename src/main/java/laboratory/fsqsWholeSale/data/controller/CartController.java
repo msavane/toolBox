@@ -103,7 +103,6 @@ public class CartController {
                                   Model model) {
 
 
-
         if (fullName != null && clientsMail != null && billingAddress != null &&
                 billingAddressApartment != null && billingAddressProvince != null && billingPostal != null) {
             // New functionality to process full checkout details
@@ -137,12 +136,12 @@ public class CartController {
 
             // Additional logic for payment processing
             boolean isPaymentSuccessful = cartService.processPayment(paymentMethod, billingAddress, null);
-            isPaymentSuccessful=true;
+            isPaymentSuccessful = true;
             if (isPaymentSuccessful) {
                 cartService.clearCart(); // Empty the cart after successful checkout
                 // Send order confirmation email
                 // emailService.sendOrderConfirmationEmail(clientsMail, order);
-               // return "redirect:/order-confirmation";
+                // return "redirect:/order-confirmation";
                 return "cart";
             } else {
                 model.addAttribute("error", "Payment failed. Please try again.");
@@ -159,29 +158,33 @@ public class CartController {
     private BigDecimal calculateTotalAmount(List<CartItem> cartItems) {
         BigDecimal total = BigDecimal.ZERO; // Start with 0
         BigDecimal afterTax = BigDecimal.ZERO;
+        BigDecimal price = BigDecimal.ZERO;
         for (CartItem item : cartItems) {
 // Assuming item.getTotalPrice() returns BigDecimal and item.getQuantity() returns int
-            BigDecimal price = item.getTotalPrice();
+            price = price.add(item.getTotalPrice());
             BigDecimal quantity = BigDecimal.valueOf(item.getQuantity()); // Convert int to BigDecimal
 
 // Calculate total before taxes
             total = price; // No need to add to zero-initialized total
 
-// Corrected tax calculations
-            BigDecimal gst = total.multiply(BigDecimal.valueOf(0.05)); // 5% GST
-            BigDecimal qst = total.multiply(BigDecimal.valueOf(0.09975)); // 9.975% QST
-            BigDecimal Taxes = qst.add(gst);
-
-// Define delivery fee
-            BigDecimal deliveryFee = BigDecimal.valueOf(7.15);
-
-// Calculate total after taxes, including the delivery fee
-            afterTax = deliveryFee.add( total.add(Taxes));
-
-// Debugging print
-            System.out.println("Total: " + total + " | GST: " + gst + " | QST: " + qst + " | Delivery: " + deliveryFee + " | After Tax: " + afterTax);
 
         }
+
+
+// Corrected tax calculations
+        BigDecimal gst = total.multiply(BigDecimal.valueOf(0.05)); // 5% GST
+        BigDecimal qst = total.multiply(BigDecimal.valueOf(0.09975)); // 9.975% QST
+        BigDecimal Taxes = qst.add(gst);
+
+// Define delivery fee
+        BigDecimal deliveryFee = BigDecimal.valueOf(7.15);
+
+// Calculate total after taxes, including the delivery fee
+        afterTax = deliveryFee.add(total.add(Taxes));
+
+// Debugging print
+        System.out.println("Total: " + total + " | GST: " + gst + " | QST: " + qst + " | Delivery: " + deliveryFee + " | After Tax: " + afterTax);
+
         return afterTax;
     }
 
