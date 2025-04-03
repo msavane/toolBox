@@ -1,5 +1,6 @@
 package laboratory.fsqsWholeSale.data.controller;
 
+import jakarta.servlet.http.HttpSession;
 import laboratory.fsqsWholeSale.data.model.Product;
 import laboratory.fsqsWholeSale.data.model.CartItem;
 import laboratory.fsqsWholeSale.data.service.ProductService;
@@ -28,21 +29,28 @@ public class HomeController {
 
     private String categoriesVals;
 
+
     @GetMapping("/")
     public String home(@RequestParam(defaultValue = "1") int page,
                        @RequestParam(defaultValue = "4") int pageSize,
                        @RequestParam(defaultValue = "all") String category,
+                       HttpSession session,
                        Model model) {
 
-        // Load products for each category and store them under distinct names in the model
-        getProductsPage(page, pageSize, "veggie", model);  // stores "veggieProducts"
-        getProductsPage(page, pageSize, "aisles", model);  // stores "aislesProducts"
-        getProductsPage(page, pageSize, "frozen", model);  // stores "frozenProducts"
+        // Check if the user is visiting for the first time in this session
+        if (session.getAttribute("firstVisit") == null) {
+            session.setAttribute("firstVisit", true);
+            return "redirect:/?category=veggie&page=1";
+        }
 
-        // Now load the selected category data
+        // Load products for each category and store them under distinct names in the model
+        getProductsPage(page, pageSize, "veggie", model);
+        getProductsPage(page, pageSize, "aisle", model);
+        getProductsPage(page, pageSize, "frozen", model);
+
+        // Load the selected category data
         return getProductsPage(page, pageSize, category, model);
     }
-
 
     @GetMapping("/products")
     public String productsPage(@RequestParam(defaultValue = "1") int page,
@@ -51,13 +59,13 @@ public class HomeController {
                                Model model) {
         // Load products for each category and store them under distinct names in the model
         getProductsPage(page, pageSize, "veggie", model);  // stores "veggieProducts"
-        getProductsPage(page, pageSize, "aisles", model);  // stores "aislesProducts"
+        getProductsPage(page, pageSize, "aisle", model);  // stores "aislesProducts"
         getProductsPage(page, pageSize, "frozen", model);  // stores "frozenProducts"
 
         return getProductsPage(page, pageSize, category, model);
     }
 
-    @GetMapping("/aisles")
+    @GetMapping("/aisle")
     public String setAislesCategory(@RequestParam(defaultValue = "1") int page,
                                     @RequestParam(defaultValue = "4") int pageSize,
                                     Model model) {
@@ -65,7 +73,7 @@ public class HomeController {
         getProductsPage(page, pageSize, "veggie", model);  // stores "veggieProducts"
         getProductsPage(page, pageSize, "frozen", model);  // stores "frozenProducts"
 
-        return getProductsPage(page, pageSize, "aisles", model);
+        return getProductsPage(page, pageSize, "aisle", model);
     }
 
     @GetMapping("/veggie")
@@ -73,7 +81,7 @@ public class HomeController {
                                     @RequestParam(defaultValue = "4") int pageSize,
                                     Model model) {
         // Load products for each category and store them under distinct names in the model
-        getProductsPage(page, pageSize, "aisles", model);  // stores "aislesProducts"
+        getProductsPage(page, pageSize, "aisle", model);  // stores "aislesProducts"
         getProductsPage(page, pageSize, "frozen", model);  // stores "frozenProducts"
 
         return getProductsPage(page, pageSize, "veggie", model);
@@ -85,7 +93,7 @@ public class HomeController {
                                     Model model) {
         // Load products for each category and store them under distinct names in the model
         getProductsPage(page, pageSize, "veggie", model);  // stores "veggieProducts"
-        getProductsPage(page, pageSize, "aisles", model);  // stores "aislesProducts"
+        getProductsPage(page, pageSize, "aisle", model);  // stores "aislesProducts"
 
         return getProductsPage(page, pageSize, "frozen", model);
     }
@@ -97,7 +105,7 @@ public class HomeController {
             // Handle the category-specific product page
             if ("veggie".equalsIgnoreCase(category)) {
                 productPage = productService.getFruitsPage(page, pageSize);
-            } else if ("aisles".equalsIgnoreCase(category)) {
+            } else if ("aisle".equalsIgnoreCase(category)) {
                 productPage = productService.getAislesPage(page, pageSize);
             } else if ("frozen".equalsIgnoreCase(category)) {
                 productPage = productService.getFrozenPage(page, pageSize);
@@ -119,7 +127,7 @@ public class HomeController {
             if ("veggie".equalsIgnoreCase(category)) {
                 model.addAttribute("fruitsPage", productPage.getNumber() + 1);
                 model.addAttribute("fruitsTotalPages", productPage.getTotalPages());
-            } else if ("aisles".equalsIgnoreCase(category)) {
+            } else if ("aisle".equalsIgnoreCase(category)) {
                 model.addAttribute("aislesPage", productPage.getNumber() + 1);
                 model.addAttribute("aislesTotalPages", productPage.getTotalPages());
             } else if ("frozen".equalsIgnoreCase(category)) {

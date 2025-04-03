@@ -5,9 +5,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agri E-commerce</title>
-    <link rel="stylesheet" th:href="@{/styles.css}">
-    <script src="https://cdn.tailwindcss.com"></script> <!-- Include Tailwind -->
+    <!-- Link to Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
+    
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            restoreSectionStates();
+            handleResize();
+            window.addEventListener("resize", debounce(handleResize, 200));
+        });
+
+        function toggleSection(sectionId) {
+            let sections = ["veggie", "aisle", "frozen"];
+            sections.forEach(sectionName => {
+                let sectionElement = document.getElementById(sectionName);
+                if (sectionElement) {
+                    if (sectionName === sectionId) {
+                        sectionElement.classList.remove("hidden");
+                        localStorage.setItem(sectionName, "open");
+                    } else {
+                        sectionElement.classList.add("hidden");
+                        localStorage.setItem(sectionName, "closed");
+                    }
+                }
+            });
+        }
+function restoreSectionStates() {
+    let sections = ["veggie", "aisle", "frozen"];
+    let defaultSection = "veggie";
+    let isAnySectionOpen = false;
+    let openSection = null;
+
+    // Get section from URL
+    let urlParams = new URLSearchParams(window.location.search);
+    let sectionFromURL = urlParams.get("category");
+
+    sections.forEach(sectionId => {
+        let section = document.getElementById(sectionId);
+        if (!section) return;
+
+        let state = localStorage.getItem(sectionId);
+        let shouldOpen = sectionId === sectionFromURL || state === "open";
+
+        if (shouldOpen) {
+            section.classList.remove("hidden");
+            isAnySectionOpen = true;
+            openSection = sectionId;
+            localStorage.setItem(sectionId, "open");
+        } else {
+            section.classList.add("hidden");
+            localStorage.setItem(sectionId, "closed");
+        }
+    });
+
+    // Ensure at least the default section is open if none are explicitly open
+    if (!isAnySectionOpen) {
+        let defaultElement = document.getElementById(defaultSection);
+        if (defaultElement) {
+            defaultElement.classList.remove("hidden");
+            localStorage.setItem(defaultSection, "open");
+            openSection = defaultSection;
+        }
+    }
+
+    // Prevent infinite loop: Only update URL if category is missing or incorrect
+    let currentCategory = urlParams.get("category");
+    if (openSection && currentCategory !== openSection) {
+        let newUrl = new URL(window.location);
+        newUrl.searchParams.set("category", openSection);
+        window.history.replaceState({}, "", newUrl);
+    }
+}
+
+        function handleResize() {
+            let screenWidth = window.innerWidth;
+            if (screenWidth <= 768) {
+                document.body.classList.add("mobile-view");
+                document.body.classList.remove("desktop-view");
+            } else {
+                document.body.classList.add("desktop-view");
+                document.body.classList.remove("mobile-view");
+            }
+        }
+
+        function debounce(func, delay = 100) {
+            let timeout;
+            return function (...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+    </script>
+    <style>
+        .hidden { display: none; }
+        .mobile-view { font-size: 14px; }
+        .desktop-view { font-size: 16px; }
+    </style>
 </head>
+
 
 <body class="min-h-screen bg-gradient-to-b from-purple-800 to-yellow-400 p-8 flex flex-col items-center text-gray-900">
 
@@ -56,8 +152,8 @@
         <br/>
         <!-- Fruits and Veggie Product Table -->
         <p class="cursor-pointer text-white font-bold mb-2"
-           onclick="toggleSection('fruitsAndVegetables', this)">[⎏] Fruits and vegetables</p>
-        <div id="fruitsAndVegetables" class="hidden">
+           onclick="toggleSection('veggie', this)">[⎏] Fruits and vegetables</p>
+        <div id="veggie" class="">
             <div class="w-full bg-white p-4 rounded-lg shadow-lg overflow-x-auto">
                 <table class="w-full border-collapse">
                     <thead>
@@ -99,14 +195,14 @@
                             <div class="mt-6 flex justify-center gap-3">
                                 <a th:href="@{|/?category=veggie&page=${fruitsPage - 1}|}"
                                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
-                                   onclick="hideSections(['aisles', 'frozenGoods'])"
+                                   onclick="hideSections(['aisle', 'frozen'])"
                                    th:if="${fruitsPage > 1}">
-                                    Previous
+                                    ...More
                                 </a>
 
                                 <a th:href="@{|/?category=veggie&page=${fruitsPage + 1}|}"
                                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
-                                   onclick="hideSections(['aisles', 'frozenGoods'])"
+                                   onclick="hideSections(['aisle', 'frozen'])"
                                    th:if="${fruitsPage < fruitsTotalPages}">
                                     Next
                                 </a>
@@ -118,338 +214,232 @@
             </div>
         </div>
         <br/>
+        <!-- remmettre code -->
+        <!-- Aisles Product Table -->
+        <p class="cursor-pointer text-white font-bold mb-2"
+           onclick="toggleSection('aisle', this)">[⎐] Aisles</p>
+        <div id="aisle" class="hidden">
+            <div class="w-full bg-white p-4 rounded-lg shadow-lg overflow-x-auto">
+                <table class="w-full border-collapse">
+                    <thead>
+                    <tr class="bg-purple-700 text-white">
+                        <th class="p-3 text-left">Product Image</th>
+                        <th class="p-3 text-left">Product Name</th>
+                        <th class="p-3 text-left">Description</th>
+                        <th class="p-3 text-left">Price</th>
+                        <th class="p-3 text-center">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="product : ${products}"
+                        th:if="${product.category != null and product.category.toLowerCase() == 'aisle'}"
+                        class="border-b hover:bg-gray-100 transition">
+                        <td class="p-3 text-center">
+                            <img th:src="@{${product.imageUri}}" alt="Product Image"
+                                 class="w-16 h-16 object-cover rounded"/>
+                        </td>
+                        <td class="p-3 font-semibold text-purple-700" th:text="${product.name}"></td>
+                        <td class="p-3 text-gray-600" th:text="${product.description}"></td>
+                        <td class="p-3 text-yellow-500 font-bold text-lg"
+                            th:text="'$' + ${#numbers.formatDecimal(product.price, 1, 2)}"></td>
+                        <td class="p-3 flex justify-center">
+                            <form th:action="@{/add-to-cart}" method="post">
+                                <input type="hidden" name="productId" th:value="${product.id}"/>
+                                <input type="hidden" name="quantity" th:value="1"/>
+                                <button type="submit"
+                                        class="bg-purple-700 text-white font-bold px-4 py-2 rounded-lg shadow-md hover:bg-purple-800 transition">
+                                    Add to Cart
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <!-- pagination area -->
+                            <!-- Aisles -->
+                            <div class="mt-6 flex justify-center gap-3">
+                                <a th:href="@{|/products?category=aisle&page=${aislesPage - 1}|}"
+                                   class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
+                                   onclick="hideSections(['veggie', 'frozen'])"
+                                   th:if="${aislesPage > 1}">
+                                    ...More
+                                </a>
 
-        <br/>
-    </div>
-
-    <!-- Aisles -->
-    <p class="cursor-pointer text-white font-bold mb-2"
-       onclick="toggleSection('aisles', this)">[⎐] Aisles</p>
-    <div id="aisles">
-        <!-- Your content here -->
-        <div class="w-full bg-white p-4 rounded-lg shadow-lg overflow-x-auto">
-            <table class="w-full border-collapse">
-                <thead>
-                <tr class="bg-purple-700 text-white">
-                    <th class="p-3 text-left">Product Image</th>
-                    <th class="p-3 text-left">Product Name</th>
-                    <th class="p-3 text-left">Description</th>
-                    <th class="p-3 text-left">Price</th>
-                    <th class="p-3 text-center">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="product : ${products}"
-                    th:if="${product.category != null and product.category.toLowerCase() == 'aisle'}"
-                    class="border-b hover:bg-gray-100 transition">
-                    <td class="p-3 text-center">
-                        <img th:src="@{${product.imageUri}}" alt="Product Image"
-                             class="w-16 h-16 object-cover rounded"/>
-                    </td>
-                    <td class="p-3 font-semibold text-purple-700" th:text="${product.name}"></td>
-                    <td class="p-3 text-gray-600" th:text="${product.description}"></td>
-                    <td class="p-3 text-yellow-500 font-bold text-lg"
-                        th:text="'$' + ${#numbers.formatDecimal(product.price, 1, 2)}"></td>
-                    <td class="p-3 flex justify-center">
-                        <form th:action="@{/add-to-cart}" method="post">
-                            <input type="hidden" name="productId" th:value="${product.id}"/>
-                            <input type="hidden" name="quantity" th:value="1"/>
-                            <button type="submit"
-                                    class="bg-purple-700 text-white font-bold px-4 py-2 rounded-lg shadow-md hover:bg-purple-800 transition">
-                                Add to Cart
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <!-- pagination area -->
-                        <!-- Aisles Goods Pagination -->
-                        <!-- Aisles Goods Pagination -->
-                        <div class="mt-6 flex justify-center gap-3">
-                            <a th:href="@{|/products?category=aisles&page=${aislesPage - 1}|}"
-                               class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
-                               onclick="hideSections(['fruitsAndVegetables', 'frozenGoods'])"
-                               th:if="${aislesPage > 1}">
-                                Previous
-                            </a>
-
-                            <a th:href="@{|/products?category=aisles&page=${aislesPage + 1}|}"
-                               class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
-                               onclick="hideSections(['fruitsAndVegetables', 'frozenGoods'])"
-                               th:if="${aislesPage < aislesTotalPages}">
-                                Next
-                            </a>
-                        </div>
-
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                                <a th:href="@{|/products?category=aisle&page=${aislesPage + 1}|}"
+                                   class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
+                                   onclick="hideSections(['veggie', 'frozen'])"
+                                   th:if="${aislesPage < aislesTotalPages}">
+                                    Next
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <br/>
+        <!-- Frozen -->
+        <p class="cursor-pointer text-white font-bold mb-2"
+           onclick="toggleSection('frozen', this)">[⎏] Frozen</p>
+        <div id="frozen" class="hidden">
+            <div class="w-full bg-white p-4 rounded-lg shadow-lg overflow-x-auto">
+                <table class="w-full border-collapse">
+                    <thead>
+                    <tr class="bg-blue-700 text-white">
+                        <th class="p-3 text-left">Product Image</th>
+                        <th class="p-3 text-left">Product Name</th>
+                        <th class="p-3 text-left">Description</th>
+                        <th class="p-3 text-left">Price</th>
+                        <th class="p-3 text-center">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="product : ${products}"
+                        th:if="${product.category != null and product.category.toLowerCase() == 'frozen'}"
+                        class="border-b hover:bg-gray-100 transition">
+                        <td class="p-3 text-center">
+                            <img th:src="@{${product.imageUri}}" alt="Product Image"
+                                 class="w-16 h-16 object-cover rounded"/>
+                        </td>
+                        <td class="p-3 font-semibold text-purple-700" th:text="${product.name}"></td>
+                        <td class="p-3 text-gray-600" th:text="${product.description}"></td>
+                        <td class="p-3 text-yellow-500 font-bold text-lg"
+                            th:text="'$' + ${#numbers.formatDecimal(product.price, 1, 2)}"></td>
+                        <td class="p-3 flex justify-center">
+                            <form th:action="@{/add-to-cart}" method="post">
+                                <input type="hidden" name="productId" th:value="${product.id}"/>
+                                <input type="hidden" name="quantity" th:value="1"/>
+                                <button type="submit"
+                                        class="bg-green-700 text-white font-bold px-4 py-2 rounded-lg shadow-md hover:bg-blue-800 transition">
+                                    Add to Cart
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <!-- pagination area -->
+                            <!-- Frozen goods Pagination -->
+                            <div class="mt-6 flex justify-center gap-3">
+                                <a th:href="@{|/?category=frozen&page=${frozenGoodsPage - 1}|}"
+                                   class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
+                                   onclick="hideSections(['aisle', 'veggie'])"
+                                   th:if="${frozenGoodsPage > 1}">
+                                    ...More
+                                </a>
+
+                                <a th:href="@{|/?category=frozen&page=${frozenGoodsPage + 1}|}"
+                                   class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
+                                   onclick="hideSections(['aisle', 'veggie'])"
+                                   th:if="${frozenGoodsPage < frozenGoodsTotalPages}">
+                                    Next
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <br/>
-    </div>
-    <!-- Frozen Goods -->
-    <p class="cursor-pointer text-white font-bold mb-2"
-       onclick="toggleSection('frozenGoods', this)">[⎐] Frozen</p>
-    <div id="frozenGoods">
-        <!-- Your content here -->
-        <div class="w-full bg-white p-4 rounded-lg shadow-lg overflow-x-auto">
-            <table class="w-full border-collapse">
-                <thead>
-                <tr class="bg-blue-700 text-white">
-                    <th class="p-3 text-left">Product Image</th>
-                    <th class="p-3 text-left">Product Name</th>
-                    <th class="p-3 text-left">Description</th>
-                    <th class="p-3 text-left">Price</th>
-                    <th class="p-3 text-center">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="product : ${products}"
-                    th:if="${product.category != null and product.category.toLowerCase() == 'frozen'}"
-                    class="border-b hover:bg-gray-100 transition">
-                    <td class="p-3 text-center">
-                        <img th:src="@{${product.imageUri}}" alt="Product Image"
-                             class="w-16 h-16 object-cover rounded"/>
-                    </td>
-                    <td class="p-3 font-semibold text-purple-700" th:text="${product.name}"></td>
-                    <td class="p-3 text-gray-600" th:text="${product.description}"></td>
-                    <td class="p-3 text-yellow-500 font-bold text-lg"
-                        th:text="'$' + ${#numbers.formatDecimal(product.price, 1, 2)}"></td>
-                    <td class="p-3 flex justify-center">
-                        <form th:action="@{/add-to-cart}" method="post">
-                            <input type="hidden" name="productId" th:value="${product.id}"/>
-                            <input type="hidden" name="quantity" th:value="1"/>
-                            <button type="submit"
-                                    class="bg-purple-700 text-white font-bold px-4 py-2 rounded-lg shadow-md hover:bg-purple-800 transition">
-                                Add to Cart
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <!-- pagination area -->
-                        <!-- Frozen Goods Pagination -->
-                        <div class="mt-6 flex justify-center gap-3">
-                            <a th:href="@{|/products?category=frozen&page=${frozenGoodsPage - 1}|}"
-                               class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
-                               onclick="hideSections(['aisles', 'fruitsAndVegetables'])"
-                               th:if="${frozenGoodsPage > 1}">
-                                Previous
-                            </a>
+        <!-- Services Section -->
+        <div class="contenu-video mt-8">
+            <p>
+                <img src="imgs/aboutImg.webp" alt="aboutImg" style="width:470px;height:170px;margin-left:15px;">
+                <br>
+                <br>Les produits frais sont essentiels pour une alimentation saine et équilibrée. Notre boutique
+                africaine
+                en ligne vous offre l’opportunité unique de savourer des fruits, légumes et autres produits frais
+                directement issus des meilleures fermes, livrés à votre porte.
+                <br><br>
+                Au Canada, nous garantissons une livraison express sous 24 heures, vous permettant de profiter
+                rapidement de
+                la fraîcheur et des saveurs authentiques de nos produits. Pour les commandes internationales, la
+                livraison
+                est également disponible, bien que les délais puissent varier en fonction de votre localisation.
+                Consommer nos produits, c’est opter pour une alimentation plus naturelle et nutritive, sans
+                conservateurs
+                excessifs ni produits chimiques nocifs. Chaque achat soutient directement les agriculteurs africains,
+                favorisant ainsi une économie locale durable et encourageant des pratiques agricoles responsables.
+                <br><br>
+                Nos produits sont cultivés avec soin, selon des méthodes traditionnelles et écologiques, préservant leur
+                qualité et fraîcheur optimales. Que vous soyez à Montréal, Toronto, Paris ou Dubaï, nous mettons tout en
+                œuvre pour que vous receviez des produits qui conservent leur goût exceptionnel et leurs bienfaits
+                nutritionnels.
+                Commandez dès aujourd’hui et savourez le meilleur de l’Afrique, livré directement chez vous, où que vous
+                soyez !
+                <br><br>
+            <hr>
+            <h1>NOS SERVICES</h1>
 
-                            <a th:href="@{|/products?category=frozen&page=${frozenGoodsPage + 1}|}"
-                               class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
-                               onclick="hideSections(['fruitsAndVegetables', 'aisles'])"
-                               th:if="${frozenGoodsPage < frozenGoodsTotalPages}">
-                                Next
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <p>
+                Chargement, Transport & Expédition<br>
+                Nous proposons des conteneurs contrôlés en humidité, doublés d'une enveloppe à barrière contre
+                l'humidité,
+                garantissant la préservation de la qualité des noix de cajou.<br><br>
+
+                Partenaires Logistiques Fiables<br>
+                Nos partenaires logistiques de confiance assurent une livraison sûre et ponctuelle vers les marchés
+                internationaux.<br><br>
+
+                Surveillance et Suivi<br>
+                Nous offrons un suivi précis des conteneurs, tant à l'intérieur qu'en mer, pour garantir un suivi
+                complet de
+                bout en bout.<br><br>
+
+                Expédition vers l'Europe, l'Asie et le Moyen-Orient<br>
+                Nos clients se trouvent principalement en Inde, au Vietnam et en Europe.<br><br>
+
+                Demander un Devis<br>
+                Besoin d'une solution personnalisée ? Demandez un devis dès aujourd'hui et laissez-nous vous proposer
+                les
+                meilleures options d'expédition adaptées à vos besoins.
+            </p>
+            <hr>
+            video du jour
+            <iframe width="553" height="280" src="https://www.youtube.com/embed/ArCo4CVsfh4"
+                    title="Mon dîner Panafoodies NdockBidi X Taptapsend aux Usa 🇺🇸🇺🇸 🇨🇲🇨🇲" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br>
+            <hr>
+            <h2>Second RSS Feed</h2>
+            <ul>
+                <li th:each="feed : ${secondRssFeeds}">
+                    <span th:utext="${feed}"></span>
+                </li>
+            </ul>
         </div>
     </div>
-</div>
 
-<!-- this is the pagination for all products hide from users-->
-<div class="mt-6 flex justify-center gap-3">
-    <!-- <a th:href="@{|/products?category=all&page=${productsPage - 1}|}"
-        class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
-        th:if="${productsPage > 1}">
-         Previous
-     </a>
+    <!-- Footer -->
+    <footer class="footer" style="color: black;">
 
-     <span class="px-4 py-2 bg-purple-700 text-white rounded-lg shadow-md"
-           th:text="'Page ' + ${productsPage} + ' of ' + ${totalPages}"></span>
+        <p style="color: black;">
+            <a style="color: black;" href="mailto:contact@agriecommerce.com"
+               class="text-white hover:text-yellow-500 font-bold">
+                Contact Us </a><img src="/imgs/allMedia.png" alt="social" class="social-logo">
+        </p>
 
-     <a th:href="@{|/products?category=all&page=${totalPages + 1}|}"
-        class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
-        th:if="${productsPage < totalPages}">
-         Next
-     </a>-->
-
-</div>
-<!-- Services Section -->
-<div class="contenu-video mt-8">
-    <p>
-        <img src="imgs/aboutImg.webp" alt="aboutImg" style="width:470px;height:170px;margin-left:15px;">
-        <br>
-        <br>Les produits frais sont essentiels pour une alimentation saine et équilibrée. Notre boutique africaine
-        en ligne vous offre l’opportunité unique de savourer des fruits, légumes et autres produits frais
-        directement issus des meilleures fermes, livrés à votre porte.
-        <br><br>
-        Au Canada, nous garantissons une livraison express sous 24 heures, vous permettant de profiter rapidement de
-        la fraîcheur et des saveurs authentiques de nos produits. Pour les commandes internationales, la livraison
-        est également disponible, bien que les délais puissent varier en fonction de votre localisation.
-        Consommer nos produits, c’est opter pour une alimentation plus naturelle et nutritive, sans conservateurs
-        excessifs ni produits chimiques nocifs. Chaque achat soutient directement les agriculteurs africains,
-        favorisant ainsi une économie locale durable et encourageant des pratiques agricoles responsables.
-        <br><br>
-        Nos produits sont cultivés avec soin, selon des méthodes traditionnelles et écologiques, préservant leur
-        qualité et fraîcheur optimales. Que vous soyez à Montréal, Toronto, Paris ou Dubaï, nous mettons tout en
-        œuvre pour que vous receviez des produits qui conservent leur goût exceptionnel et leurs bienfaits
-        nutritionnels.
-        Commandez dès aujourd’hui et savourez le meilleur de l’Afrique, livré directement chez vous, où que vous
-        soyez !
-        <br><br>
-    <hr>
-    <h1>NOS SERVICES</h1>
-
-    <p>
-        Chargement, Transport & Expédition<br>
-        Nous proposons des conteneurs contrôlés en humidité, doublés d'une enveloppe à barrière contre l'humidité,
-        garantissant la préservation de la qualité des noix de cajou.<br><br>
-
-        Partenaires Logistiques Fiables<br>
-        Nos partenaires logistiques de confiance assurent une livraison sûre et ponctuelle vers les marchés
-        internationaux.<br><br>
-
-        Surveillance et Suivi<br>
-        Nous offrons un suivi précis des conteneurs, tant à l'intérieur qu'en mer, pour garantir un suivi complet de
-        bout en bout.<br><br>
-
-        Expédition vers l'Europe, l'Asie et le Moyen-Orient<br>
-        Nos clients se trouvent principalement en Inde, au Vietnam et en Europe.<br><br>
-
-        Demander un Devis<br>
-        Besoin d'une solution personnalisée ? Demandez un devis dès aujourd'hui et laissez-nous vous proposer les
-        meilleures options d'expédition adaptées à vos besoins.
-    </p>
-    <hr>
-    video du jour
-    <iframe width="553" height="280" src="https://www.youtube.com/embed/ArCo4CVsfh4"
-            title="Mon dîner Panafoodies NdockBidi X Taptapsend aux Usa 🇺🇸🇺🇸 🇨🇲🇨🇲" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    <br>
-    <hr>
-    <h2>Second RSS Feed</h2>
-    <ul>
-        <li th:each="feed : ${secondRssFeeds}">
-            <span th:utext="${feed}"></span>
-        </li>
-    </ul>
-</div>
-</div>
-
-<!-- Footer -->
-<footer class="footer" style="color: black;">
-
-    <p style="color: black;">
-        <a style="color: black;" href="mailto:contact@agriecommerce.com"
-           class="text-white hover:text-yellow-500 font-bold">
-            Contact Us </a><img src="/imgs/allMedia.png" alt="social" class="social-logo">
-    </p>
-
-    <div class="footer-container" style="color: black;">
-        <div class="social-icons">
-            <a href="#" aria-label="Facebook"><img src="/imgs/fb.png" alt="fb" class="social-icon"></a>
-            <a href="#" aria-label="Instagram"><img src="/imgs/ig.png" alt="ig" class="social-icon"></a>
-            <a href="#" aria-label="X (Twitter)"><img src="/imgs/xtwiter.png" alt="x" class="social-icon"></a>
-            <a href="#" aria-label="YouTube"><img src="/imgs/youtube.png" alt="youtube" class="social-icon"></a>
+        <div class="footer-container" style="color: black;">
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook"><img src="/imgs/fb.png" alt="fb" class="social-icon"></a>
+                <a href="#" aria-label="Instagram"><img src="/imgs/ig.png" alt="ig" class="social-icon"></a>
+                <a href="#" aria-label="X (Twitter)"><img src="/imgs/xtwiter.png" alt="x" class="social-icon"></a>
+                <a href="#" aria-label="YouTube"><img src="/imgs/youtube.png" alt="youtube" class="social-icon"></a>
+            </div>
+            <p class="payment-methods" style="color: black;font-size: 11px;"><i>fsqs© now accepting: PayPal™️ </i></p>
+            <div class="paypal-container"><img src="/imgs/modePaiement.png" style="height: 150px; width:450px;"
+                                               alt="Paypal"></div>
         </div>
-        <p class="payment-methods" style="color: black;font-size: 11px;"><i>fsqs© now accepting: PayPal™️ </i></p>
-        <div class="paypal-container"><img src="/imgs/modePaiement.png" style="height: 150px; width:450px;"
-                                           alt="Paypal"></div>
-    </div>
 
-    <p style="color: black; font-size: 8px;">
-        Follow us on social | Production Canada-Côte d'Ivoire 🇨🇮 | 🇨🇦
-    </p>
+        <p style="color: black; font-size: 8px;">
+            Follow us on social | Production Canada-Côte d'Ivoire 🇨🇮 | 🇨🇦
+        </p>
 
-</footer>
+    </footer>
 
 </body>
-
-<script>
-    function toggleSection(sectionId) {
-        let section = document.getElementById(sectionId);
-        if (section) {
-            // Toggle visibility
-            if (section.classList.contains("hidden")) {
-                section.classList.remove("hidden");
-                localStorage.setItem(sectionId, 'open');
-            } else {
-                section.classList.add("hidden");
-                localStorage.setItem(sectionId, 'closed');
-            }
-        }
-    }
-
-    function hideSections(sectionIds) {
-        sectionIds.forEach(sectionId => {
-            let section = document.getElementById(sectionId);
-            if (section) {
-                section.classList.add("hidden"); // Always hide
-                localStorage.setItem(sectionId, 'closed'); // Store state
-            }
-        });
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-        console.log("DOM fully loaded and parsed.");
-
-        function handleResize() {
-            let width = window.innerWidth;
-            if (width <= 768) {
-                console.log("Mobile View Detected: Adapting UI...");
-                document.body.classList.add("mobile-view");
-                document.body.classList.remove("desktop-view");
-            } else {
-                console.log("Desktop View Detected: Adapting UI...");
-                document.body.classList.add("desktop-view");
-                document.body.classList.remove("mobile-view");
-            }
-        }
-
-        function debounce(func, wait = 100) {
-            let timeout;
-            return function (...args) {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => func.apply(this, args), wait);
-            };
-        }
-
-        window.addEventListener("resize", debounce(handleResize, 200));
-
-        handleResize();
-
-        function restoreSectionStates() {
-            let sections = ["fruitsAndVegetables", "frozenGoods", "aisles"];
-            sections.forEach(sectionId => {
-                let section = document.getElementById(sectionId);
-                if (section) {
-                    let state = localStorage.getItem(sectionId);
-
-                    if (state === null) {
-                        localStorage.setItem(sectionId, "closed");
-                        section.classList.add("hidden");
-                    } else if (state === "closed") {
-                        section.classList.add("hidden");
-                    } else {
-                        section.classList.remove("hidden");
-                    }
-
-                    console.log(`Restoring section ${sectionId}: ${state}`);
-                }
-            });
-        }
-
-        restoreSectionStates();
-
-        document.querySelectorAll("[data-toggle]").forEach(toggleButton => {
-            toggleButton.addEventListener("click", function () {
-                let targetId = this.getAttribute("data-toggle");
-                toggleSection(targetId);
-            });
-        });
-    });
-</script>
-
 
 </html>
