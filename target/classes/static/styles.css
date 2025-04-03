@@ -63,9 +63,26 @@ html, body {
 /* ================= PRODUCT TABLE ================= */
 .product-table-container {
   flex: 2;
-  max-width: 60%;
+  max-width: 580px;
+  width:50%
   position: relative;
   z-index: 5;
+}
+
+.bouncing-text {
+  width: fit-content;
+  margin: 0 auto;
+  animation: bounce 2s ease-in-out infinite alternate;
+  font-weight: bold;
+  color: white;
+  background-color: #4b5563;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+}
+
+@keyframes bounce {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(50vw); }
 }
 
 /* Adjust News Feed */
@@ -75,7 +92,8 @@ html, body {
   border-radius: 1.5rem;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
   padding: 1.5rem;
-  max-width: 77%;
+  max-width: 580px;
+  width:50%;
   position: relative; /* Remove fixed positioning */
   margin: 20px auto;
   z-index: 10;
