@@ -57,7 +57,7 @@
         <!-- Fruits and Veggie Product Table -->
         <p class="cursor-pointer text-white font-bold mb-2"
            onclick="toggleSection('fruitsAndVegetables', this)">[⎏] Fruits and vegetables</p>
-        <div id="fruitsAndVegetables">
+        <div id="fruitsAndVegetables" class="hidden">
             <div class="w-full bg-white p-4 rounded-lg shadow-lg overflow-x-auto">
                 <table class="w-full border-collapse">
                     <thead>
@@ -365,6 +365,7 @@
 </footer>
 
 </body>
+
 <script>
     function toggleSection(sectionId) {
         let section = document.getElementById(sectionId);
@@ -377,7 +378,6 @@
                 section.classList.add("hidden");
                 localStorage.setItem(sectionId, 'closed');
             }
-
         }
     }
 
@@ -391,20 +391,65 @@
         });
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        let sections = ['fruitsAndVegetables', 'frozenGoods', 'aisles'];
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log("DOM fully loaded and parsed.");
 
-        sections.forEach(sectionId => {
-            let section = document.getElementById(sectionId);
-            if (section) {
-                let state = localStorage.getItem(sectionId);
-                if (state === 'closed') {
-                    section.classList.add('hidden');
-                } else if (state === 'open') {
-                    section.classList.remove('hidden');
-                }
+        function handleResize() {
+            let width = window.innerWidth;
+            if (width <= 768) {
+                console.log("Mobile View Detected: Adapting UI...");
+                document.body.classList.add("mobile-view");
+                document.body.classList.remove("desktop-view");
+            } else {
+                console.log("Desktop View Detected: Adapting UI...");
+                document.body.classList.add("desktop-view");
+                document.body.classList.remove("mobile-view");
             }
+        }
+
+        function debounce(func, wait = 100) {
+            let timeout;
+            return function (...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        window.addEventListener("resize", debounce(handleResize, 200));
+
+        handleResize();
+
+        function restoreSectionStates() {
+            let sections = ["fruitsAndVegetables", "frozenGoods", "aisles"];
+            sections.forEach(sectionId => {
+                let section = document.getElementById(sectionId);
+                if (section) {
+                    let state = localStorage.getItem(sectionId);
+
+                    if (state === null) {
+                        localStorage.setItem(sectionId, "closed");
+                        section.classList.add("hidden");
+                    } else if (state === "closed") {
+                        section.classList.add("hidden");
+                    } else {
+                        section.classList.remove("hidden");
+                    }
+
+                    console.log(`Restoring section ${sectionId}: ${state}`);
+                }
+            });
+        }
+
+        restoreSectionStates();
+
+        document.querySelectorAll("[data-toggle]").forEach(toggleButton => {
+            toggleButton.addEventListener("click", function () {
+                let targetId = this.getAttribute("data-toggle");
+                toggleSection(targetId);
+            });
         });
     });
 </script>
+
+
 </html>
