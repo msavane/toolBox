@@ -16,69 +16,61 @@
         });
 
         function toggleSection(sectionId) {
-            let sections = ["veggie", "aisle", "frozen"];
-            sections.forEach(sectionName => {
-                let sectionElement = document.getElementById(sectionName);
-                if (sectionElement) {
-                    if (sectionName === sectionId) {
-                        sectionElement.classList.remove("hidden");
-                        localStorage.setItem(sectionName, "open");
+            const sections = ["veggie", "aisle", "frozen"];
+            sections.forEach(id => {
+                const section = document.getElementById(id);
+                if (section) {
+                    if (id === sectionId) {
+                        section.classList.remove("hidden");
+                        localStorage.setItem(id, "open");
                     } else {
-                        sectionElement.classList.add("hidden");
-                        localStorage.setItem(sectionName, "closed");
+                        section.classList.add("hidden");
+                        localStorage.setItem(id, "closed");
                     }
                 }
             });
         }
-function restoreSectionStates() {
-    let sections = ["veggie", "aisle", "frozen"];
-    let defaultSection = "veggie";
-    let isAnySectionOpen = false;
-    let openSection = null;
 
-    // Get section from URL
-    let urlParams = new URLSearchParams(window.location.search);
-    let sectionFromURL = urlParams.get("category");
+        function toggleSectionAndReload(sectionId) {
+            const sections = ["veggie", "aisle", "frozen"];
+            sections.forEach(id => {
+                const section = document.getElementById(id);
+                if (section) {
+                    if (id === sectionId) {
+                        section.classList.remove("hidden");
+                        localStorage.setItem(id, "open");
+                    } else {
+                        section.classList.add("hidden");
+                        localStorage.setItem(id, "closed");
+                    }
+                }
+            });
 
-    sections.forEach(sectionId => {
-        let section = document.getElementById(sectionId);
-        if (!section) return;
-
-        let state = localStorage.getItem(sectionId);
-        let shouldOpen = sectionId === sectionFromURL || state === "open";
-
-        if (shouldOpen) {
-            section.classList.remove("hidden");
-            isAnySectionOpen = true;
-            openSection = sectionId;
-            localStorage.setItem(sectionId, "open");
-        } else {
-            section.classList.add("hidden");
-            localStorage.setItem(sectionId, "closed");
+            const url = new URL(window.location);
+            url.searchParams.set("category", sectionId);
+            url.searchParams.set("page", "1"); // reset to first page
+            window.location.href = url.toString(); // reload page with category
         }
-    });
 
-    // Ensure at least the default section is open if none are explicitly open
-    if (!isAnySectionOpen) {
-        let defaultElement = document.getElementById(defaultSection);
-        if (defaultElement) {
-            defaultElement.classList.remove("hidden");
-            localStorage.setItem(defaultSection, "open");
-            openSection = defaultSection;
+        function restoreSectionStates() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const activeCategory = urlParams.get("category");
+
+            const sections = ["veggie", "aisle", "frozen"];
+            sections.forEach(id => {
+                const section = document.getElementById(id);
+                if (section) {
+                    if (id === activeCategory) {
+                        section.classList.remove("hidden");
+                    } else {
+                        section.classList.add("hidden");
+                    }
+                }
+            });
         }
-    }
-
-    // Prevent infinite loop: Only update URL if category is missing or incorrect
-    let currentCategory = urlParams.get("category");
-    if (openSection && currentCategory !== openSection) {
-        let newUrl = new URL(window.location);
-        newUrl.searchParams.set("category", openSection);
-        window.history.replaceState({}, "", newUrl);
-    }
-}
 
         function handleResize() {
-            let screenWidth = window.innerWidth;
+            const screenWidth = window.innerWidth;
             if (screenWidth <= 768) {
                 document.body.classList.add("mobile-view");
                 document.body.classList.remove("desktop-view");
@@ -96,6 +88,7 @@ function restoreSectionStates() {
             };
         }
     </script>
+
     <style>
         .hidden { display: none; }
         .mobile-view { font-size: 14px; }
@@ -150,8 +143,9 @@ function restoreSectionStates() {
         </div>
         <br/>
         <!-- Fruits and Veggie Product Table -->
+
         <p class="cursor-pointer text-white font-bold mb-2"
-           onclick="toggleSection('veggie', this)">[⎏] Fruits and vegetables</p>
+           onclick="toggleSectionAndReload('veggie', this)">[⎏] Fruits and vegetables</p>
         <div id="veggie" class="">
             <div class="w-full bg-white p-4 rounded-lg shadow-lg">
                 <table class="w-full border-collapse table-fixed">
@@ -218,7 +212,7 @@ function restoreSectionStates() {
         <!-- remmettre code -->
         <!-- Aisles Product Table -->
         <p class="cursor-pointer text-white font-bold mb-2"
-           onclick="toggleSection('aisle', this)">[⎐] Aisles</p>
+           onclick="toggleSectionAndReload('aisle', this)">[⎐] Aisles</p>
         <div id="aisle" class="hidden">
             <div class="w-full bg-white p-4 rounded-lg shadow-lg">
                 <table class="w-full border-collapse table-fixed">
@@ -284,7 +278,7 @@ function restoreSectionStates() {
         <br/>
         <!-- Frozen -->
         <p class="cursor-pointer text-white font-bold mb-2"
-           onclick="toggleSection('frozen', this)">[⎏] Frozen</p>
+           onclick="toggleSectionAndReload('frozen', this)">[⎏] Frozen</p>
         <div id="frozen" class="hidden">
             <div class="w-full bg-white p-4 rounded-lg shadow-lg">
                 <table class="w-full border-collapse table-fixed">
