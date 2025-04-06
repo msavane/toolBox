@@ -107,6 +107,7 @@ public class CartController {
                                   @RequestParam String clientsMail,
                                   @RequestParam String billingAddress,
                                   @RequestParam String billingAddressApartment,
+                                  @RequestParam String billingCity,
                                   @RequestParam String billingAddressProvince,
                                   @RequestParam String billingPostal,
                                   @RequestParam String paymentMethod,
@@ -119,6 +120,7 @@ public class CartController {
         order.setEmail(clientsMail);
         order.setBillingAddress(billingAddress);
         order.setBillingAddressApartment(billingAddressApartment);
+        order.setBillingCity(billingCity);
         order.setBillingAddressProvince(billingAddressProvince);
         order.setBillingPostal(billingPostal);
         order.setStatus("pending");

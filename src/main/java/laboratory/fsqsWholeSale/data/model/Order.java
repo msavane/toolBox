@@ -21,6 +21,7 @@ public class Order {
     private String email;
     private String billingAddress;
     private String billingAddressApartment;
+    private String billingCity;
     private String billingAddressProvince;
     private String billingPostal;
     private String status; // "pending" initially
@@ -62,9 +63,15 @@ public class Order {
     public String getBillingAddressApartment() { return billingAddressApartment; }
     public void setBillingAddressApartment(String billingAddressApartment) { this.billingAddressApartment = billingAddressApartment; }
 
+    public String getBillingCity() { return billingCity; }
+    public void setBillingCity(String billingCity) {
+        this.billingCity = billingCity;
+    }
+
     public String getBillingAddressProvince() { return billingAddressProvince; }
     public void setBillingAddressProvince(String billingAddressProvince) { this.billingAddressProvince = billingAddressProvince; }
 
     public String getBillingPostal() { return billingPostal; }
     public void setBillingPostal(String billingPostal) { this.billingPostal = billingPostal; }
+
 }
