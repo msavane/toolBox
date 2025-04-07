@@ -109,7 +109,16 @@
 <div class="random-space"></div>
 <div class="bouncing-text">ON SPECIAL TODAY</div>
 <div class="horizontal_line"></div>
-
+<br/>
+<div class="marquee-container">
+    <div class="marquee-content">
+        <img src="/imgs/biltongLogo.png" class="w-20 h-20 mx-4 rounded-lg shadow-md inline-block" alt="biltong">
+        <img src="/imgs/cokeLogo.png" class="w-20 h-20 mx-4 rounded-lg shadow-md inline-block" alt="Coke">
+        <img src="/imgs/maggiLogo.png" class="w-20 h-20 mx-4 rounded-lg shadow-md inline-block" alt="maggi">
+        <img src="/imgs/cadburyLogo.png" class="w-29 h-20 mx-4 rounded-lg shadow-md inline-block" alt="cadbury">
+        <!-- Add more as needed -->
+    </div>
+</div>
 <div class="random-space"></div>
 
 <!-- Loading/Error Messages -->
@@ -175,7 +184,7 @@
                             <form th:action="@{/add-to-cart}" method="post">
                                 <input type="hidden" name="productId" th:value="${product.id}"/>
                                 <input type="hidden" name="quantity" th:value="1"/>
-                                <button type="submit" class="bg-green-700 text-white font-semibold text-sm px-3 py-1 rounded-md shadow hover:bg-green-800 transition duration-300">
+                                <button type="submit" class="bg-green-700 text-white font-medium text-xs px-2 py-0.5 rounded shadow hover:bg-green-800 transition duration-300">
                                     Add to Cart
                                 </button>
                             </form>
@@ -241,7 +250,7 @@
                             <form th:action="@{/add-to-cart}" method="post">
                                 <input type="hidden" name="productId" th:value="${product.id}"/>
                                 <input type="hidden" name="quantity" th:value="1"/>
-                                <button type="submit" class="bg-purple-700 text-white font-semibold text-sm px-3 py-1 rounded-md shadow hover:bg-purple-800 transition duration-300">
+                                <button type="submit" class="bg-purple-700 text-white font-medium text-xs px-2 py-0.5 rounded shadow hover:bg-purple-800 transition duration-300">
                                     Add to Cart
                                 </button>
                             </form>
@@ -306,7 +315,7 @@
                             <form th:action="@{/add-to-cart}" method="post">
                                 <input type="hidden" name="productId" th:value="${product.id}"/>
                                 <input type="hidden" name="quantity" th:value="1"/>
-                                <button type="submit" class="bg-blue-700 text-white font-semibold text-sm px-3 py-1 rounded-md shadow hover:bg-blue-800 transition duration-300">
+                                <button type="submit" class="bg-blue-700 text-white font-medium text-xs px-2 py-0.5 rounded shadow hover:bg-blue-800 transition duration-300">
                                     Add to Cart
                                 </button>
                             </form>
@@ -342,13 +351,13 @@
         <!-- Services Section -->
         <div class="contenu-video mt-8">
             <p>
-                <img src="imgs/aboutImg.webp" alt="aboutImg" style="width:470px;height:170px;margin-left:15px;">
-                <br>
-                <br>Les produits frais sont essentiels pour une alimentation saine et équilibrée. Notre boutique
+                <img src="imgs/aboutImg.webp" alt="aboutImg" style="width:370px;height:170px;margin-left:15px;">
+
+                <br/>Les produits frais sont essentiels pour une alimentation saine et équilibrée. Notre boutique
                 africaine
                 en ligne vous offre l’opportunité unique de savourer des fruits, légumes et autres produits frais
                 directement issus des meilleures fermes, livrés à votre porte.
-                <br><br>
+               <br/>
                 Au Canada, nous garantissons une livraison express sous 24 heures, vous permettant de profiter
                 rapidement de
                 la fraîcheur et des saveurs authentiques de nos produits. Pour les commandes internationales, la
@@ -358,47 +367,49 @@
                 conservateurs
                 excessifs ni produits chimiques nocifs. Chaque achat soutient directement les agriculteurs africains,
                 favorisant ainsi une économie locale durable et encourageant des pratiques agricoles responsables.
-                <br><br>
+                <br/>
                 Nos produits sont cultivés avec soin, selon des méthodes traditionnelles et écologiques, préservant leur
                 qualité et fraîcheur optimales. Que vous soyez à Montréal, Toronto, Paris ou Dubaï, nous mettons tout en
                 œuvre pour que vous receviez des produits qui conservent leur goût exceptionnel et leurs bienfaits
                 nutritionnels.
                 Commandez dès aujourd’hui et savourez le meilleur de l’Afrique, livré directement chez vous, où que vous
                 soyez !
-                <br><br>
-            <hr>
+
+            <hr><br/>
             <h1>NOS SERVICES</h1>
 
             <p>
-                Chargement, Transport & Expédition<br>
+                Chargement, Transport & Expédition<br/>
                 Nous proposons des conteneurs contrôlés en humidité, doublés d'une enveloppe à barrière contre
                 l'humidité,
-                garantissant la préservation de la qualité des noix de cajou.<br><br>
+                garantissant la préservation de la qualité des noix de cajou.<br/>
 
-                Partenaires Logistiques Fiables<br>
+                Partenaires Logistiques Fiables<br/>
                 Nos partenaires logistiques de confiance assurent une livraison sûre et ponctuelle vers les marchés
-                internationaux.<br><br>
+                internationaux.<br/>
 
-                Surveillance et Suivi<br>
+                Surveillance et Suivi<br/>
                 Nous offrons un suivi précis des conteneurs, tant à l'intérieur qu'en mer, pour garantir un suivi
                 complet de
-                bout en bout.<br><br>
+                bout en bout.<br/>
 
-                Expédition vers l'Europe, l'Asie et le Moyen-Orient<br>
-                Nos clients se trouvent principalement en Inde, au Vietnam et en Europe.<br><br>
+                Expédition vers l'Europe, l'Asie et le Moyen-Orient<br/>
+                Nos clients se trouvent principalement en Inde, au Vietnam et en Europe.<br/>
 
-                Demander un Devis<br>
+                Demander un Devis<br/>
                 Besoin d'une solution personnalisée ? Demandez un devis dès aujourd'hui et laissez-nous vous proposer
                 les
                 meilleures options d'expédition adaptées à vos besoins.
             </p>
             <hr>
-            video du jour
-            <iframe width="253" height="280" src="https://www.youtube.com/embed/ArCo4CVsfh4"
-                    title="Mon dîner Panafoodies NdockBidi X Taptapsend aux Usa 🇺🇸🇺🇸 🇨🇲🇨🇲" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            <br>
+            video du jour:<br/>
+            <div class="flex justify-center items-center py-4">
+                <iframe width="253" height="280" src="https://www.youtube.com/embed/ArCo4CVsfh4"
+                        title="Mon dîner Panafoodies NdockBidi X Taptapsend aux Usa 🇺🇸🇺🇸 🇨🇲🇨🇲" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            <br/>
             <hr>
             <h2>Second RSS Feed</h2>
             <ul>

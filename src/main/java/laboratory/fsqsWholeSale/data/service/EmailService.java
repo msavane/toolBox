@@ -39,10 +39,11 @@ public class EmailService {
                 .append("Basket:\n");
 
         for (OrderItem item : order.getOrderItems()) {
-            emailContent.append("- ").append(item.getProduct().getId()) // Assuming product has an ID
+            emailContent.append("- ")
                     .append(" | ").append(item.getProduct().getName()) // Assuming product has a name
                     .append(" | Quantity: ").append(item.getQuantity())
                     .append(" | Price: $").append(item.getPriceAtPurchase()).append("\n");
+                    //.append(item.getProduct().getId()); // Assuming product has an ID;
         }
 
         emailContent.append("\nReceipt Breakdown:\n")
