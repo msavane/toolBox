@@ -8,86 +8,94 @@
     <!-- Link to Tailwind CSS -->
     <link rel="stylesheet" th:href="@{/styles.css}">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
-    <script>
+    <script th:inline="javascript">
+
+        /*<![CDATA[*/
+        const defaultCategory = /*[[${defaultCategoryToOpen}]]*/ null;
+        /*]]>*/
+
+
         document.addEventListener("DOMContentLoaded", function () {
-            restoreSectionStates();
-            handleResize();
-            window.addEventListener("resize", debounce(handleResize, 200));
+        restoreSectionStates();
+        handleResize();
+        window.addEventListener("resize", debounce(handleResize, 200));
         });
 
         function toggleSection(sectionId) {
-            const sections = ["veggie", "aisle", "frozen"];
-            sections.forEach(id => {
-                const section = document.getElementById(id);
-                if (section) {
-                    if (id === sectionId) {
-                        section.classList.remove("hidden");
-                        localStorage.setItem(id, "open");
-                    } else {
-                        section.classList.add("hidden");
-                        localStorage.setItem(id, "closed");
-                    }
-                }
-            });
+        const sections = ["veggie", "aisle", "frozen"];
+        sections.forEach(id => {
+        const section = document.getElementById(id);
+        if (section) {
+        if (id === sectionId) {
+        section.classList.remove("hidden");
+        localStorage.setItem(id, "open");
+        } else {
+        section.classList.add("hidden");
+        localStorage.setItem(id, "closed");
+        }
+        }
+        });
         }
 
         function toggleSectionAndReload(sectionId) {
-            const sections = ["veggie", "aisle", "frozen"];
-            sections.forEach(id => {
-                const section = document.getElementById(id);
-                if (section) {
-                    if (id === sectionId) {
-                        section.classList.remove("hidden");
-                        localStorage.setItem(id, "open");
-                    } else {
-                        section.classList.add("hidden");
-                        localStorage.setItem(id, "closed");
-                    }
-                }
-            });
+        const sections = ["veggie", "aisle", "frozen"];
+        sections.forEach(id => {
+        const section = document.getElementById(id);
+        if (section) {
+        if (id === sectionId) {
+        section.classList.remove("hidden");
+        localStorage.setItem(id, "open");
+        } else {
+        section.classList.add("hidden");
+        localStorage.setItem(id, "closed");
+        }
+        }
+        });
 
-            const url = new URL(window.location);
-            url.searchParams.set("category", sectionId);
-            url.searchParams.set("page", "1"); // reset to first page
-            window.location.href = url.toString(); // reload page with category
+        const url = new URL(window.location);
+        url.searchParams.set("category", sectionId);
+        url.searchParams.set("page", "1"); // reset to first page
+        window.location.href = url.toString(); // reload page with category
         }
 
         function restoreSectionStates() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const activeCategory = urlParams.get("category");
+    const urlParams = new URLSearchParams(window.location.search);
+    const activeCategory = urlParams.get("category");
 
-            const sections = ["veggie", "aisle", "frozen"];
-            sections.forEach(id => {
-                const section = document.getElementById(id);
-                if (section) {
-                    if (id === activeCategory) {
-                        section.classList.remove("hidden");
-                    } else {
-                        section.classList.add("hidden");
-                    }
-                }
-            });
+    const sections = ["veggie", "aisle", "frozen"];
+    sections.forEach(id => {
+        const section = document.getElementById(id);
+        if (section) {
+            const sectionState = localStorage.getItem(id);
+            if (id === activeCategory || sectionState === "open" || id === defaultCategory) {
+                section.classList.remove("hidden");
+            } else {
+                section.classList.add("hidden");
+            }
         }
+    });
+}
 
         function handleResize() {
-            const screenWidth = window.innerWidth;
-            if (screenWidth <= 768) {
-                document.body.classList.add("mobile-view");
-                document.body.classList.remove("desktop-view");
-            } else {
-                document.body.classList.add("desktop-view");
-                document.body.classList.remove("mobile-view");
-            }
+        const screenWidth = window.innerWidth;
+        if (screenWidth <= 768) {
+        document.body.classList.add("mobile-view");
+        document.body.classList.remove("desktop-view");
+        } else {
+        document.body.classList.add("desktop-view");
+        document.body.classList.remove("mobile-view");
+        }
         }
 
         function debounce(func, delay = 100) {
-            let timeout;
-            return function (...args) {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => func.apply(this, args), delay);
-            };
+        let timeout;
+        return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+        };
         }
     </script>
+
 
     <style>
         .hidden { display: none; }
@@ -152,17 +160,17 @@
         </div>
         <br/>
         <!-- Fruits and Veggie Product Table -->
-
         <p class="cursor-pointer text-white font-bold mb-2"
            onclick="toggleSectionAndReload('veggie', this)">⚖︎Fruits and vegetables ⬍</p>
+
         <div id="veggie" class="">
             <div class="w-full bg-white p-4 rounded-lg shadow-lg">
                 <table class="w-full border-collapse table-fixed">
                     <thead>
                     <tr class="bg-green-700 text-white">
-                        <th class="p-3 text-left min-w-[120px]">Product Image</th>
-                        <th class="p-3 text-left min-w-[150px]">Product Name</th>
-                        <th class="p-3 text-left min-w-[250px]">Description</th>
+                        <th class="p-3 text-left min-w-[120px]">Image</th>
+                        <th class="p-3 text-left min-w-[150px]">Name</th>
+                        <th class="p-3 text-left min-w-[250px]">Desc.</th>
                         <th class="p-3 text-left min-w-[100px]">Price</th>
                         <th class="p-3 text-center min-w-[180px]">Actions</th>
                     </tr>
@@ -184,16 +192,17 @@
                             <form th:action="@{/add-to-cart}" method="post">
                                 <input type="hidden" name="productId" th:value="${product.id}"/>
                                 <input type="hidden" name="quantity" th:value="1"/>
-                                <button type="submit" class="bg-green-700 text-white font-medium text-xs px-2 py-0.5 rounded shadow hover:bg-green-800 transition duration-300">
+                                <button type="submit"
+                                        class="bg-green-700 text-white font-medium text-xs px-2 py-0.5 rounded shadow hover:bg-green-800 transition duration-300">
                                     Add to Cart
                                 </button>
                             </form>
                         </td>
                     </tr>
 
-                    <!-- Pagination -->
-                    <tr>
-                        <td colspan="5" class="p-3">
+                    <!-- Only show this pagination row if NOT in search mode -->
+                    <tr th:block th:if="not (${isSearch} ?: false)">
+                    <td colspan="5" class="p-3">
                             <div class="mt-6 flex justify-center gap-3">
                                 <a th:href="@{|/?category=veggie&page=${fruitsPage - 1}|}"
                                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
@@ -214,7 +223,6 @@
                     </tbody>
                 </table>
             </div>
-
         </div>
         <br/>
         <!-- remmettre code -->
@@ -250,7 +258,8 @@
                             <form th:action="@{/add-to-cart}" method="post">
                                 <input type="hidden" name="productId" th:value="${product.id}"/>
                                 <input type="hidden" name="quantity" th:value="1"/>
-                                <button type="submit" class="bg-purple-700 text-white font-medium text-xs px-2 py-0.5 rounded shadow hover:bg-purple-800 transition duration-300">
+                                <button type="submit"
+                                        class="bg-purple-700 text-white font-medium text-xs px-2 py-0.5 rounded shadow hover:bg-purple-800 transition duration-300">
                                     Add to Cart
                                 </button>
                             </form>
@@ -315,7 +324,8 @@
                             <form th:action="@{/add-to-cart}" method="post">
                                 <input type="hidden" name="productId" th:value="${product.id}"/>
                                 <input type="hidden" name="quantity" th:value="1"/>
-                                <button type="submit" class="bg-blue-700 text-white font-medium text-xs px-2 py-0.5 rounded shadow hover:bg-blue-800 transition duration-300">
+                                <button type="submit"
+                                        class="bg-blue-700 text-white font-medium text-xs px-2 py-0.5 rounded shadow hover:bg-blue-800 transition duration-300">
                                     Add to Cart
                                 </button>
                             </form>
@@ -357,7 +367,7 @@
                 africaine
                 en ligne vous offre l’opportunité unique de savourer des fruits, légumes et autres produits frais
                 directement issus des meilleures fermes, livrés à votre porte.
-               <br/>
+                <br/>
                 Au Canada, nous garantissons une livraison express sous 24 heures, vous permettant de profiter
                 rapidement de
                 la fraîcheur et des saveurs authentiques de nos produits. Pour les commandes internationales, la
@@ -375,7 +385,8 @@
                 Commandez dès aujourd’hui et savourez le meilleur de l’Afrique, livré directement chez vous, où que vous
                 soyez !
 
-            <hr><br/>
+            <hr>
+            <br/>
             <h1>NOS SERVICES</h1>
 
             <p>

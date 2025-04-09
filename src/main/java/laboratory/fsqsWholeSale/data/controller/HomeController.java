@@ -178,11 +178,21 @@ public class HomeController {
     @GetMapping("/search")
     public String searchProducts(@RequestParam("query") String query, Model model) {
         List<Product> searchResults = productService.searchProducts(query);
+
+        if (searchResults.isEmpty()) {
+            return "redirect:/?category=veggie&page=1";
+        }
+
         model.addAttribute("products", searchResults);
         model.addAttribute("currentPage", 1);
         model.addAttribute("totalPages", 1); // Only one page for search results
-        return "index"; // Ensure "index.html" contains the product table
+        model.addAttribute("defaultCategoryToOpen", searchResults.get(0).getCategory().toLowerCase());
+        model.addAttribute("isSearch", false);
+
+        return "index";
     }
+
+
 
 
     @PostMapping("/add-to-cart")

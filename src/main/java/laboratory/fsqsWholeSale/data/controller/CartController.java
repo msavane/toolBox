@@ -54,36 +54,43 @@ public class CartController {
         return "cart"; // Render cart view
     }
 
-    // Update cart item quantity
-    @PostMapping("/update-quantity")
-    public String updateQuantity(@RequestParam Long productId,
-                                 @RequestParam String action,
-                                 @RequestParam(required = false) Integer quantity,
-                                 Model model) {
-        if (productId == null || action == null || action.isEmpty()) {
-            return "redirect:/cart"; // Redirect back to cart if data is invalid
+        @PostMapping("/update-quantity")
+        public String updateQuantity (@RequestParam Long productId,
+                @RequestParam String action,
+                @RequestParam(required = false) Integer quantity,
+                Model model){
+            if (productId == null || action == null || action.isEmpty()) {
+                return "redirect:/cart";
+            }
+
+            CartItem cartItem = cartService.getCartItemByProductId(productId);
+            if (cartItem == null) {
+                return "redirect:/cart";
+            }
+
+            int newQuantity = cartItem.getQuantity();
+
+            // Handle actions
+            if ("increase".equals(action)) {
+                newQuantity = Math.min(newQuantity + 1, 5);
+            } else if ("decrease".equals(action)) {
+                newQuantity = newQuantity - 1;
+                if (newQuantity <= 0) {
+                    cartService.removeFromCart(productId);
+                    return "redirect:/cart";
+                }
+            } else if ("update".equals(action) && quantity != null) {
+                newQuantity = Math.max(0, Math.min(quantity, 5));
+                if (newQuantity == 0) {
+                    cartService.removeFromCart(productId);
+                    return "redirect:/cart";
+                }
+            }
+
+            cartService.updateCartItemQuantity(productId, newQuantity);
+
+            return "redirect:/cart";
         }
-
-        CartItem cartItem = cartService.getCartItemByProductId(productId);
-        if (cartItem == null) {
-            return "redirect:/cart"; // Redirect back to cart if item not found
-        }
-
-        int newQuantity = cartItem.getQuantity();
-
-        // Handle actions to increase, decrease, or update quantity
-        if ("increase".equals(action)) {
-            newQuantity++;
-        } else if ("decrease".equals(action)) {
-            newQuantity = Math.max(1, newQuantity - 1); // Ensure quantity doesn't go below 1
-        } else if ("update".equals(action) && quantity != null) {
-            newQuantity = Math.min(quantity, 5); // Max quantity restricted to 5
-        }
-
-        cartService.updateCartItemQuantity(productId, newQuantity); // Update the cart item quantity
-
-        return "redirect:/cart"; // Redirect back to cart page after update
-    }
 
     // Display checkout page
     @GetMapping("/checkout")
