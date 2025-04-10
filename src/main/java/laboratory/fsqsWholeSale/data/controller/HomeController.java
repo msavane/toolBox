@@ -34,23 +34,36 @@ public class HomeController {
     public String home(@RequestParam(defaultValue = "1") int page,
                        @RequestParam(defaultValue = "4") int pageSize,
                        @RequestParam(defaultValue = "all") String category,
+                       @RequestParam(required = false) String query,
                        HttpSession session,
                        Model model) {
 
-        // Check if the user is visiting for the first time in this session
+        // Redirect new visitors to default veggie pane
         if (session.getAttribute("firstVisit") == null) {
             session.setAttribute("firstVisit", true);
             return "redirect:/?category=veggie&page=1";
         }
 
-        // Load products for each category and store them under distinct names in the model
+        if (query != null && !query.trim().isEmpty()) {
+            // Perform search
+            List<Product> searchResults = productService.searchProducts(query);
+            model.addAttribute("products", searchResults);
+            model.addAttribute("currentPage", 1);
+            model.addAttribute("totalPages", 1);
+            model.addAttribute("defaultCategoryToOpen", !searchResults.isEmpty() ? searchResults.get(0).getCategory().toLowerCase() : "veggie");
+            model.addAttribute("isSearch", true);
+            return "index";
+        }
+
+        // Load all categories
         getProductsPage(page, pageSize, "veggie", model);
         getProductsPage(page, pageSize, "aisle", model);
         getProductsPage(page, pageSize, "frozen", model);
 
-        // Load the selected category data
+        // Load selected category
         return getProductsPage(page, pageSize, category, model);
     }
+
 
     @GetMapping("/products")
     public String productsPage(@RequestParam(defaultValue = "1") int page,
@@ -176,24 +189,39 @@ public class HomeController {
     }
 
     @GetMapping("/search")
-    public String searchProducts(@RequestParam("query") String query, Model model) {
+   /* public String searchProducts(@RequestParam("query") String query) {
         List<Product> searchResults = productService.searchProducts(query);
 
+        // If no results, default to veggie section
         if (searchResults.isEmpty()) {
             return "redirect:/?category=veggie&page=1";
         }
 
+        // Use category of the first result
+        String category = searchResults.get(0).getCategory().toLowerCase();
+
+        // Redirect to home with search context
+        return "redirect:/?category=" + category + "&page=1&query=" + query;
+    }*/
+    public String searchProducts(@RequestParam("query") String query,
+                                 @RequestParam("category") String category,
+                                 @RequestParam("page") int page,
+                                 Model model) {
+        List<Product> searchResults = productService.searchProducts(query);
+
+        if (searchResults.isEmpty()) {
+            // Redirect to the category page with the current page and category
+            return "redirect:/?category=" + category + "&page=" + page;
+        }
+
         model.addAttribute("products", searchResults);
-        model.addAttribute("currentPage", 1);
+        model.addAttribute("currentPage", 1); // Always 1 for search results
         model.addAttribute("totalPages", 1); // Only one page for search results
         model.addAttribute("defaultCategoryToOpen", searchResults.get(0).getCategory().toLowerCase());
-        model.addAttribute("isSearch", false);
+        model.addAttribute("isSearch", true);
 
         return "index";
     }
-
-
-
 
     @PostMapping("/add-to-cart")
     public String addToCart(@RequestParam("productId") Long productId,
